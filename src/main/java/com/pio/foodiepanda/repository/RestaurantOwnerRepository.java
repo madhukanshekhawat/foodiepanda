@@ -1,4 +1,8 @@
 package com.pio.foodiepanda.repository;
 
-public class RestaurantOwnerRepository {
+import com.pio.foodiepanda.model.RestaurantOwner;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface RestaurantOwnerRepository extends JpaRepository<RestaurantOwner, Long> {
+
 }

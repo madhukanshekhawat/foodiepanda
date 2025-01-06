@@ -5,6 +5,7 @@ import jdk.jfr.Category;
 
 import java.math.BigDecimal;
 
+@Entity
 public class MenuItem extends BaseEntity{
 
     @Id
@@ -23,14 +24,13 @@ public class MenuItem extends BaseEntity{
     private boolean isAvailable;
     private boolean isVeg;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "restaurant_id", nullable = false)
     private Restaurant restaurant;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "category_id", nullable = false)
-    private Category category;
-
+    private Categories categories;
 
     public Long getMenuItemId() {
         return menuItemId;
@@ -88,11 +88,11 @@ public class MenuItem extends BaseEntity{
         this.restaurant = restaurant;
     }
 
-    public Category getCategory() {
-        return category;
+    public Categories getCategories() {
+        return categories;
     }
 
-    public void setCategory(Category category) {
-        this.category = category;
+    public void setCategories(Categories categories) {
+        this.categories = categories;
     }
 }

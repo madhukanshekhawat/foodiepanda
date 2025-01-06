@@ -22,11 +22,11 @@ public class Restaurant extends BaseEntity{
     private String phoneNumber;
 
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "address_id", nullable = false)
     private Address address;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "owner_id", referencedColumnName = "ownerID")
     private RestaurantOwner restaurantOwner;
 

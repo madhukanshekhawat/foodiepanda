@@ -1,4 +1,7 @@
 package com.pio.foodiepanda.repository;
 
-public class AdminRepository {
+import com.pio.foodiepanda.model.Admin;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface AdminRepository extends JpaRepository<Admin,Long> {
 }
