@@ -1,6 +1,6 @@
 package com.pio.foodiepanda.model;
 
-import com.pio.foodiepanda.utility.Role;
+import com.pio.foodiepanda.enums.UserRole;
 import jakarta.persistence.*;
 
 @Entity
@@ -18,7 +18,7 @@ public class User extends BaseEntity {
     private String password;
     
     @Enumerated(EnumType.STRING)
-    private Role role;
+    private UserRole role;
 
     @OneToOne(mappedBy = "user", fetch = FetchType.EAGER)
     private RestaurantOwner restaurantOwner;
@@ -32,7 +32,7 @@ public class User extends BaseEntity {
     public User() {
     }
 
-    public User(Long id, String email, String password, Role role) {
+    public User(Long id, String email, String password, UserRole role) {
         this.id = id;
         this.email = email;
         this.password = password;
@@ -63,11 +63,11 @@ public class User extends BaseEntity {
         this.password = password;
     }
 
-    public Role getRole() {
+    public UserRole getRole() {
         return role;
     }
 
-    public void setRole(Role role) {
+    public void setRole(UserRole role) {
         this.role = role;
     }
 

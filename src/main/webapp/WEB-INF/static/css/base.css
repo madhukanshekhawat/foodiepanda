@@ -1,0 +1,21 @@
+.header{
+    margin:0;
+    padding:0;
+    box-sizing: border-box;
+}
+.top-navbar{
+    background-color:#A294F9;
+}
+.logo img {
+    height:150px;
+    width:90px;
+}
+.nav-links{
+    float:left;
+}
+.nav-links a{
+    color:white
+}
+.nav-links a:hover{
+   color:#E5D9F2;
+}

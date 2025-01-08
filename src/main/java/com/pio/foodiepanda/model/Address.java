@@ -1,6 +1,6 @@
 package com.pio.foodiepanda.model;
 
-import com.pio.foodiepanda.utility.AddressLabel;
+import com.pio.foodiepanda.enums.DeliveryAddressLabel;
 import jakarta.persistence.*;
 
 @Entity
@@ -25,7 +25,7 @@ public class Address extends BaseEntity{
 
     @Enumerated(EnumType.STRING)
     @Column(name = "label", nullable = false)
-    private AddressLabel addressLabel;
+    private DeliveryAddressLabel addressLabel;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
@@ -74,11 +74,11 @@ public class Address extends BaseEntity{
         this.postalCode = postalCode;
     }
 
-    public AddressLabel getAddressLabel() {
+    public DeliveryAddressLabel getAddressLabel() {
         return addressLabel;
     }
 
-    public void setAddressLabel(AddressLabel addressLabel) {
+    public void setAddressLabel(DeliveryAddressLabel addressLabel) {
         this.addressLabel = addressLabel;
     }
 

@@ -10,6 +10,7 @@ public class MenuItem extends BaseEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "menu_item")
     private Long menuItemId;
 
     @Column(name = "item_name")
@@ -24,11 +25,11 @@ public class MenuItem extends BaseEntity{
     private boolean isAvailable;
     private boolean isVeg;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     @JoinColumn(name = "restaurant_id", nullable = false)
     private Restaurant restaurant;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @OneToOne
     @JoinColumn(name = "category_id", nullable = false)
     private Categories categories;
 

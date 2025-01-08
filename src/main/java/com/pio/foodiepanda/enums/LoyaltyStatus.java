@@ -1,4 +1,4 @@
-package com.pio.foodiepanda.utility;
+package com.pio.foodiepanda.enums;
 
 public enum LoyaltyStatus {
     ACTIVE,

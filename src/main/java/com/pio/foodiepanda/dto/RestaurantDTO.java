@@ -5,13 +5,27 @@ import java.time.LocalTime;
 public class RestaurantDTO extends BaseDTO{
     private Long restaurantId;
     private String name;
-    private Long ownerId;
+    private String ownerName;
 
-    private Long addressId;
+    private String  address;
     private LocalTime startTime;
     private LocalTime endTime;
     private boolean isAvailable;
     private String phoneNumber;
+
+    public RestaurantDTO() {
+    }
+
+    public RestaurantDTO(Long restaurantId, String name, String ownerName, String address, LocalTime startTime, LocalTime endTime, boolean isAvailable, String phoneNumber) {
+        this.restaurantId = restaurantId;
+        this.name = name;
+        this.ownerName = ownerName;
+        this.address = address;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.isAvailable = isAvailable;
+        this.phoneNumber = phoneNumber;
+    }
 
     public Long getRestaurantId() {
         return restaurantId;
@@ -27,22 +41,6 @@ public class RestaurantDTO extends BaseDTO{
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public Long getOwnerId() {
-        return ownerId;
-    }
-
-    public void setOwnerId(Long ownerId) {
-        this.ownerId = ownerId;
-    }
-
-    public Long getAddressId() {
-        return addressId;
-    }
-
-    public void setAddressId(Long addressId) {
-        this.addressId = addressId;
     }
 
     public LocalTime getStartTime() {
@@ -75,5 +73,21 @@ public class RestaurantDTO extends BaseDTO{
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public String getOwnerName() {
+        return ownerName;
+    }
+
+    public void setOwnerName(String ownerName) {
+        this.ownerName = ownerName;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 }

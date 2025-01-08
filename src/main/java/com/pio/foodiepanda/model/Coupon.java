@@ -1,6 +1,6 @@
 package com.pio.foodiepanda.model;
 
-import com.pio.foodiepanda.utility.ApplicableTo;
+import com.pio.foodiepanda.enums.CouponApplicableTo;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
@@ -22,7 +22,7 @@ public class Coupon extends BaseEntity{
     private Integer usageLimit;
 
     @Enumerated(EnumType.STRING)
-    private ApplicableTo applicableTo;
+    private CouponApplicableTo applicableTo;
 
     @ManyToOne
     @JoinColumn(name = "admin_id", nullable = false)
@@ -88,11 +88,11 @@ public class Coupon extends BaseEntity{
         this.usageLimit = usageLimit;
     }
 
-    public ApplicableTo getApplicableTo() {
+    public CouponApplicableTo getApplicableTo() {
         return applicableTo;
     }
 
-    public void setApplicableTo(ApplicableTo applicableTo) {
+    public void setApplicableTo(CouponApplicableTo applicableTo) {
         this.applicableTo = applicableTo;
     }
 

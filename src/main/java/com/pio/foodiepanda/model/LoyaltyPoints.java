@@ -1,6 +1,6 @@
 package com.pio.foodiepanda.model;
 
-import com.pio.foodiepanda.utility.LoyaltyStatus;
+import com.pio.foodiepanda.enums.LoyaltyStatus;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;

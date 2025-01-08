@@ -13,7 +13,7 @@ public class Feedback extends BaseEntity{
 
     private String comments;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "order_id", nullable = false)
     private Orders order;
 
