@@ -1,12 +1,14 @@
 package com.pio.foodiepanda.dto;
 
-public class RestaurantOwnerDTO extends BaseDTO{
+import java.util.List;
+
+public class RestaurantOwnerDTO extends BaseDTO {
 
     private Long id;
-    private String first_name;
-    private String last_name;
+    private String firstName;
+    private String lastName;
+    private String email;
     private String phoneNumber;
-    private Long userId;
 
     public Long getId() {
         return id;
@@ -17,19 +19,15 @@ public class RestaurantOwnerDTO extends BaseDTO{
     }
 
     public String getFirst_name() {
-        return first_name;
+        return firstName;
     }
 
-    public void setFirst_name(String first_name) {
-        this.first_name = first_name;
+    public String getLastName() {
+        return lastName;
     }
 
-    public String getLast_name() {
-        return last_name;
-    }
-
-    public void setLast_name(String last_name) {
-        this.last_name = last_name;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public String getPhoneNumber() {
@@ -40,11 +38,20 @@ public class RestaurantOwnerDTO extends BaseDTO{
         this.phoneNumber = phoneNumber;
     }
 
-    public Long getUserId() {
-        return userId;
+    public String getEmail() {
+        return email;
     }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public void setEmail(String email) {
+        this.email = email;
     }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
 }

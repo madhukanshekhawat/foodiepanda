@@ -6,21 +6,21 @@ import jakarta.persistence.*;
 @Entity
 @Table(name = "users")
 public class User extends BaseEntity {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
+
     @Column(nullable = false, unique = true)
     private String email;
-    
+
     @Column(nullable = false)
     private String password;
-    
+
     @Enumerated(EnumType.STRING)
     private UserRole role;
 
-    @OneToOne(mappedBy = "user", fetch = FetchType.EAGER)
+    @OneToOne(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private RestaurantOwner restaurantOwner;
 
     @OneToOne(mappedBy = "user", fetch = FetchType.EAGER)

@@ -2,7 +2,7 @@ package com.pio.foodiepanda.dto;
 
 import java.math.BigDecimal;
 
-public class OrderDetailDTO extends BaseDTO{
+public class OrderDetailDTO extends BaseDTO {
 
     private Long orderDetailId;
     private Long orderId;

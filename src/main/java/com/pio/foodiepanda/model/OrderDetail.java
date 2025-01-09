@@ -6,7 +6,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 @Entity
-public class OrderDetail extends BaseEntity{
+public class OrderDetail extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

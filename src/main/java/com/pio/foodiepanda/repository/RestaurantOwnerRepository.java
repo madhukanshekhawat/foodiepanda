@@ -9,4 +9,6 @@ import java.util.List;
 @Repository
 public interface RestaurantOwnerRepository extends JpaRepository<RestaurantOwner, Long> {
     List<RestaurantOwner> findByIsApprovedFalse();
+
+    List<RestaurantOwner> findByIsApprovedTrue();
 }

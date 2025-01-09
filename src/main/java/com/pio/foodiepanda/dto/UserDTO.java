@@ -1,6 +1,6 @@
 package com.pio.foodiepanda.dto;
 
-public class UserDTO extends BaseDTO{
+public class UserDTO extends BaseDTO {
     private Long id;
     private String email;
     private String role;

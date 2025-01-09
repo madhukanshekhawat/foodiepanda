@@ -3,7 +3,7 @@ package com.pio.foodiepanda.dto;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-public class OrdersDTO extends BaseDTO{
+public class OrdersDTO extends BaseDTO {
 
     private Long orderId;
     private Long userId;

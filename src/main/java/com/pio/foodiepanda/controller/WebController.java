@@ -9,22 +9,32 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class WebController {
 
     @GetMapping("/base")
-    public String base(){
+    public String base() {
         return "admin/base";
     }
 
     @GetMapping("/dashboard")
-    public String admin(){
+    public String admin() {
         return "admin/admin_dashboard";
     }
 
     @GetMapping("/view-Restaurant")
-    public String viewRestaurant(){
+    public String viewRestaurant() {
         return "admin/view-restaurants";
     }
 
     @GetMapping("/view-customer")
-    public String viewCustomer(){
+    public String viewCustomer() {
         return "admin/view-customers";
+    }
+
+    @GetMapping("/approve-owners")
+    public String viewUnapprovedOwners() {
+        return "admin/approve-owners";
+    }
+
+    @GetMapping("/approved-owners")
+    public String viewOwner() {
+        return "admin/approved-owners";
     }
 }

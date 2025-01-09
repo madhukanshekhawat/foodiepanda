@@ -2,12 +2,12 @@ package com.pio.foodiepanda.dto;
 
 import java.time.LocalTime;
 
-public class RestaurantDTO extends BaseDTO{
+public class RestaurantDTO extends BaseDTO {
     private Long restaurantId;
     private String name;
     private String ownerName;
 
-    private String  address;
+    private String address;
     private LocalTime startTime;
     private LocalTime endTime;
     private boolean isAvailable;

@@ -25,10 +25,13 @@
           <a class="nav-link" href="/admin/view-customer">View Customers</a>
         </li>
         <li class="nav-item nav-links">
-           <a class="nav-link" href="#">Approve Owner</a>
+           <a class="nav-link" href="/admin/approve-owners">Approve Owner</a>
         </li>
         <li class="nav-item nav-links">
             <a class="nav-link" href="#">Create Coupon</a>
+        </li>
+        <li class="nav-item nav-links">
+            <a class="nav-link" href="/admin/approved-owners">View Owners</a>
         </li>
       </ul>
     </div>

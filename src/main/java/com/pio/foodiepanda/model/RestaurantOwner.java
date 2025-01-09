@@ -2,11 +2,9 @@ package com.pio.foodiepanda.model;
 
 import jakarta.persistence.*;
 
-import java.util.List;
-
 @Entity
 @Table(name = "restaurant_owners")
-public class RestaurantOwner extends BaseEntity{
+public class RestaurantOwner extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,7 +22,7 @@ public class RestaurantOwner extends BaseEntity{
     @Column(name = "is_approved")
     private boolean isApproved;
 
-    @OneToOne(fetch = FetchType.EAGER)
+    @OneToOne
     @JoinColumn(name = "user_id")
     private User user;
 

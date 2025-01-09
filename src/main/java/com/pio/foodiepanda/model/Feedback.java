@@ -3,10 +3,10 @@ package com.pio.foodiepanda.model;
 import jakarta.persistence.*;
 
 @Entity
-public class Feedback extends BaseEntity{
+public class Feedback extends BaseEntity {
 
     @Id
-    @GeneratedValue (strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long feedbackId;
 
     private Double rating;

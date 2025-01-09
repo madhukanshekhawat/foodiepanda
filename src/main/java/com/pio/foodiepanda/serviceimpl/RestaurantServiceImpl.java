@@ -27,8 +27,8 @@ public class RestaurantServiceImpl implements RestaurantService {
             RestaurantDTO restaurantDTO = new RestaurantDTO();
             restaurantDTO.setName(restaurant.getName());
             restaurantDTO.setPhoneNumber(restaurant.getPhoneNumber());
-            restaurantDTO.setOwnerName(restaurant.getRestaurantOwner().getFirstName()+" "
-                    +restaurant.getRestaurantOwner().getLastName());
+            restaurantDTO.setOwnerName(restaurant.getRestaurantOwner().getFirstName() + " "
+                    + restaurant.getRestaurantOwner().getLastName());
             restaurantDTO.setAddress(restaurant.getAddress().getCity());
             return restaurantDTO;
         }).toList();

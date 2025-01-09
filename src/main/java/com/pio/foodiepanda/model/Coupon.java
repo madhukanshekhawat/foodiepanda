@@ -6,10 +6,10 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-public class Coupon extends BaseEntity{
+public class Coupon extends BaseEntity {
 
     @Id
-    @GeneratedValue (strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long CouponId;
 
     @Column(unique = true, nullable = false)

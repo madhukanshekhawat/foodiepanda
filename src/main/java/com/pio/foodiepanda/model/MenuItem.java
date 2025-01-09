@@ -1,12 +1,11 @@
 package com.pio.foodiepanda.model;
 
 import jakarta.persistence.*;
-import jdk.jfr.Category;
 
 import java.math.BigDecimal;
 
 @Entity
-public class MenuItem extends BaseEntity{
+public class MenuItem extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
