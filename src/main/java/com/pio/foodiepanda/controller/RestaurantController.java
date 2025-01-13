@@ -12,12 +12,13 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/restaurant")
 public class RestaurantController {
+
     @Autowired
     private RestaurantService restaurantService;
 
-    @GetMapping("/restaurants")
+    @GetMapping
     public ResponseEntity<List<RestaurantDTO>> getAll() {
         List<RestaurantDTO> restaurants = restaurantService.getAll();
         return new ResponseEntity<>(restaurants, HttpStatus.OK);

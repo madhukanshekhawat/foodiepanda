@@ -4,7 +4,7 @@ import com.pio.foodiepanda.dto.RestaurantOwnerDTO;
 import com.pio.foodiepanda.exception.ResourceNotFoundException;
 import com.pio.foodiepanda.model.RestaurantOwner;
 import com.pio.foodiepanda.repository.RestaurantOwnerRepository;
-import com.pio.foodiepanda.service.RestaurantOwnerService;
+import com.pio.foodiepanda.service.AdminService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,8 +12,10 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.pio.foodiepanda.constants.Constant.OWNER_NOT_FOUND;
+
 @Service
-public class RestaurantOwnerServiceImpl implements RestaurantOwnerService {
+public class AdminServiceImpl implements AdminService {
 
     @Autowired
     private RestaurantOwnerRepository restaurantOwnerRepository;
@@ -32,7 +34,7 @@ public class RestaurantOwnerServiceImpl implements RestaurantOwnerService {
     @Override
     public void approveOwner(Long restaurantOwnerId) {
         RestaurantOwner restaurantOwner = restaurantOwnerRepository.findById(restaurantOwnerId)
-                .orElseThrow(() -> new ResourceNotFoundException("Owner Not found with ID:" + restaurantOwnerId));
+                .orElseThrow(() -> new ResourceNotFoundException(OWNER_NOT_FOUND + restaurantOwnerId));
         restaurantOwner.setApproved(true);
         restaurantOwnerRepository.save(restaurantOwner);
     }
@@ -40,7 +42,7 @@ public class RestaurantOwnerServiceImpl implements RestaurantOwnerService {
     @Override
     public void deleteOwner(Long restaurantOwnerId) {
         RestaurantOwner restaurantOwner = restaurantOwnerRepository.findById(restaurantOwnerId)
-                .orElseThrow(() -> new ResourceNotFoundException("Owner not found with Id:" + restaurantOwnerId));
+                .orElseThrow(() -> new ResourceNotFoundException(OWNER_NOT_FOUND + restaurantOwnerId));
         restaurantOwnerRepository.delete(restaurantOwner);
     }
 

@@ -34,10 +34,4 @@ public class RestaurantServiceImpl implements RestaurantService {
         }).toList();
     }
 
-//    @Override
-//    public RestaurantDTO approveRestaurant(Long restaurantId, boolean approved) {
-//        RestaurantDTO restaurantDTO = restaurantRepository.findById(restaurantId)
-//                .orElseThrow(()->)
-//    }
-
 }

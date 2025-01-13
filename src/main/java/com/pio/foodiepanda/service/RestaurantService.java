@@ -8,6 +8,5 @@ public interface RestaurantService {
 
     List<RestaurantDTO> getAll();
 
-//    RestaurantDTO approveRestaurant(Long restaurantId, boolean approved);
 
 }

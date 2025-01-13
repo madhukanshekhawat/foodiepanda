@@ -2,8 +2,11 @@ package com.pio.foodiepanda.model;
 
 import com.pio.foodiepanda.enums.CouponApplicableTo;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Entity
 public class Coupon extends BaseEntity {
@@ -13,20 +16,26 @@ public class Coupon extends BaseEntity {
     private Long CouponId;
 
     @Column(unique = true, nullable = false)
+    @Size(max = 10, message = "value can not be greater than 10")
     private String code;
 
+    @Min(value = 5, message = "Discount percentage can not be lesser than 5 ")
     private Double discountPercentage;
-    private LocalDateTime validFrom;
-    private LocalDateTime validTo;
+
+    @NotNull
+    private LocalDate validFrom;
+
+    @NotNull
+    private LocalDate validTo;
+
+    @Min(value = 199, message = "Min order value can not be lesser than 199")
     private Double minOrderValue;
+
+    @Min(value = 1, message = "Usage limit can not be lesser than 1")
     private Integer usageLimit;
 
     @Enumerated(EnumType.STRING)
     private CouponApplicableTo applicableTo;
-
-    @ManyToOne
-    @JoinColumn(name = "admin_id", nullable = false)
-    private Admin admin;
 
     @ManyToOne
     @JoinColumn(name = "restaurant_id", nullable = false)
@@ -56,19 +65,19 @@ public class Coupon extends BaseEntity {
         this.discountPercentage = discountPercentage;
     }
 
-    public LocalDateTime getValidFrom() {
+    public LocalDate getValidFrom() {
         return validFrom;
     }
 
-    public void setValidFrom(LocalDateTime validFrom) {
+    public void setValidFrom(LocalDate validFrom) {
         this.validFrom = validFrom;
     }
 
-    public LocalDateTime getValidTo() {
+    public LocalDate getValidTo() {
         return validTo;
     }
 
-    public void setValidTo(LocalDateTime validTo) {
+    public void setValidTo(LocalDate validTo) {
         this.validTo = validTo;
     }
 
@@ -94,14 +103,6 @@ public class Coupon extends BaseEntity {
 
     public void setApplicableTo(CouponApplicableTo applicableTo) {
         this.applicableTo = applicableTo;
-    }
-
-    public Admin getAdmin() {
-        return admin;
-    }
-
-    public void setAdmin(Admin admin) {
-        this.admin = admin;
     }
 
     public Restaurant getRestaurant() {

@@ -20,9 +20,6 @@ public class User extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private UserRole role;
 
-    @OneToOne(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private RestaurantOwner restaurantOwner;
-
     @OneToOne(mappedBy = "user", fetch = FetchType.EAGER)
     private Admin admin;
 

@@ -1,5 +1,6 @@
 package com.pio.foodiepanda.controller;
 
+import com.pio.foodiepanda.constants.ViewConstant;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,31 +11,36 @@ public class WebController {
 
     @GetMapping("/base")
     public String base() {
-        return "admin/base";
+        return ViewConstant.ADMIN_BASE;
     }
 
     @GetMapping("/dashboard")
     public String admin() {
-        return "admin/admin_dashboard";
+        return ViewConstant.ADMIN_DASHBOARD;
     }
 
-    @GetMapping("/view-Restaurant")
+    @GetMapping("/view-restaurant")
     public String viewRestaurant() {
-        return "admin/view-restaurants";
+        return ViewConstant.VIEW_RESTAURANTS;
     }
 
     @GetMapping("/view-customer")
     public String viewCustomer() {
-        return "admin/view-customers";
+        return ViewConstant.VIEW_CUSTOMERS;
     }
 
     @GetMapping("/approve-owners")
     public String viewUnapprovedOwners() {
-        return "admin/approve-owners";
+        return ViewConstant.APPROVE_OWNERS;
     }
 
     @GetMapping("/approved-owners")
     public String viewOwner() {
-        return "admin/approved-owners";
+        return ViewConstant.APPROVED_OWNERS;
+    }
+
+    @GetMapping("/create-coupon")
+    public String createCoupon() {
+        return ViewConstant.CREATE_COUPON;
     }
 }

@@ -4,7 +4,7 @@ import com.pio.foodiepanda.dto.RestaurantOwnerDTO;
 
 import java.util.List;
 
-public interface RestaurantOwnerService {
+public interface AdminService {
 
     List<RestaurantOwnerDTO> getUnApprovedOwners();
 

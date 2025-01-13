@@ -1,7 +1,5 @@
 package com.pio.foodiepanda.dto;
 
-import java.util.List;
-
 public class RestaurantOwnerDTO extends BaseDTO {
 
     private Long id;
