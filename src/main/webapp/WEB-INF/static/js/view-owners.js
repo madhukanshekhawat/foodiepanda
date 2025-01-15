@@ -5,7 +5,7 @@
 
         function loadApprovedOwners() {
             $.ajax({
-                url: "/admin/approved-owner", // API endpoint
+                url: "/api/admin/approved-owner", // API endpoint
                 method: "GET",
                 dataType: "json", // Ensure the response is parsed as JSON
                 success: function(response) {

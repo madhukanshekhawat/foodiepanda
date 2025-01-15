@@ -8,6 +8,15 @@ $(document).ready(function() {
     $("input, radio").on("input change", function() {
         clearError($(this).attr("id") + "Error");
     });
+
+    // Show/hide restaurant details based on role selection
+    $("input[name='role']").change(function() {
+        if ($(this).val() === "RESTAURANT_OWNER") {
+            $("#restaurantDetails").show();
+        } else {
+            $("#restaurantDetails").hide();
+        }
+    });
 });
 
 function showError(elementId, message) {
@@ -72,6 +81,54 @@ function registerUser() {
         role: role
     };
 
+    if (role === "RESTAURANT_OWNER") {
+        let restaurantName = $("#restaurantName").val();
+        let restaurantContact = $("#restaurantContact").val();
+        let addressLine = $("#addressLine").val();
+        let city = $("#city").val();
+        let state = $("#state").val();
+        let postalCode = $("#postalCode").val();
+
+        if (!restaurantName) {
+            showError("restaurantNameError", "Restaurant Name is required.");
+            return;
+        }
+
+        if (!restaurantContact) {
+            showError("restaurantContactError", "Restaurant Contact Number is required.");
+            return;
+        }
+
+        if (!addressLine) {
+            showError("addressLineError", "Address Line is required.");
+            return;
+        }
+
+        if (!city) {
+            showError("cityError", "City is required.");
+            return;
+        }
+
+        if (!state) {
+            showError("stateError", "State is required.");
+            return;
+        }
+
+        if (!postalCode) {
+            showError("postalCodeError", "Postal Code is required.");
+            return;
+        }
+
+        userData.restaurantDetails = {
+            restaurantName: restaurantName,
+            restaurantContact: restaurantContact,
+            addressLine: addressLine,
+            city: city,
+            state: state,
+            postalCode: postalCode
+        };
+    }
+
     $.ajax({
         url: "/register",
         method: "POST",
@@ -83,6 +140,7 @@ function registerUser() {
                 window.location.href = "/approval-pending";
             } else {
                 alert("Registration Successful!");
+                 window.location.href = "/customer/dashboard";
                 $("#registerForm")[0].reset();
             }
         },

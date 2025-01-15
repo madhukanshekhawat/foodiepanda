@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/admin")
+@RequestMapping("/api/admin")
 public class AdminController {
 
     @Autowired
@@ -44,9 +44,9 @@ public class AdminController {
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("{restaurantOwnerId}/delete")
-    public ResponseEntity<?> deleteOwner(@PathVariable Long restaurantOwnerId) {
-        adminService.deleteOwner(restaurantOwnerId);
+    @PostMapping("{restaurantOwnerId}/reject")
+    public ResponseEntity<?> rejectOwner(@PathVariable Long restaurantOwnerId) {
+        adminService.rejectOwner(restaurantOwnerId);
         return ResponseEntity.ok().build();
     }
 }

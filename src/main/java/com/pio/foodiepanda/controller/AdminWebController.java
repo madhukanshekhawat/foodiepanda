@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/admin")
-public class WebController {
+public class AdminWebController {
 
     @GetMapping("/base")
     public String base() {
@@ -43,4 +43,5 @@ public class WebController {
     public String createCoupon() {
         return ViewConstant.CREATE_COUPON;
     }
+
 }

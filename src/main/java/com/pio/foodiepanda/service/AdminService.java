@@ -10,7 +10,7 @@ public interface AdminService {
 
     void approveOwner(Long restaurantOwnerId);
 
-    void deleteOwner(Long restaurantOwnerId);
+    void rejectOwner(Long restaurantOwnerId);
 
     List<RestaurantOwnerDTO> getApprovedOwners();
 }

@@ -4,7 +4,7 @@
 
     function fetchUnapprovedOwners() {
         $.ajax({
-            url: "/admin/unapproved-owner",
+            url: "/api/admin/unapproved-owner",
             method: "GET",
             success: function (response) {
                 let tableData = "";
@@ -16,7 +16,7 @@
                             <td>${restaurantOwner.email}</td>
                             <td>
                             <button onclick="confirmAction('approve', ${restaurantOwner.id})">Approve</button>
-                            <button onclick="confirmAction('delete', ${restaurantOwner.id})">Delete</button>
+                            <button onclick="confirmAction('reject', ${restaurantOwner.id})">Reject</button>
                         </tr>
                     `;
                 });
@@ -29,11 +29,11 @@
     }
     // Function to handle approve/delete actions with confirmation
             function confirmAction(action, ownerId) {
-                let confirmationMessage = (action === 'approve') ? 'Are you sure you want to approve this owner?' : 'Are you sure you want to delete this owner?';
+                let confirmationMessage = (action === 'approve') ? 'Are you sure you want to approve this owner?' : 'Are you sure you want to Reject this owner?';
 
                 if (confirm(confirmationMessage)) {
                     $.ajax({
-                        url: '/admin/' + ownerId + '/' + action,  // The endpoint to handle approve/delete
+                        url: '/api/admin/' + ownerId + '/' + action,  // The endpoint to handle approve/delete
                         method: 'POST',
                         success: function(response) {
                             alert(action.charAt(0).toUpperCase() + action.slice(1) + ' action successful!');

@@ -1,4 +1,4 @@
-package com.pio.foodiepanda.serviceimpl;
+package com.pio.foodiepanda.service.impl;
 
 import com.pio.foodiepanda.dto.RestaurantOwnerDTO;
 import com.pio.foodiepanda.exception.ResourceNotFoundException;
@@ -23,6 +23,10 @@ public class AdminServiceImpl implements AdminService {
     @Autowired
     private ModelMapper modelMapper;
 
+    /*
+     * This method fetches all the unapproved owners from the db
+     * @return : returns a list of RestaurantOwnerDTO object representing all unapproved  owners
+     */
     @Override
     public List<RestaurantOwnerDTO> getUnApprovedOwners() {
         List<RestaurantOwner> restaurantOwners = restaurantOwnerRepository.findByIsApprovedFalse();
@@ -31,6 +35,11 @@ public class AdminServiceImpl implements AdminService {
                 .collect(Collectors.toList());
     }
 
+    /*
+     * This method approves a restaurant owner by setting "isApproved" flag variable true
+     * @param : Gets the ID of restaurant owner to approve
+     * @throws : throws the exception when owner with that ID not found
+     */
     @Override
     public void approveOwner(Long restaurantOwnerId) {
         RestaurantOwner restaurantOwner = restaurantOwnerRepository.findById(restaurantOwnerId)
@@ -39,13 +48,22 @@ public class AdminServiceImpl implements AdminService {
         restaurantOwnerRepository.save(restaurantOwner);
     }
 
+    /*
+     * This method deletes a restaurant owner by setting "isApproved" flag variable false
+     * @param : Gets the ID of restaurant owner to delete
+     * @throws : throws the exception when owner with that ID not found
+     */
     @Override
-    public void deleteOwner(Long restaurantOwnerId) {
+    public void rejectOwner(Long restaurantOwnerId) {
         RestaurantOwner restaurantOwner = restaurantOwnerRepository.findById(restaurantOwnerId)
                 .orElseThrow(() -> new ResourceNotFoundException(OWNER_NOT_FOUND + restaurantOwnerId));
         restaurantOwnerRepository.delete(restaurantOwner);
     }
 
+    /*
+     * This method fetches all the approved owners from the db
+     * @return : returns a list of RestaurantOwnerDTO object representing all approved  owners
+     */
     @Override
     public List<RestaurantOwnerDTO> getApprovedOwners() {
         List<RestaurantOwner> approvedOwners = restaurantOwnerRepository.findByIsApprovedTrue();

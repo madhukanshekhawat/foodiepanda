@@ -1,7 +1,7 @@
 package com.pio.foodiepanda.controller;
 
 import com.pio.foodiepanda.dto.UserDTO;
-import com.pio.foodiepanda.service.UserService;
+import com.pio.foodiepanda.service.RegistrationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -11,14 +11,15 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/register")
-public class UserController {
+public class RegistrationController {
 
     @Autowired
-    private UserService userService;
+    private RegistrationService userService;
 
     @PostMapping
     public ResponseEntity<?> registerUser(@RequestBody UserDTO userDTO) {
         try {
+            System.out.println("Received UserDTO: " + userDTO);
             userService.registerUser(userDTO);
             return ResponseEntity.ok().build();
         } catch (Exception e) {

@@ -1,4 +1,3 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -43,11 +42,37 @@
             <input type="radio" id="restaurantOwner" name="role" value="RESTAURANT_OWNER" required> Restaurant Owner
             <input type="radio" id="customer" name="role" value="CUSTOMER" required> Customer<br>
 
+            <div id="restaurantDetails" style="display: none;">
+                <div id="restaurantNameError" style="color: red;"></div>
+                <label for="restaurantName">Restaurant Name</label>
+                <input type="text" id="restaurantName" name="restaurantName"><br>
+
+                <div id="restaurantContactError" style="color: red;"></div>
+                <label for="restaurantContact">Restaurant Contact Number</label>
+                <input type="text" id="restaurantContact" name="restaurantContact"><br>
+
+                <div id="addressLineError" style="color: red;"></div>
+                <label for="addressLine">Address Line</label>
+                <input type="text" id="addressLine" name="addressLine"><br>
+
+                <div id="cityError" style="color: red;"></div>
+                <label for="city">City</label>
+                <input type="text" id="city" name="city"><br>
+
+                <div id="stateError" style="color: red;"></div>
+                <label for="state">State</label>
+                <input type="text" id="state" name="state"><br>
+
+                <div id="postalCodeError" style="color: red;"></div>
+                <label for="postalCode">Postal Code</label>
+                <input type="text" id="postalCode" name="postalCode"><br>
+            </div>
+
             <button type="submit">Register</button>
         </form>
     </div>
-    </div>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="/static/js/registration.js"></script>
+</div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="/static/js/registration.js"></script>
 </body>
 </html>

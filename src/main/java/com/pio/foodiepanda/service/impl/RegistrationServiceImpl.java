@@ -1,19 +1,20 @@
-package com.pio.foodiepanda.serviceimpl;
+package com.pio.foodiepanda.service.impl;
 
 import com.pio.foodiepanda.dto.UserDTO;
-import com.pio.foodiepanda.model.Customer;
-import com.pio.foodiepanda.model.RestaurantOwner;
-import com.pio.foodiepanda.model.User;
+import com.pio.foodiepanda.model.*;
 import com.pio.foodiepanda.repository.CustomerRepository;
 import com.pio.foodiepanda.repository.RestaurantOwnerRepository;
 import com.pio.foodiepanda.repository.UserRepository;
-import com.pio.foodiepanda.service.UserService;
+import com.pio.foodiepanda.service.RegistrationService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 @Service
-public class UserServiceImpl implements UserService {
+public class RegistrationServiceImpl implements RegistrationService {
 
     @Autowired
     private UserRepository userRepository;
@@ -27,8 +28,16 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private ModelMapper modelMapper;
 
+    /*
+     * Registers a new user based on UserDTO
+     * @param : userDTO contain the user information
+     * @throws : throws the exception when the role specified in UserDTO is invalid
+     */
     @Override
     public void registerUser(UserDTO userDTO) throws Exception {
+
+        Logger logger = Logger.getLogger(RegistrationServiceImpl.class.getName());
+
         User user = modelMapper.map(userDTO, User.class);
         userRepository.save(user);
 
@@ -40,12 +49,28 @@ public class UserServiceImpl implements UserService {
             restaurantOwner.setPhoneNumber(userDTO.getPhoneNumber());
             restaurantOwner.setApproved(false); // Default value
 
-            // Debugging statements
-            System.out.println("First Name: " + userDTO.getFirstName());
-            System.out.println("Last Name: " + userDTO.getLastName());
-            System.out.println("Phone Number: " + userDTO.getPhoneNumber());
+            Address address = new Address();
+            address.setAddressLine(userDTO.getStreet());
+            address.setCity(userDTO.getCity());
+            address.setState(userDTO.getState());
+            address.setPostalCode(userDTO.getZipCode());
+
+            // Create and set restaurant details
+            Restaurant restaurant = new Restaurant();
+            restaurant.setName(userDTO.getRestaurantName());
+            restaurant.setPhoneNumber(userDTO.getRestaurantContact());
+            restaurant.setAddress(address);
+            restaurant.setRestaurantOwner(restaurantOwner);
 
             restaurantOwnerRepository.save(restaurantOwner);
+
+            // Debugging statements
+            logger.log(Level.INFO, "First Name:" + userDTO.getFirstName());
+            logger.log(Level.INFO, "Last Name:" + userDTO.getLastName());
+            logger.log(Level.INFO, "Phone Number:" + userDTO.getPhoneNumber());
+
+            restaurantOwnerRepository.save(restaurantOwner);
+
         } else if (userDTO.getRole().equals("CUSTOMER")) {
             Customer customer = new Customer();
             customer.setUser(user);

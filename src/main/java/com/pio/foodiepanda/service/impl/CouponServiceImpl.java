@@ -1,4 +1,4 @@
-package com.pio.foodiepanda.serviceimpl;
+package com.pio.foodiepanda.service.impl;
 
 import com.pio.foodiepanda.dto.CouponDTO;
 import com.pio.foodiepanda.exception.ResourceNotFoundException;
@@ -25,11 +25,16 @@ public class CouponServiceImpl implements CouponService {
     @Autowired
     private ModelMapper modelMapper;
 
+    /*
+     * Creates a new coupon  based on given data
+     * @param : the DTO contain the coupon information
+     * @throws : throws the exception when Restaurant with that ID not found
+     */
     @Override
     public Coupon createCoupon(CouponDTO couponDTO) {
 
         Restaurant restaurant = restaurantRepository.findById(couponDTO.getRestaurantId())
-                .orElseThrow(() -> new ResourceNotFoundException(RESTAURANT_NOT_FOUND + couponDTO.getRestaurantId()));
+                .orElseThrow(() -> new ResourceNotFoundException(RESTAURANT_NOT_FOUND + couponDTO.getRestaurantName()));
         Coupon coupon = modelMapper.map(couponDTO, Coupon.class);
         coupon.setRestaurant(restaurant);
         return couponRepository.save(coupon);

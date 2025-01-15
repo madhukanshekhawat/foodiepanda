@@ -15,4 +15,8 @@ public class ViewConstant {
     public static final String APPROVED_OWNERS = "admin/approved-owners";
 
     public static final String CREATE_COUPON = "admin/create-coupon";
+
+    public static final String APPROVAL_PENDING = "approval-pending";
+
+    public static final String REGISTRATION = "registration";
 }
