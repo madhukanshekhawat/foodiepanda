@@ -37,10 +37,9 @@ public class CouponServiceImpl implements CouponService {
      */
     @Override
     public Coupon createCoupon(CouponDTO couponDTO) {
-
         Restaurant restaurant = restaurantRepository.findById(couponDTO.getRestaurantId())
-                .orElseThrow(() -> new ResourceNotFoundException(RESTAURANT_NOT_FOUND + couponDTO.getRestaurantName()));
-        logger.log(Level.INFO,"Restaurant Owner Not Found"+couponDTO.getRestaurantName());
+                .orElseThrow(() -> new ResourceNotFoundException("Restaurant not found with ID: " + couponDTO.getRestaurantId()));
+        logger.log(Level.INFO, "Restaurant found: " + restaurant.getName());
         Coupon coupon = modelMapper.map(couponDTO, Coupon.class);
         coupon.setRestaurant(restaurant);
         return couponRepository.save(coupon);

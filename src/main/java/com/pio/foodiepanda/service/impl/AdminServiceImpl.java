@@ -5,6 +5,7 @@ import com.pio.foodiepanda.exception.ResourceNotFoundException;
 import com.pio.foodiepanda.model.RestaurantOwner;
 import com.pio.foodiepanda.repository.RestaurantOwnerRepository;
 import com.pio.foodiepanda.service.AdminService;
+import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -59,6 +60,7 @@ public class AdminServiceImpl implements AdminService {
      * @throws : throws the exception when owner with that ID not found
      */
     @Override
+    @Transactional
     public void rejectOwner(Long ownerID) {
         RestaurantOwner restaurantOwner = restaurantOwnerRepository.findById(ownerID)
                 .orElseThrow(() -> new ResourceNotFoundException(OWNER_NOT_FOUND + ownerID));

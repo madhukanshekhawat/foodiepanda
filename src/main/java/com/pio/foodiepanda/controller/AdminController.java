@@ -22,7 +22,7 @@ public class AdminController {
     private AdminService adminService;
 
     @PostMapping("/create-coupon")
-    public ResponseEntity<?> createCoupon(@RequestBody CouponDTO couponDTO) {
+    public ResponseEntity<String> createCoupon(@RequestBody CouponDTO couponDTO) {
         Coupon createCoupon = couponService.createCoupon(couponDTO);
         return ResponseEntity.ok("Coupon Created Successfully!");
     }
@@ -39,13 +39,13 @@ public class AdminController {
         return ResponseEntity.ok(approvedOwners);
     }
 
-    @PutMapping("/approve/{id}")
+    @PutMapping("/approve/{restaurantOwnerId}")
     public ResponseEntity<String> approveOwner(@PathVariable Long restaurantOwnerId) {
         adminService.approveOwner(restaurantOwnerId);
         return ResponseEntity.ok("successfully");
     }
 
-    @PatchMapping("/reject/{id}")
+    @PatchMapping("/reject/{restaurantOwnerId}")
     public ResponseEntity<?> rejectOwner(@PathVariable Long restaurantOwnerId) {
         adminService.rejectOwner(restaurantOwnerId);
         return ResponseEntity.ok("successfully");

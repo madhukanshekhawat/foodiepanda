@@ -14,8 +14,10 @@
     <div class="couponDiv">
         <form id="couponForm">
             <div id="restaurantIdError" class="error"></div>
-            <label for="restaurantId">Restaurant ID</label>
-            <input type="text" id="restaurantId" name="restaurantId" required><br>
+            <label for="restaurantId">Restaurant</label>
+            <select id="restaurantId" name="restaurantId" required>
+                <option value="">Select a restaurant</option>
+            </select><br>
 
             <div id="codeError" class="error"></div>
             <label for="code">Coupon Code</label>
@@ -52,10 +54,8 @@
             <button type="submit">Create Coupon</button>
         </form>
     </div>
-    </div>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="/static/js/create-coupon.js"></script>
+</div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="/static/js/create-coupon.js"></script>
 </body>
 </html>
-
-

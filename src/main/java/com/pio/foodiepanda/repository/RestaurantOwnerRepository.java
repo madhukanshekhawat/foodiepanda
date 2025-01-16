@@ -16,8 +16,8 @@ public interface RestaurantOwnerRepository extends JpaRepository<RestaurantOwner
 
     List<RestaurantOwner> findByIsApprovedTrue();
 
-    //@Query(nativeQuery = true, name = "UPDATE restaurant_owners o SET o.rejected = true WHERE o.ownerId = ownerId")
-    @NativeQuery("UPDATE restaurant_owners o SET o.rejected = true WHERE o.ownerId = :ownerId")
+    @Modifying
+    @Query("UPDATE RestaurantOwner o SET o.rejected = true WHERE o.ownerID = :ownerId")
     void softDeleteOwner(@Param("ownerId") Long ownerId);
 
 }

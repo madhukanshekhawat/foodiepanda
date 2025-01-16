@@ -1,4 +1,19 @@
 $(document).ready(function() {
+    // Fetch and populate the restaurant dropdown
+    $.ajax({
+        url: "/api/restaurant",
+        method: "GET",
+        success: function(data) {
+            let restaurantDropdown = $("#restaurantId");
+            data.forEach(function(restaurant) {
+                restaurantDropdown.append(new Option(restaurant.name, restaurant.restaurantId));
+            });
+        },
+        error: function(xhr) {
+            showError("restaurantIdError", "Error fetching restaurants.");
+        }
+    });
+
     $("#couponForm").submit(function(event) {
         event.preventDefault(); // Prevent form submission
         createCoupon();
@@ -32,7 +47,7 @@ function createCoupon() {
     let isValid = true;
 
     if (!restaurantId) {
-        showError("restaurantIdError", "Restaurant ID is required.");
+        showError("restaurantIdError", "Restaurant is required.");
         isValid = false;
     }
 
@@ -82,7 +97,7 @@ function createCoupon() {
     };
 
     $.ajax({
-        url: "/admin/create-coupon",
+        url: "/api/admin/create-coupon",
         method: "POST",
         contentType: "application/json",
         data: JSON.stringify(couponData),
