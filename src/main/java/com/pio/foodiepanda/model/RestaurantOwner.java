@@ -19,12 +19,15 @@ public class RestaurantOwner extends BaseEntity {
     @Column(name = "phone_number")
     private String phoneNumber;
 
+    private boolean rejected = false;
+
     @Column(name = "is_approved")
     private boolean isApproved;
 
     @OneToOne
     @JoinColumn(name = "user_id")
     private User user;
+
 
     public Long getOwnerID() {
         return ownerID;
@@ -72,5 +75,13 @@ public class RestaurantOwner extends BaseEntity {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public boolean isRejected() {
+        return rejected;
+    }
+
+    public void setRejected(boolean rejected) {
+        this.rejected = rejected;
     }
 }

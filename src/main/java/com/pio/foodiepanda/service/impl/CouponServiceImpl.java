@@ -11,7 +11,10 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import static com.pio.foodiepanda.constants.Constant.RESTAURANT_NOT_FOUND;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import static com.pio.foodiepanda.constants.MessageConstant.RESTAURANT_NOT_FOUND;
 
 @Service
 public class CouponServiceImpl implements CouponService {
@@ -25,6 +28,8 @@ public class CouponServiceImpl implements CouponService {
     @Autowired
     private ModelMapper modelMapper;
 
+    Logger logger = Logger.getLogger(RegistrationServiceImpl.class.getName());
+
     /*
      * Creates a new coupon  based on given data
      * @param : the DTO contain the coupon information
@@ -35,6 +40,7 @@ public class CouponServiceImpl implements CouponService {
 
         Restaurant restaurant = restaurantRepository.findById(couponDTO.getRestaurantId())
                 .orElseThrow(() -> new ResourceNotFoundException(RESTAURANT_NOT_FOUND + couponDTO.getRestaurantName()));
+        logger.log(Level.INFO,"Restaurant Owner Not Found"+couponDTO.getRestaurantName());
         Coupon coupon = modelMapper.map(couponDTO, Coupon.class);
         coupon.setRestaurant(restaurant);
         return couponRepository.save(coupon);

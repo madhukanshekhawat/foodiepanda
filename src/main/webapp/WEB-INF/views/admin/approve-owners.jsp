@@ -20,6 +20,7 @@
             <thead>
                 <tr>
                     <th>Owner Name</th>
+                    <th>Restaurant Name</th>
                     <th>Phone Number</th>
                     <th>Email</th>
                     <th>Actions</th>

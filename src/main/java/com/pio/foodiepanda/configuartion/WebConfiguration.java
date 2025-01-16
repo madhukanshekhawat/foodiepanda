@@ -7,6 +7,8 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
+import static com.pio.foodiepanda.constants.MessageConstant.*;
+
 @Configuration
 public class WebConfiguration implements WebMvcConfigurer {
     @Override

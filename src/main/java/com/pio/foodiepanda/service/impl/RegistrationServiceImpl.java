@@ -1,6 +1,7 @@
 package com.pio.foodiepanda.service.impl;
 
 import com.pio.foodiepanda.dto.UserDTO;
+import com.pio.foodiepanda.enums.DeliveryAddressLabel;
 import com.pio.foodiepanda.model.*;
 import com.pio.foodiepanda.repository.CustomerRepository;
 import com.pio.foodiepanda.repository.RestaurantOwnerRepository;
@@ -12,6 +13,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import static com.pio.foodiepanda.constants.MessageConstant.INVALID_ROLE;
+import static com.pio.foodiepanda.enums.DeliveryAddressLabel.RESTAURANT;
 
 @Service
 public class RegistrationServiceImpl implements RegistrationService {
@@ -28,6 +32,8 @@ public class RegistrationServiceImpl implements RegistrationService {
     @Autowired
     private ModelMapper modelMapper;
 
+    Logger logger = Logger.getLogger(RegistrationServiceImpl.class.getName());
+
     /*
      * Registers a new user based on UserDTO
      * @param : userDTO contain the user information
@@ -35,8 +41,6 @@ public class RegistrationServiceImpl implements RegistrationService {
      */
     @Override
     public void registerUser(UserDTO userDTO) throws Exception {
-
-        Logger logger = Logger.getLogger(RegistrationServiceImpl.class.getName());
 
         User user = modelMapper.map(userDTO, User.class);
         userRepository.save(user);
@@ -50,10 +54,11 @@ public class RegistrationServiceImpl implements RegistrationService {
             restaurantOwner.setApproved(false); // Default value
 
             Address address = new Address();
-            address.setAddressLine(userDTO.getStreet());
+            address.setAddressLine(userDTO.getAddressLine());
             address.setCity(userDTO.getCity());
             address.setState(userDTO.getState());
             address.setPostalCode(userDTO.getZipCode());
+            address.setAddressLabel(RESTAURANT);
 
             // Create and set restaurant details
             Restaurant restaurant = new Restaurant();
@@ -79,7 +84,7 @@ public class RegistrationServiceImpl implements RegistrationService {
             customer.setPhoneNumber(userDTO.getPhoneNumber());
             customerRepository.save(customer);
         } else {
-            throw new Exception("Invalid role");
+            throw new Exception(INVALID_ROLE);
         }
     }
 }

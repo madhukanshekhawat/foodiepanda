@@ -12,11 +12,13 @@
                     tableData += `
                         <tr>
                             <td>${restaurantOwner.first_name} ${restaurantOwner.lastName}</td>
+                            <td>${restaurantOwner.lastName}</td>
                             <td>${restaurantOwner.phoneNumber}</td>
                             <td>${restaurantOwner.email}</td>
                             <td>
-                            <button onclick="confirmAction('approve', ${restaurantOwner.id})">Approve</button>
-                            <button onclick="confirmAction('reject', ${restaurantOwner.id})">Reject</button>
+                            <button onclick="approveOwner(${restaurantOwner.id})">Approve</button>
+                            <button onclick="softDeleteOwner(${restaurantOwner.id})">Reject</button>
+                            </td>
                         </tr>
                     `;
                 });
@@ -28,23 +30,35 @@
         });
     }
     // Function to handle approve/delete actions with confirmation
-            function confirmAction(action, ownerId) {
-                let confirmationMessage = (action === 'approve') ? 'Are you sure you want to approve this owner?' : 'Are you sure you want to Reject this owner?';
-
-                if (confirm(confirmationMessage)) {
+                // Approve an owner
+                function approveOwner(ownerId) {
                     $.ajax({
-                        url: '/api/admin/' + ownerId + '/' + action,  // The endpoint to handle approve/delete
-                        method: 'POST',
+                        url: "/api/admin/approve/" + ownerId, // API endpoint to approve the owner
+                        method: "PUT", // HTTP method PUT for approving
                         success: function(response) {
-                            alert(action.charAt(0).toUpperCase() + action.slice(1) + ' action successful!');
-                            fetchUnapprovedOwners();  // Reload owners list after successful action
+                            alert("Owner approved successfully!");
+                            location.reload(); // Reload the page to reflect the changes
                         },
-                        error: function(error) {
-                            alert('Error performing the action.');
+                        error: function() {
+                            alert("Error approving owner.");
                         }
                     });
                 }
-            }
+
+                // Soft Delete an owner
+                function softDeleteOwner(ownerId) {
+                    $.ajax({
+                        url: "/api/admin/reject/" + ownerId, // API endpoint to soft delete the owner
+                        method: "PATCH", // HTTP method PATCH for soft delete
+                        success: function(response) {
+                            alert("Owner deleted successfully!");
+                            location.reload(); // Reload the page to reflect the changes
+                        },
+                        error: function() {
+                            alert("Error deleting owner.");
+                        }
+                    });
+                }
 
             // Load owners on page load
             $(document).ready(function() {

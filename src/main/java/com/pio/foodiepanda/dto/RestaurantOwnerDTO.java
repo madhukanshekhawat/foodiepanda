@@ -36,14 +36,6 @@ public class RestaurantOwnerDTO extends BaseDTO {
         this.phoneNumber = phoneNumber;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
     public String getFirstName() {
         return firstName;
     }
@@ -52,4 +44,11 @@ public class RestaurantOwnerDTO extends BaseDTO {
         this.firstName = firstName;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
 }

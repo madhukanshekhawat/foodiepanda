@@ -119,7 +119,13 @@ function registerUser() {
             return;
         }
 
-        userData.restaurantDetails = {
+        userData = {
+            firstName: firstName,
+            lastName: lastName,
+            email: email,
+            phoneNumber: phoneNumber,
+            password: password,
+            role: role,
             restaurantName: restaurantName,
             restaurantContact: restaurantContact,
             addressLine: addressLine,
@@ -140,7 +146,7 @@ function registerUser() {
                 window.location.href = "/approval-pending";
             } else {
                 alert("Registration Successful!");
-                 window.location.href = "/customer/dashboard";
+                 window.location.href = "/customer/da";
                 $("#registerForm")[0].reset();
             }
         },

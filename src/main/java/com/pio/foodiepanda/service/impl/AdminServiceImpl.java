@@ -10,12 +10,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
-import static com.pio.foodiepanda.constants.Constant.OWNER_NOT_FOUND;
+import static com.pio.foodiepanda.constants.MessageConstant.OWNER_NOT_FOUND;
 
 @Service
 public class AdminServiceImpl implements AdminService {
+
+    Logger logger = Logger.getLogger(AdminServiceImpl.class.getName());
 
     @Autowired
     private RestaurantOwnerRepository restaurantOwnerRepository;
@@ -29,7 +33,7 @@ public class AdminServiceImpl implements AdminService {
      */
     @Override
     public List<RestaurantOwnerDTO> getUnApprovedOwners() {
-        List<RestaurantOwner> restaurantOwners = restaurantOwnerRepository.findByIsApprovedFalse();
+        List<RestaurantOwner> restaurantOwners = restaurantOwnerRepository.findByIsApprovedFalseAndRejectedFalse();
         return restaurantOwners.stream()
                 .map(restaurantOwner -> modelMapper.map(restaurantOwner, RestaurantOwnerDTO.class))
                 .collect(Collectors.toList());
@@ -41,11 +45,12 @@ public class AdminServiceImpl implements AdminService {
      * @throws : throws the exception when owner with that ID not found
      */
     @Override
-    public void approveOwner(Long restaurantOwnerId) {
-        RestaurantOwner restaurantOwner = restaurantOwnerRepository.findById(restaurantOwnerId)
-                .orElseThrow(() -> new ResourceNotFoundException(OWNER_NOT_FOUND + restaurantOwnerId));
-        restaurantOwner.setApproved(true);
-        restaurantOwnerRepository.save(restaurantOwner);
+    public void approveOwner(Long ownerID) {
+            RestaurantOwner restaurantOwner = restaurantOwnerRepository.findById(ownerID)
+                    .orElseThrow(() -> new ResourceNotFoundException(OWNER_NOT_FOUND + ownerID));
+            logger.log(Level.INFO, "Restaurant Owner Not Found" + ownerID);
+            restaurantOwner.setApproved(true);
+            restaurantOwnerRepository.save(restaurantOwner);
     }
 
     /*
@@ -54,10 +59,11 @@ public class AdminServiceImpl implements AdminService {
      * @throws : throws the exception when owner with that ID not found
      */
     @Override
-    public void rejectOwner(Long restaurantOwnerId) {
-        RestaurantOwner restaurantOwner = restaurantOwnerRepository.findById(restaurantOwnerId)
-                .orElseThrow(() -> new ResourceNotFoundException(OWNER_NOT_FOUND + restaurantOwnerId));
-        restaurantOwnerRepository.delete(restaurantOwner);
+    public void rejectOwner(Long ownerID) {
+        RestaurantOwner restaurantOwner = restaurantOwnerRepository.findById(ownerID)
+                .orElseThrow(() -> new ResourceNotFoundException(OWNER_NOT_FOUND + ownerID));
+        logger.log(Level.INFO,"Restaurant Owner Not Found"+ownerID);
+        restaurantOwnerRepository.softDeleteOwner(ownerID);
     }
 
     /*

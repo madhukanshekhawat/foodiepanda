@@ -24,7 +24,7 @@ public class Address extends BaseEntity {
     private String postalCode;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "label", nullable = false)
+    @Column(name = "delivery_address_label", nullable = false)
     private DeliveryAddressLabel addressLabel;
 
     @ManyToOne(fetch = FetchType.LAZY)

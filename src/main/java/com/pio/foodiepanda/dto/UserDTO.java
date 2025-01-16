@@ -11,7 +11,7 @@ public class UserDTO extends BaseDTO {
 
     private String restaurantName;
     private String restaurantContact;
-    private String street;
+    private String addressLine;
     private String city;
     private String state;
     private String zipCode;
@@ -88,14 +88,6 @@ public class UserDTO extends BaseDTO {
         this.restaurantContact = restaurantContact;
     }
 
-    public String getStreet() {
-        return street;
-    }
-
-    public void setStreet(String street) {
-        this.street = street;
-    }
-
     public String getCity() {
         return city;
     }
@@ -118,5 +110,13 @@ public class UserDTO extends BaseDTO {
 
     public void setZipCode(String zipCode) {
         this.zipCode = zipCode;
+    }
+
+    public String getAddressLine() {
+        return addressLine;
+    }
+
+    public void setAddressLine(String addressLine) {
+        this.addressLine = addressLine;
     }
 }

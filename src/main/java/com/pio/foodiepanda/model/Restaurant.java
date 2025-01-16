@@ -26,7 +26,7 @@ public class Restaurant extends BaseEntity {
     @JoinColumn(name = "address_id", nullable = false)
     private Address address;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "owner_id", referencedColumnName = "ownerID")
     private RestaurantOwner restaurantOwner;
 

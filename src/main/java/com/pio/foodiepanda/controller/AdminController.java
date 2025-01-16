@@ -28,8 +28,9 @@ public class AdminController {
     }
 
     @GetMapping("/unapproved-owner")
-    public List<RestaurantOwnerDTO> getUnapprovedOwners() {
-        return adminService.getUnApprovedOwners();
+    public ResponseEntity<List<RestaurantOwnerDTO>> getUnapprovedOwners() {
+         List<RestaurantOwnerDTO> unApprovedOwners = adminService.getUnApprovedOwners();
+         return ResponseEntity.ok(unApprovedOwners);
     }
 
     @GetMapping("/approved-owner")
@@ -38,15 +39,15 @@ public class AdminController {
         return ResponseEntity.ok(approvedOwners);
     }
 
-    @PostMapping("{restaurantOwnerId}/approve")
-    public ResponseEntity<?> approveOwner(@PathVariable Long restaurantOwnerId) {
+    @PutMapping("/approve/{id}")
+    public ResponseEntity<String> approveOwner(@PathVariable Long restaurantOwnerId) {
         adminService.approveOwner(restaurantOwnerId);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok("successfully");
     }
 
-    @PostMapping("{restaurantOwnerId}/reject")
+    @PatchMapping("/reject/{id}")
     public ResponseEntity<?> rejectOwner(@PathVariable Long restaurantOwnerId) {
         adminService.rejectOwner(restaurantOwnerId);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok("successfully");
     }
 }

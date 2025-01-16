@@ -3,6 +3,7 @@ package com.pio.foodiepanda.service.impl;
 
 import com.pio.foodiepanda.dto.RestaurantDTO;
 import com.pio.foodiepanda.model.Restaurant;
+import com.pio.foodiepanda.model.RestaurantOwner;
 import com.pio.foodiepanda.repository.RestaurantRepository;
 import com.pio.foodiepanda.service.RestaurantService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,9 +29,14 @@ public class RestaurantServiceImpl implements RestaurantService {
             RestaurantDTO restaurantDTO = new RestaurantDTO();
             restaurantDTO.setName(restaurant.getName());
             restaurantDTO.setPhoneNumber(restaurant.getPhoneNumber());
-            restaurantDTO.setOwnerName(restaurant.getRestaurantOwner().getFirstName() + " "
-                    + restaurant.getRestaurantOwner().getLastName());
             restaurantDTO.setAddress(restaurant.getAddress().getAddressLine()+ " ," +restaurant.getAddress().getCity()+ " ,"+ restaurant.getAddress().getState() + " ,"+ restaurant.getAddress().getPostalCode());
+            RestaurantDTO.OwnerDetails ownerDetails = new RestaurantDTO.OwnerDetails();
+            RestaurantOwner restaurantOwner = restaurant.getRestaurantOwner();
+            if(restaurantOwner != null){
+                ownerDetails.setFirstName(restaurantOwner.getFirstName());
+                ownerDetails.setLastName(restaurantOwner.getLastName());
+            }
+            restaurantDTO.setOwnerDetails(ownerDetails);
             return restaurantDTO;
         }).toList();
     }

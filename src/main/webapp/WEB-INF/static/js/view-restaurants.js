@@ -13,7 +13,7 @@ function loadRestaurants() {
                 html += `<tr>
                     ${restaurant.name}</td>
                     <td>${restaurant.name}</td>
-                    <td>${restaurant.ownerName}</td>
+                    <td>${restaurant.ownerDetails.firstName} ${restaurant.ownerDetails.lastName}</td>
                     <td>${restaurant.address}</td>
                     <td>${restaurant.phoneNumber}</td>
                 </tr>`;
