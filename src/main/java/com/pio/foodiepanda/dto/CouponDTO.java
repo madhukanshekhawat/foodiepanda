@@ -1,5 +1,7 @@
 package com.pio.foodiepanda.dto;
 
+import com.pio.foodiepanda.enums.CouponApplicableTo;
+
 import java.time.LocalDate;
 
 public class CouponDTO extends BaseDTO {
@@ -13,7 +15,7 @@ public class CouponDTO extends BaseDTO {
     private LocalDate validTo;
     private Double minOrderValue;
     private Integer usageLimit;
-    private String applicableTo;
+    private CouponApplicableTo applicableTo;
 
     public Long getCouponId() {
         return couponId;
@@ -79,19 +81,19 @@ public class CouponDTO extends BaseDTO {
         this.usageLimit = usageLimit;
     }
 
-    public String getApplicableTo() {
-        return applicableTo;
-    }
-
-    public void setApplicableTo(String applicableTo) {
-        this.applicableTo = applicableTo;
-    }
-
     public Long getRestaurantName() {
         return restaurantName;
     }
 
     public void setRestaurantName(Long restaurantName) {
         this.restaurantName = restaurantName;
+    }
+
+    public CouponApplicableTo getApplicableTo() {
+        return applicableTo;
+    }
+
+    public void setApplicableTo(CouponApplicableTo applicableTo) {
+        this.applicableTo = applicableTo;
     }
 }

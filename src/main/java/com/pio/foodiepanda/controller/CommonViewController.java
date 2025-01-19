@@ -17,4 +17,8 @@ public class CommonViewController {
         return ViewConstant.APPROVAL_PENDING;
     }
 
+    @GetMapping("/user-login")
+    public String login() {
+        return "login";
+    }
 }

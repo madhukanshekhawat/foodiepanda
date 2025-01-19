@@ -5,8 +5,8 @@ $(document).ready(function() {
         method: "GET",
         success: function(data) {
             let restaurantDropdown = $("#restaurantId");
-            data.forEach(function(restaurant) {
-                restaurantDropdown.append(new Option(restaurant.name, restaurant.restaurantId));
+            data.forEach(restaurant => {
+            restaurantDropdown.append(`<option value="${restaurant.restaurantId}">${restaurant.name}</option>`)
             });
         },
         error: function(xhr) {

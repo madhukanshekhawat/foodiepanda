@@ -11,8 +11,10 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import static com.pio.foodiepanda.constants.MessageConstant.RESTAURANT_NOT_FOUND;
 
@@ -44,5 +46,12 @@ public class CouponServiceImpl implements CouponService {
         coupon.setRestaurant(restaurant);
         return couponRepository.save(coupon);
     }
+
+//    @Override
+//    public List<CouponDTO> getCouponByRestaurantId(Long restaurantId) {
+//        return couponRepository.findByRestaurant_RestaurantId(restaurantId).stream()
+//                .map(coupon -> modelMapper.map(coupon, CouponDTO.class))
+//                .collect(Collectors.toList());
+//    }
 
 }

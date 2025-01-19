@@ -1,17 +1,15 @@
 package com.pio.foodiepanda.service.impl;
 
+import com.pio.foodiepanda.dto.RestaurantDTO;
 import com.pio.foodiepanda.dto.UserDTO;
-import com.pio.foodiepanda.enums.DeliveryAddressLabel;
 import com.pio.foodiepanda.model.*;
-import com.pio.foodiepanda.repository.CustomerRepository;
-import com.pio.foodiepanda.repository.RestaurantOwnerRepository;
-import com.pio.foodiepanda.repository.UserRepository;
+import com.pio.foodiepanda.repository.*;
 import com.pio.foodiepanda.service.RegistrationService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import static com.pio.foodiepanda.constants.MessageConstant.INVALID_ROLE;
@@ -30,7 +28,16 @@ public class RegistrationServiceImpl implements RegistrationService {
     private CustomerRepository customerRepository;
 
     @Autowired
+    private RestaurantRepository restaurantRepository;
+
+    @Autowired
     private ModelMapper modelMapper;
+
+    @Autowired
+    private AddressRepository addressRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     Logger logger = Logger.getLogger(RegistrationServiceImpl.class.getName());
 
@@ -40,9 +47,10 @@ public class RegistrationServiceImpl implements RegistrationService {
      * @throws : throws the exception when the role specified in UserDTO is invalid
      */
     @Override
-    public void registerUser(UserDTO userDTO) throws Exception {
-
+    public Long registerUser(UserDTO userDTO) throws Exception {
         User user = modelMapper.map(userDTO, User.class);
+        user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
+
         userRepository.save(user);
 
         if (userDTO.getRole().equals("RESTAURANT_OWNER")) {
@@ -51,31 +59,9 @@ public class RegistrationServiceImpl implements RegistrationService {
             restaurantOwner.setFirstName(userDTO.getFirstName());
             restaurantOwner.setLastName(userDTO.getLastName());
             restaurantOwner.setPhoneNumber(userDTO.getPhoneNumber());
-            restaurantOwner.setApproved(false); // Default value
-
-            Address address = new Address();
-            address.setAddressLine(userDTO.getAddressLine());
-            address.setCity(userDTO.getCity());
-            address.setState(userDTO.getState());
-            address.setPostalCode(userDTO.getZipCode());
-            address.setAddressLabel(RESTAURANT);
-
-            // Create and set restaurant details
-            Restaurant restaurant = new Restaurant();
-            restaurant.setName(userDTO.getRestaurantName());
-            restaurant.setPhoneNumber(userDTO.getRestaurantContact());
-            restaurant.setAddress(address);
-            restaurant.setRestaurantOwner(restaurantOwner);
-
+            restaurantOwner.setApproved(false);
             restaurantOwnerRepository.save(restaurantOwner);
-
-            // Debugging statements
-            logger.log(Level.INFO, "First Name:" + userDTO.getFirstName());
-            logger.log(Level.INFO, "Last Name:" + userDTO.getLastName());
-            logger.log(Level.INFO, "Phone Number:" + userDTO.getPhoneNumber());
-
-            restaurantOwnerRepository.save(restaurantOwner);
-
+            return restaurantOwner.getOwnerID();
         } else if (userDTO.getRole().equals("CUSTOMER")) {
             Customer customer = new Customer();
             customer.setUser(user);
@@ -86,5 +72,32 @@ public class RegistrationServiceImpl implements RegistrationService {
         } else {
             throw new Exception(INVALID_ROLE);
         }
+
+        return user.getId(); // Return the user ID
+    }
+
+    @Override
+    public void registerRestaurant(RestaurantDTO restaurantDTO) throws Exception {
+
+        Long restaurantOwnerId = restaurantDTO.getOwnerId();
+        RestaurantOwner restaurantOwner = restaurantOwnerRepository.findById(restaurantDTO.getOwnerId())
+                .orElseThrow(() -> new Exception("Restaurant owner not found"));
+        Address address = new Address();
+        address.setAddressLine(restaurantDTO.getAddressDetails().getAddressLine());
+        address.setCity(restaurantDTO.getAddressDetails().getCity());
+        address.setState(restaurantDTO.getAddressDetails().getState());
+        address.setPostalCode(restaurantDTO.getAddressDetails().getPostalCode());
+        address.setAddressLabel(RESTAURANT);
+
+        addressRepository.save(address);
+
+        Restaurant restaurant = new Restaurant();
+        restaurant.setName(restaurantDTO.getName());
+        restaurant.setPhoneNumber(restaurantDTO.getPhoneNumber());
+        restaurant.setAddress(address);
+        restaurant.setRestaurantOwner(restaurantOwner);
+
+        restaurantRepository.save(restaurant);
     }
 }
+

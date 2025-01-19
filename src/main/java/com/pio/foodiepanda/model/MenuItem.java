@@ -12,7 +12,8 @@ public class MenuItem extends BaseEntity {
     @Column(name = "menu_item")
     private Long menuItemId;
 
-    @Column(name = "item_name")
+
+    @Column(name = "item_name", unique = true)
     private String name;
 
     @Column(name = "item_description")
@@ -31,6 +32,9 @@ public class MenuItem extends BaseEntity {
     @OneToOne
     @JoinColumn(name = "category_id", nullable = false)
     private Categories categories;
+
+    @Version
+    private Long version;
 
     public Long getMenuItemId() {
         return menuItemId;
@@ -94,5 +98,9 @@ public class MenuItem extends BaseEntity {
 
     public void setCategories(Categories categories) {
         this.categories = categories;
+    }
+
+    public Long getVersion() {
+        return version;
     }
 }

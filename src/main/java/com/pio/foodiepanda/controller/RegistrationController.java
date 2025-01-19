@@ -1,5 +1,6 @@
 package com.pio.foodiepanda.controller;
 
+import com.pio.foodiepanda.dto.RestaurantDTO;
 import com.pio.foodiepanda.dto.UserDTO;
 import com.pio.foodiepanda.exception.InvalidUserDataException;
 import com.pio.foodiepanda.exception.UserAlreadyExistsException;
@@ -12,6 +13,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+
 @RestController
 @RequestMapping("/register")
 public class RegistrationController {
@@ -19,15 +24,21 @@ public class RegistrationController {
     @Autowired
     private RegistrationService userService;
 
-    public ResponseEntity<String> registerUser(@RequestBody UserDTO userDTO) {
+    @PostMapping("/registerUser")
+    public ResponseEntity<Long> registerUser(@RequestBody UserDTO userDTO) {
         try {
-            System.out.println("Received UserDTO: " + userDTO);
-            userService.registerUser(userDTO);
-            return ResponseEntity.ok("User registered successfully");
-        } catch (UserAlreadyExistsException e) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("User already exists");
-        } catch (InvalidUserDataException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid user data: " + e.getMessage());
+            Long ownerId = userService.registerUser(userDTO);
+            return ResponseEntity.ok(ownerId);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
+
+    @PostMapping("/restaurant")
+    public ResponseEntity<String> registerRestaurant(@RequestBody RestaurantDTO restaurantDTO) {
+        try {
+            userService.registerRestaurant(restaurantDTO);
+            return ResponseEntity.ok("Restaurant details saved successfully");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An unexpected error occurred: " + e.getMessage());
         }

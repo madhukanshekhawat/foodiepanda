@@ -16,7 +16,7 @@
             <div id="restaurantIdError" class="error"></div>
             <label for="restaurantId">Restaurant</label>
             <select id="restaurantId" name="restaurantId" required>
-                <option value="">Select a restaurant</option>
+                <option value=" ">Select a restaurant</option>
             </select><br>
 
             <div id="codeError" class="error"></div>

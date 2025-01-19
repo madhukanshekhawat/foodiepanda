@@ -27,6 +27,7 @@ public class RestaurantServiceImpl implements RestaurantService {
         List<Restaurant> restaurants = restaurantRepository.findAll();
         return restaurants.stream().map(restaurant -> {
             RestaurantDTO restaurantDTO = new RestaurantDTO();
+            restaurantDTO.setRestaurantId(restaurant.getRestaurantId());
             restaurantDTO.setName(restaurant.getName());
             restaurantDTO.setPhoneNumber(restaurant.getPhoneNumber());
             restaurantDTO.setAddress(restaurant.getAddress().getAddressLine()+ " ," +restaurant.getAddress().getCity()+ " ,"+ restaurant.getAddress().getState() + " ,"+ restaurant.getAddress().getPostalCode());

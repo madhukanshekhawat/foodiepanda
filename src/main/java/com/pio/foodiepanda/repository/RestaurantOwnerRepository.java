@@ -20,4 +20,7 @@ public interface RestaurantOwnerRepository extends JpaRepository<RestaurantOwner
     @Query("UPDATE RestaurantOwner o SET o.rejected = true WHERE o.ownerID = :ownerId")
     void softDeleteOwner(@Param("ownerId") Long ownerId);
 
+    RestaurantOwner findByUserEmail(String email);
+
+//    RestaurantOwner findByEmail(String email);
 }

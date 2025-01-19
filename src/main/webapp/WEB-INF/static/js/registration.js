@@ -1,21 +1,20 @@
 $(document).ready(function() {
     $("#registerForm").submit(function(event) {
-        event.preventDefault(); // Prevent form submission
-        registerUser();
+        event.preventDefault();
+        registerUserAndRestaurant();
     });
 
-    // Clear error messages when user starts typing
-    $("input, radio").on("input change", function() {
-        clearError($(this).attr("id") + "Error");
-    });
-
-    // Show/hide restaurant details based on role selection
     $("input[name='role']").change(function() {
         if ($(this).val() === "RESTAURANT_OWNER") {
             $("#restaurantDetails").show();
         } else {
             $("#restaurantDetails").hide();
         }
+    });
+
+    // Clear error messages when user starts typing
+    $("input, radio").on("input change", function() {
+        clearError($(this).attr("id") + "Error");
     });
 });
 
@@ -27,7 +26,7 @@ function clearError(elementId) {
     $("#" + elementId).text("");
 }
 
-function registerUser() {
+async function registerUserAndRestaurant() {
     let firstName = $("#firstName").val();
     let lastName = $("#lastName").val();
     let email = $("#email").val();
@@ -72,7 +71,7 @@ function registerUser() {
         return;
     }
 
-    let userData = {
+    let user = {
         firstName: firstName,
         lastName: lastName,
         email: email,
@@ -81,77 +80,54 @@ function registerUser() {
         role: role
     };
 
-    if (role === "RESTAURANT_OWNER") {
-        let restaurantName = $("#restaurantName").val();
-        let restaurantContact = $("#restaurantContact").val();
-        let addressLine = $("#addressLine").val();
-        let city = $("#city").val();
-        let state = $("#state").val();
-        let postalCode = $("#postalCode").val();
+    let restaurant = {
+        restaurantName: $("#restaurantName").val(),
+        restaurantContact: $("#restaurantContact").val(),
+        addressLine: $("#addressLine").val(),
+        city: $("#city").val(),
+        state: $("#state").val(),
+        postalCode: $("#postalCode").val()
+    };
 
-        if (!restaurantName) {
-            showError("restaurantNameError", "Restaurant Name is required.");
-            return;
+    try {
+        // Register the user
+        const userResponse = await fetch('/register/registerUser', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(user),
+        });
+
+        if (!userResponse.ok) {
+            throw new Error('Failed to register user');
         }
 
-        if (!restaurantContact) {
-            showError("restaurantContactError", "Restaurant Contact Number is required.");
-            return;
-        }
+        const ownerId = await userResponse.json();
 
-        if (!addressLine) {
-            showError("addressLineError", "Address Line is required.");
-            return;
-        }
+        if (role === "RESTAURANT_OWNER") {
+            // Register the restaurant with the owner ID
+            restaurant.ownerId = ownerId;
+            const restaurantResponse = await fetch('/register/restaurant', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(restaurant),
+            });
 
-        if (!city) {
-            showError("cityError", "City is required.");
-            return;
-        }
-
-        if (!state) {
-            showError("stateError", "State is required.");
-            return;
-        }
-
-        if (!postalCode) {
-            showError("postalCodeError", "Postal Code is required.");
-            return;
-        }
-
-        userData = {
-            firstName: firstName,
-            lastName: lastName,
-            email: email,
-            phoneNumber: phoneNumber,
-            password: password,
-            role: role,
-            restaurantName: restaurantName,
-            restaurantContact: restaurantContact,
-            addressLine: addressLine,
-            city: city,
-            state: state,
-            postalCode: postalCode
-        };
-    }
-
-    $.ajax({
-        url: "/register",
-        method: "POST",
-        contentType: "application/json",
-        data: JSON.stringify(userData),
-        success: function(response) {
-            if (role === "RESTAURANT_OWNER") {
-                alert("Registration Successful!");
+            if (restaurantResponse.ok) {
+                alert('Restaurant registered successfully');
                 window.location.href = "/approval-pending";
             } else {
-                alert("Registration Successful!");
-                 window.location.href = "/customer/da";
-                $("#registerForm")[0].reset();
+                console.error('Failed to register restaurant');
             }
-        },
-        error: function(xhr) {
-            showError("errorMessages", "Error registering user.");
+        } else {
+            alert("Registration Successful!");
+            window.location.href = "/customer/dashboard";
         }
-    });
+    } catch (error) {
+        console.error('An error occurred:', error);
+        showError("errorMessages", "Error registering user or restaurant.");
+    }
 }
