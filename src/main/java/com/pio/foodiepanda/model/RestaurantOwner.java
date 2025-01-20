@@ -61,6 +61,14 @@ public class RestaurantOwner extends BaseEntity {
         this.phoneNumber = phoneNumber;
     }
 
+    public boolean isRejected() {
+        return rejected;
+    }
+
+    public void setRejected(boolean rejected) {
+        this.rejected = rejected;
+    }
+
     public boolean isApproved() {
         return isApproved;
     }
@@ -75,13 +83,5 @@ public class RestaurantOwner extends BaseEntity {
 
     public void setUser(User user) {
         this.user = user;
-    }
-
-    public boolean isRejected() {
-        return rejected;
-    }
-
-    public void setRejected(boolean rejected) {
-        this.rejected = rejected;
     }
 }

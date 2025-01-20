@@ -1,5 +1,6 @@
 package com.pio.foodiepanda.service.impl;
 
+import com.pio.foodiepanda.constants.MessageConstant;
 import com.pio.foodiepanda.model.Restaurant;
 import com.pio.foodiepanda.model.RestaurantOwner;
 import com.pio.foodiepanda.repository.RestaurantOwnerRepository;
@@ -31,6 +32,6 @@ public class RestaurantOwnerServiceImpl implements RestaurantOwnerService {
                 return restaurant.getRestaurantId();
             }
         }
-        throw new RuntimeException("Restaurant or restaurant owner not found");
+        throw new RuntimeException(MessageConstant.RESTAURANT_OR_OWNER_NOT_FOUND);
     }
 }

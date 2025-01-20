@@ -1,5 +1,6 @@
 package com.pio.foodiepanda.controller;
 
+import com.pio.foodiepanda.constants.MessageConstant;
 import com.pio.foodiepanda.dto.CouponDTO;
 import com.pio.foodiepanda.dto.RestaurantOwnerDTO;
 import com.pio.foodiepanda.model.Coupon;
@@ -24,13 +25,13 @@ public class AdminController {
     @PostMapping("/create-coupon")
     public ResponseEntity<String> createCoupon(@RequestBody CouponDTO couponDTO) {
         Coupon createCoupon = couponService.createCoupon(couponDTO);
-        return ResponseEntity.ok("Coupon Created Successfully!");
+        return ResponseEntity.ok(MessageConstant.COUPON_CREATED_SUCCESSFULLY);
     }
 
     @GetMapping("/unapproved-owner")
     public ResponseEntity<List<RestaurantOwnerDTO>> getUnapprovedOwners() {
-         List<RestaurantOwnerDTO> unApprovedOwners = adminService.getUnApprovedOwners();
-         return ResponseEntity.ok(unApprovedOwners);
+        List<RestaurantOwnerDTO> unApprovedOwners = adminService.getUnApprovedOwners();
+        return ResponseEntity.ok(unApprovedOwners);
     }
 
     @GetMapping("/approved-owner")
@@ -42,12 +43,12 @@ public class AdminController {
     @PutMapping("/approve/{restaurantOwnerId}")
     public ResponseEntity<String> approveOwner(@PathVariable Long restaurantOwnerId) {
         adminService.approveOwner(restaurantOwnerId);
-        return ResponseEntity.ok("successfully");
+        return ResponseEntity.ok(MessageConstant.SUCCESSFUL_MESSAGE);
     }
 
     @PatchMapping("/reject/{restaurantOwnerId}")
     public ResponseEntity<?> rejectOwner(@PathVariable Long restaurantOwnerId) {
         adminService.rejectOwner(restaurantOwnerId);
-        return ResponseEntity.ok("successfully");
+        return ResponseEntity.ok(MessageConstant.SUCCESSFUL_MESSAGE);
     }
 }

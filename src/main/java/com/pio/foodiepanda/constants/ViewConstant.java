@@ -19,4 +19,13 @@ public class ViewConstant {
     public static final String APPROVAL_PENDING = "approval-pending";
 
     public static final String REGISTRATION = "registration";
+
+    public static final String RESTAURANT_DASHBOARD = "restaurantowner/restaurant-dashboard";
+
+    public static final String VIEW_COUPON = "restaurantowner/view-coupon";
+
+    public static final String ADD_MENU = "restaurantowner/addMenu";
+
+    public static final String LOGIN = "login";
+
 }

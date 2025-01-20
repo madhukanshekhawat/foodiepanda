@@ -1,5 +1,6 @@
 package com.pio.foodiepanda.service.impl;
 
+import com.pio.foodiepanda.constants.MessageConstant;
 import com.pio.foodiepanda.dto.CouponDTO;
 import com.pio.foodiepanda.exception.ResourceNotFoundException;
 import com.pio.foodiepanda.model.Coupon;
@@ -11,26 +12,19 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
-
-import static com.pio.foodiepanda.constants.MessageConstant.RESTAURANT_NOT_FOUND;
 
 @Service
 public class CouponServiceImpl implements CouponService {
 
+    Logger logger = Logger.getLogger(RegistrationServiceImpl.class.getName());
     @Autowired
     private CouponRepository couponRepository;
-
     @Autowired
     private RestaurantRepository restaurantRepository;
-
     @Autowired
     private ModelMapper modelMapper;
-
-    Logger logger = Logger.getLogger(RegistrationServiceImpl.class.getName());
 
     /*
      * Creates a new coupon  based on given data
@@ -40,8 +34,8 @@ public class CouponServiceImpl implements CouponService {
     @Override
     public Coupon createCoupon(CouponDTO couponDTO) {
         Restaurant restaurant = restaurantRepository.findById(couponDTO.getRestaurantId())
-                .orElseThrow(() -> new ResourceNotFoundException("Restaurant not found with ID: " + couponDTO.getRestaurantId()));
-        logger.log(Level.INFO, "Restaurant found: " + restaurant.getName());
+                .orElseThrow(() -> new ResourceNotFoundException(MessageConstant.RESTAURANT_NOT_FOUND + couponDTO.getRestaurantId()));
+        logger.log(Level.INFO, MessageConstant.RESTAURANT_FOUND + restaurant.getName());
         Coupon coupon = modelMapper.map(couponDTO, Coupon.class);
         coupon.setRestaurant(restaurant);
         return couponRepository.save(coupon);

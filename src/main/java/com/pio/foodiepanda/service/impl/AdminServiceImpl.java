@@ -1,9 +1,12 @@
 package com.pio.foodiepanda.service.impl;
 
+import com.pio.foodiepanda.constants.MessageConstant;
+import com.pio.foodiepanda.constants.ViewConstant;
 import com.pio.foodiepanda.dto.RestaurantOwnerDTO;
 import com.pio.foodiepanda.exception.ResourceNotFoundException;
 import com.pio.foodiepanda.model.RestaurantOwner;
 import com.pio.foodiepanda.repository.RestaurantOwnerRepository;
+import com.pio.foodiepanda.repository.RestaurantRepository;
 import com.pio.foodiepanda.service.AdminService;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
@@ -24,6 +27,9 @@ public class AdminServiceImpl implements AdminService {
 
     @Autowired
     private RestaurantOwnerRepository restaurantOwnerRepository;
+
+    @Autowired
+    private RestaurantRepository restaurantRepository;
 
     @Autowired
     private ModelMapper modelMapper;
@@ -47,11 +53,11 @@ public class AdminServiceImpl implements AdminService {
      */
     @Override
     public void approveOwner(Long ownerID) {
-            RestaurantOwner restaurantOwner = restaurantOwnerRepository.findById(ownerID)
-                    .orElseThrow(() -> new ResourceNotFoundException(OWNER_NOT_FOUND + ownerID));
-            logger.log(Level.INFO, "Restaurant Owner Not Found" + ownerID);
-            restaurantOwner.setApproved(true);
-            restaurantOwnerRepository.save(restaurantOwner);
+        RestaurantOwner restaurantOwner = restaurantOwnerRepository.findById(ownerID)
+                .orElseThrow(() -> new ResourceNotFoundException(OWNER_NOT_FOUND + ownerID));
+        logger.log(Level.INFO, MessageConstant.RESTAURANT_NOT_FOUND + ownerID);
+        restaurantOwner.setApproved(true);
+        restaurantOwnerRepository.save(restaurantOwner);
     }
 
     /*
@@ -64,7 +70,7 @@ public class AdminServiceImpl implements AdminService {
     public void rejectOwner(Long ownerID) {
         RestaurantOwner restaurantOwner = restaurantOwnerRepository.findById(ownerID)
                 .orElseThrow(() -> new ResourceNotFoundException(OWNER_NOT_FOUND + ownerID));
-        logger.log(Level.INFO,"Restaurant Owner Not Found"+ownerID);
+        logger.log(Level.INFO, MessageConstant.RESTAURANT_NOT_FOUND + ownerID);
         restaurantOwnerRepository.softDeleteOwner(ownerID);
     }
 

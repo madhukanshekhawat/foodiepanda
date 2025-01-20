@@ -30,10 +30,10 @@ public class RestaurantServiceImpl implements RestaurantService {
             restaurantDTO.setRestaurantId(restaurant.getRestaurantId());
             restaurantDTO.setName(restaurant.getName());
             restaurantDTO.setPhoneNumber(restaurant.getPhoneNumber());
-            restaurantDTO.setAddress(restaurant.getAddress().getAddressLine()+ " ," +restaurant.getAddress().getCity()+ " ,"+ restaurant.getAddress().getState() + " ,"+ restaurant.getAddress().getPostalCode());
+            restaurantDTO.setAddress(restaurant.getRestaurantAddress().getAddressLine() + " ," + restaurant.getRestaurantAddress().getCity() + " ," + restaurant.getRestaurantAddress().getState() + " ," + restaurant.getRestaurantAddress().getPostalCode());
             RestaurantDTO.OwnerDetails ownerDetails = new RestaurantDTO.OwnerDetails();
             RestaurantOwner restaurantOwner = restaurant.getRestaurantOwner();
-            if(restaurantOwner != null){
+            if (restaurantOwner != null) {
                 ownerDetails.setFirstName(restaurantOwner.getFirstName());
                 ownerDetails.setLastName(restaurantOwner.getLastName());
             }

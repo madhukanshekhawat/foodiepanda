@@ -24,7 +24,7 @@ public class Restaurant extends BaseEntity {
 
     @OneToOne
     @JoinColumn(name = "address_id", nullable = false)
-    private Address address;
+    private RestaurantAddress restaurantAddress;
 
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "owner_id", referencedColumnName = "ownerID")
@@ -78,14 +78,6 @@ public class Restaurant extends BaseEntity {
         this.phoneNumber = phoneNumber;
     }
 
-    public Address getAddress() {
-        return address;
-    }
-
-    public void setAddress(Address address) {
-        this.address = address;
-    }
-
     public RestaurantOwner getRestaurantOwner() {
         return restaurantOwner;
     }
@@ -94,4 +86,11 @@ public class Restaurant extends BaseEntity {
         this.restaurantOwner = restaurantOwner;
     }
 
+    public RestaurantAddress getRestaurantAddress() {
+        return restaurantAddress;
+    }
+
+    public void setRestaurantAddress(RestaurantAddress restaurantAddress) {
+        this.restaurantAddress = restaurantAddress;
+    }
 }

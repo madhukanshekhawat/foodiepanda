@@ -6,9 +6,9 @@ $(document).ready(function() {
 
     $("input[name='role']").change(function() {
         if ($(this).val() === "RESTAURANT_OWNER") {
-            $("#restaurantDetails").show();
+            $("#restaurantDetails").slideDown();
         } else {
-            $("#restaurantDetails").hide();
+            $("#restaurantDetails").slideUp();
         }
     });
 

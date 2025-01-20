@@ -6,16 +6,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/admin")
+@RequestMapping("/api/admin")
 public class AdminWebController {
 
-    @GetMapping("/base")
-    public String base() {
-        return ViewConstant.ADMIN_BASE;
-    }
-
-    @GetMapping("/dashboard")
-    public String admin() {
+    @GetMapping("/admin-dashboard")
+    public String adminDashboard() {
         return ViewConstant.ADMIN_DASHBOARD;
     }
 

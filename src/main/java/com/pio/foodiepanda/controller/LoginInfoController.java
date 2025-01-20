@@ -13,8 +13,8 @@ import java.security.Principal;
 @RequestMapping("/api")
 public class LoginInfoController {
 
-     @Autowired
-     private LoginInfoService loginInfoService;
+    @Autowired
+    private LoginInfoService loginInfoService;
 
     @PostMapping("/authenticated-user")
     public ResponseEntity<UserDTO> authenticateUser(@RequestBody LoginRequest loginRequest) {

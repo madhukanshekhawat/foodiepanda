@@ -1,62 +1,65 @@
 
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Restaurant Owner Login</title>
-    <link rel="stylesheet" href="/css/styles.css">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-    <script>
-        $(document).ready(function() {
-            $("#loginForm").submit(function(event) {
-                event.preventDefault(); // Prevent form submission
-                loginRestaurantOwner();
-            });
-        });
-
-        function loginRestaurantOwner() {
-            let loginData = {
-                email: $("#email").val(),
-                password: $("#password").val(),
-            };
-
-            $.ajax({
-                url: "/user/login", // Your login endpoint here
-                method: "POST",
-                contentType: "application/json",
-                data: JSON.stringify(loginData),
-                success: function(response) {
-                    // On success, redirect to the owner dashboard or another page
-                    window.location.href = "/restaurant/addMenu"; // Redirect to dashboard
-                },
-                error: function() {
-                    alert("Invalid credentials, please try again.");
-                }
-            });
+    <title>Login</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
         }
-    </script>
+        .container {
+            width: 300px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+        }
+        .form-group button {
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            border: none;
+            color: white;
+            cursor: pointer;
+        }
+        .form-group button:hover {
+            background-color: #0056b3;
+        }
+        .error {
+            color: red;
+            margin-top: 10px;
+        }
+    </style>
 </head>
 <body>
-
-    <div class="login-container">
-        <h2>Restaurant Owner Login</h2>
-        <form id="loginForm">
+    <div class="container">
+        <h2>Login</h2>
+        <form action="${pageContext.request.contextPath}/login" method="post">
             <div class="form-group">
                 <label for="email">Email:</label>
-                <input type="email" id="email" name="email" required>
+                <input type="text" id="email" name="username" required>
             </div>
-
             <div class="form-group">
                 <label for="password">Password:</label>
                 <input type="password" id="password" name="password" required>
             </div>
-
-            <button type="submit" class="btn">Login</button>
+            <div class="form-group">
+                <button type="submit">Login</button>
+            </div>
         </form>
     </div>
-
 </body>
 </html>
-

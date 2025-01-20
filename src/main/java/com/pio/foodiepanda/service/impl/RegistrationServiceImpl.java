@@ -1,6 +1,7 @@
 package com.pio.foodiepanda.service.impl;
 
-import com.pio.foodiepanda.dto.RestaurantDTO;
+import com.pio.foodiepanda.constants.MessageConstant;
+import com.pio.foodiepanda.dto.RestaurantRegisterDTO;
 import com.pio.foodiepanda.dto.UserDTO;
 import com.pio.foodiepanda.model.*;
 import com.pio.foodiepanda.repository.*;
@@ -18,28 +19,21 @@ import static com.pio.foodiepanda.enums.DeliveryAddressLabel.RESTAURANT;
 @Service
 public class RegistrationServiceImpl implements RegistrationService {
 
+    Logger logger = Logger.getLogger(RegistrationServiceImpl.class.getName());
     @Autowired
     private UserRepository userRepository;
-
     @Autowired
     private RestaurantOwnerRepository restaurantOwnerRepository;
-
     @Autowired
     private CustomerRepository customerRepository;
-
     @Autowired
     private RestaurantRepository restaurantRepository;
-
     @Autowired
     private ModelMapper modelMapper;
-
     @Autowired
-    private AddressRepository addressRepository;
-
+    private RestaurantAddressRepository restaurantAddressRepository;
     @Autowired
     private PasswordEncoder passwordEncoder;
-
-    Logger logger = Logger.getLogger(RegistrationServiceImpl.class.getName());
 
     /*
      * Registers a new user based on UserDTO
@@ -77,24 +71,27 @@ public class RegistrationServiceImpl implements RegistrationService {
     }
 
     @Override
-    public void registerRestaurant(RestaurantDTO restaurantDTO) throws Exception {
+    public void registerRestaurant(RestaurantRegisterDTO restaurantRegisterDTO) throws Exception {
 
-        Long restaurantOwnerId = restaurantDTO.getOwnerId();
-        RestaurantOwner restaurantOwner = restaurantOwnerRepository.findById(restaurantDTO.getOwnerId())
-                .orElseThrow(() -> new Exception("Restaurant owner not found"));
-        Address address = new Address();
-        address.setAddressLine(restaurantDTO.getAddressDetails().getAddressLine());
-        address.setCity(restaurantDTO.getAddressDetails().getCity());
-        address.setState(restaurantDTO.getAddressDetails().getState());
-        address.setPostalCode(restaurantDTO.getAddressDetails().getPostalCode());
-        address.setAddressLabel(RESTAURANT);
+        Long restaurantOwnerId = restaurantRegisterDTO.getOwnerId();
+        RestaurantOwner restaurantOwner = restaurantOwnerRepository.findById(restaurantRegisterDTO.getOwnerId())
+                .orElseThrow(() -> new Exception(MessageConstant.RESTAURANT_NOT_FOUND));
+        RestaurantAddress restaurantAddress = new RestaurantAddress();
+        RestaurantOwner owner = new RestaurantOwner();
+        restaurantOwner.setOwnerID(restaurantRegisterDTO.getOwnerId()); // Assuming getOwnerId() returns the ID
+        restaurantAddress.setRestaurantOwner(restaurantOwner);
+        restaurantAddress.setAddressLine(restaurantRegisterDTO.getAddressLine());
+        restaurantAddress.setCity(restaurantRegisterDTO.getCity());
+        restaurantAddress.setState(restaurantRegisterDTO.getState());
+        restaurantAddress.setPostalCode(restaurantRegisterDTO.getPostalCode());
+        restaurantAddress.setAddressLabel(RESTAURANT);
 
-        addressRepository.save(address);
+        restaurantAddressRepository.save(restaurantAddress);
 
         Restaurant restaurant = new Restaurant();
-        restaurant.setName(restaurantDTO.getName());
-        restaurant.setPhoneNumber(restaurantDTO.getPhoneNumber());
-        restaurant.setAddress(address);
+        restaurant.setName(restaurantRegisterDTO.getRestaurantName());
+        restaurant.setPhoneNumber(restaurantRegisterDTO.getRestaurantContact());
+        restaurant.setRestaurantAddress(restaurantAddress);
         restaurant.setRestaurantOwner(restaurantOwner);
 
         restaurantRepository.save(restaurant);

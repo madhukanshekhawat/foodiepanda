@@ -11,8 +11,8 @@
                 response.forEach(restaurantOwner => {
                     tableData += `
                         <tr>
-                            <td>${restaurantOwner.first_name} ${restaurantOwner.lastName}</td>
-                            <td>${restaurantOwner.lastName}</td>
+                            <td>${restaurantOwner.firstName} ${restaurantOwner.lastName}</td>
+                            <td>${restaurantOwner.restaurantName}</td>
                             <td>${restaurantOwner.phoneNumber}</td>
                             <td>${restaurantOwner.email}</td>
                             <td>

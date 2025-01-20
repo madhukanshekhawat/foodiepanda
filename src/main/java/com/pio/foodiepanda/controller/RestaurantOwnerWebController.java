@@ -7,16 +7,21 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/restaurant")
+@RequestMapping("/api/restaurant")
 public class RestaurantOwnerWebController {
+
+    @GetMapping("/dashboard")
+    public String restaurantDashboard() {
+        return ViewConstant.RESTAURANT_DASHBOARD;
+    }
 
     @GetMapping("/view-coupon")
     public String dashboard() {
-        return "restaurantowner/view-coupon";
+        return ViewConstant.VIEW_COUPON;
     }
 
     @GetMapping("/addMenu")
     public String addMenuItem() {
-        return "restaurantowner/addMenu";
+        return ViewConstant.ADD_MENU;
     }
 }
