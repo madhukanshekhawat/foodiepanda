@@ -12,11 +12,11 @@
     <nav class="navbar">
         <div class="logo">My Restaurant</div>
         <ul class="nav-links">
-            <li><a href="/restaurant/addMenu">Add Menu Item</a></li>
-            <li><a href="/owner/view-menu">View All Menu Items</a></li>
-            <li><a href="/owner/view-coupons">View All Coupons</a></li>
-            <li><a href="/owner/view-orders">View All Orders</a></li>
-
+            <li><a href="/api/restaurant/addMenu">Add Menu Item</a></li>
+            <li><a href="/api/restaurant/view-menu">View All Menu Items</a></li>
+            <li><a href="/api/restaurant/view-coupon">View All Coupons</a></li>
+            <li><a href="/api/restaurant/view-order">View All Orders</a></li>
+            <li><a href="/api/restaurant/add-category">View All Orders</a></li>
         </ul>
     </nav>
 </body>

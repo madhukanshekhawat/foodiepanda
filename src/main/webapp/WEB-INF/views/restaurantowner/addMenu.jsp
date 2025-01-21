@@ -1,89 +1,38 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ include file="/WEB-INF/views/restaurantowner/base.jsp" %>
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Menu Item</title>
-    <link rel="stylesheet" href="styles.css">
+    <style>
+        body { font-family: Arial, sans-serif; }
+        .container { width: 300px; margin: 0 auto; padding: 20px; border: 1px solid #ccc; border-radius: 5px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); }
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; margin-bottom: 5px; }
+        .form-group input, .form-group textarea { width: 100%; padding: 8px; box-sizing: border-box; }
+        .form-group button { width: 100%; padding: 10px; background-color: #007bff; border: none; color: white; cursor: pointer; }
+        .form-group button:hover { background-color: #0056b3; }
+    </style>
 </head>
 <body>
-    <h1>Add Menu Item</h1>
-    <form id="menuItemForm">
-        <label for="name">Item Name:</label>
-        <input type="text" id="name" name="name" required><br>
-
-        <label for="description">Description:</label>
-        <textarea id="description" name="description"></textarea><br>
-
-        <label for="price">Price:</label>
-        <input type="number" step="0.01" id="price" name="price" required><br>
-
-        <label for="isAvailable">Available:</label>
-        <input type="checkbox" id="isAvailable" name="isAvailable"><br>
-
-        <label for="isVeg">Vegetarian:</label>
-        <input type="checkbox" id="isVeg" name="isVeg"><br>
-
-        <label for="categorySelect">Category:</label>
-        <select id="categorySelect" name="categoryName" required>
-            <option value="">Select a category</option>
-        </select><br>
-
-        <button type="submit">Add Menu Item</button>
-    </form>
-
-    <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        fetch('/api/owner/categories/all')
-            .then(response => response.json())
-            .then(data => {
-                const categorySelect = document.getElementById('categorySelect');
-                data.forEach(category => {
-                    const option = document.createElement('option');
-                    option.value = category.name;
-                    option.textContent = category.name;
-                    categorySelect.appendChild(option);
-                });
-            })
-            .catch(error => console.error('Error fetching categories:', error));
-
-        document.getElementById('menuItemForm').addEventListener('submit', function(event) {
-            event.preventDefault();
-
-            const formData = {
-                name: document.getElementById('name').value,
-                description: document.getElementById('description').value,
-                price: document.getElementById('price').value,
-                isAvailable: document.getElementById('isAvailable').checked,
-                isVeg: document.getElementById('isVeg').checked,
-                categoryName: document.getElementById('categorySelect').value
-            };
-
-            const token = localStorage.getItem('jwtToken'); // Assuming the token is stored in localStorage
-
-            fetch('/api/owner/menu/add', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + token
-                },
-                body: JSON.stringify(formData)
-            })
-            .then(response => {
-                if (response.ok) {
-                    alert('Menu item added successfully!');
-                    document.getElementById('menuItemForm').reset();
-                } else {
-                    return response.json().then(data => {
-                        throw new Error(data.message || 'Failed to add menu item');
-                    });
-                }
-            })
-            .catch(error => alert('Error: ' + error.message));
-        });
-    });
-    </script>
+    <div class="container">
+        <h2>Add Menu Item</h2>
+        <form id="menuItemForm">
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            <div class="form-group">
+                <label for="description">Description:</label>
+                <textarea id="description" name="description" required></textarea>
+            </div>
+            <div class="form-group">
+                <label for="price">Price:</label>
+                <input type="number" id="price" name="price" step="0.01" required>
+            </div>
+            <div class="form-group">
+                <button type="submit">Add Menu Item</button>
+            </div>
+        </form>
+    </div>
+    <script src="script/js/menu-item-add.js"></script>
 </body>
 </html>

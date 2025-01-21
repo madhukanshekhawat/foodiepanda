@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -47,7 +46,7 @@
 <body>
     <div class="container">
         <h2>Login</h2>
-        <form action="${pageContext.request.contextPath}/login" method="post">
+        <form id="loginForm" action="#">
             <div class="form-group">
                 <label for="email">Email:</label>
                 <input type="text" id="email" name="username" required>
@@ -61,5 +60,6 @@
             </div>
         </form>
     </div>
+    <script src="/static/js/login.js"></script>
 </body>
 </html>

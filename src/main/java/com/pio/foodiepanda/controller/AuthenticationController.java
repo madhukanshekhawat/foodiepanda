@@ -3,6 +3,8 @@ package com.pio.foodiepanda.controller;
 import com.pio.foodiepanda.constants.MessageConstant;
 import com.pio.foodiepanda.model.AuthenticationRequest;
 import com.pio.foodiepanda.model.AuthenticationResponse;
+import com.pio.foodiepanda.model.User;
+import com.pio.foodiepanda.repository.UserRepository;
 import com.pio.foodiepanda.service.impl.CustomUserDetailsService;
 import com.pio.foodiepanda.utility.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +19,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class AuthenticationController {
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Autowired
     private AuthenticationManager authenticationManager;
@@ -39,7 +44,9 @@ public class AuthenticationController {
 
         final UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getEmail());
         final String jwt = jwtUtil.generateToken(userDetails);
+        System.out.println("jwt:" + jwt);
+        final User user = userRepository.findByEmail(authenticationRequest.getEmail());
 
-        return ResponseEntity.ok(new AuthenticationResponse(jwt));
+        return ResponseEntity.ok(new AuthenticationResponse(jwt, user.getRole().toString()));
     }
 }

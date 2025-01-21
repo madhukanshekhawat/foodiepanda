@@ -28,4 +28,8 @@ public class ViewConstant {
 
     public static final String LOGIN = "login";
 
+    public static final String VIEW_MENU = "restaurantowner/view-menu-item";
+
+    public static final String VIEW_ORDER = "restauarantowner/view-order";
+
 }

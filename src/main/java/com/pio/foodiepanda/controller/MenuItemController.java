@@ -1,43 +1,43 @@
 package com.pio.foodiepanda.controller;
 
-import com.pio.foodiepanda.constants.MessageConstant;
-import com.pio.foodiepanda.dto.MenuItemDTO;
 import com.pio.foodiepanda.model.MenuItem;
-import com.pio.foodiepanda.service.MenuItemService;
-import com.pio.foodiepanda.service.RestaurantOwnerService;
+import com.pio.foodiepanda.model.Restaurant;
+import com.pio.foodiepanda.model.User;
+import com.pio.foodiepanda.repository.MenuItemRepository;
+import com.pio.foodiepanda.repository.RestaurantRepository;
+import com.pio.foodiepanda.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/owner/menu")
+@RequestMapping("/menu")
 public class MenuItemController {
 
     @Autowired
-    private MenuItemService menuItemService;
+    private MenuItemRepository menuItemRepository;
 
     @Autowired
-    private RestaurantOwnerService restaurantOwnerService;
+    private RestaurantRepository restaurantRepository;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @PostMapping("/add")
-    public ResponseEntity<String> addMenuItem(@RequestBody MenuItemDTO menuItemDTO) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    public String addMenuItem(@RequestBody MenuItem menuItem, Authentication authentication) {
         String email = authentication.getName();
+        User user = userRepository.findByEmail(email);
+        Restaurant restaurant = restaurantRepository.findByRestaurantOwner(user.getRestaurantOwner());
 
-        Long restaurantId = restaurantOwnerService.getRestaurantIdByEmail(email);
-        menuItemDTO.setRestaurantId(restaurantId);
-        menuItemService.addMenuItem(menuItemDTO);
-        return ResponseEntity.status(HttpStatus.CREATED).body(MessageConstant.SUCCESSFUL_MESSAGE);
-    }
-
-    @GetMapping("/{restaurantId}")
-    public ResponseEntity<List<MenuItem>> getMenuItem(@PathVariable Long restaurantId) {
-        List<MenuItem> menuItems = menuItemService.getMenuItemsByRestaurants(restaurantId);
-        return ResponseEntity.ok(menuItems);
+        if (restaurant != null) {
+            menuItem.setRestaurant(restaurant);
+            menuItemRepository.save(menuItem);
+            return "Menu item added successfully!";
+        } else {
+            return "Restaurant not found!";
+        }
     }
 }

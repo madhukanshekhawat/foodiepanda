@@ -7,7 +7,5 @@ import java.util.List;
 
 public interface MenuItemService {
 
-    MenuItem addMenuItem(MenuItemDTO menuItemDTO);
-
-    List<MenuItem> getMenuItemsByRestaurants(Long restaurantId);
+    String addMenuItem(MenuItem menuItem, String userEmail);
 }

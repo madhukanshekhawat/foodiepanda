@@ -6,5 +6,7 @@ import java.util.List;
 
 public interface CategoriesService {
 
+    Categories addCategory(Categories categories);
+
     List<Categories> getAllCategories();
 }

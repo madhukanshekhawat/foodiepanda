@@ -28,6 +28,9 @@ public class User extends BaseEntity {
     @OneToOne(mappedBy = "user", fetch = FetchType.EAGER)
     private Customer customer;
 
+    @OneToOne(mappedBy = "user", fetch = FetchType.EAGER)
+    private RestaurantOwner restaurantOwner;
+
     public User() {
     }
 
@@ -70,4 +73,27 @@ public class User extends BaseEntity {
         this.role = role;
     }
 
+    public Admin getAdmin() {
+        return admin;
+    }
+
+    public void setAdmin(Admin admin) {
+        this.admin = admin;
+    }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
+
+    public RestaurantOwner getRestaurantOwner() {
+        return restaurantOwner;
+    }
+
+    public void setRestaurantOwner(RestaurantOwner restaurantOwner) {
+        this.restaurantOwner = restaurantOwner;
+    }
 }

@@ -5,9 +5,11 @@ import com.pio.foodiepanda.exception.ResourceNotFoundException;
 import com.pio.foodiepanda.model.Categories;
 import com.pio.foodiepanda.model.MenuItem;
 import com.pio.foodiepanda.model.Restaurant;
+import com.pio.foodiepanda.model.User;
 import com.pio.foodiepanda.repository.CategoriesRepository;
 import com.pio.foodiepanda.repository.MenuItemRepository;
 import com.pio.foodiepanda.repository.RestaurantRepository;
+import com.pio.foodiepanda.repository.UserRepository;
 import com.pio.foodiepanda.service.MenuItemService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,33 +28,22 @@ public class MenuItemServiceImpl implements MenuItemService {
     private RestaurantRepository restaurantRepository;
 
     @Autowired
-    private CategoriesRepository categoriesRepository;
+    private UserRepository userRepository;
 
     @Autowired
     private ModelMapper modelMapper;
 
     @Override
-    public MenuItem addMenuItem(MenuItemDTO menuItemDTO) {
-        Restaurant restaurant = restaurantRepository.findById(menuItemDTO.getRestaurantId())
-                .orElseThrow(() -> new ResourceNotFoundException("Restaurant Not found"));
+    public String addMenuItem(MenuItem menuItem, String userEmail) {
+        User user = userRepository.findByEmail(userEmail);
+        Restaurant restaurant = restaurantRepository.findByRestaurantOwner(user.getRestaurantOwner());
 
-        Categories categories = categoriesRepository.findByName(menuItemDTO.getCategoryName())
-                .orElseThrow(() -> new ResourceNotFoundException("Category not found"));
-
-        MenuItem menuItem = modelMapper.map(menuItemDTO, MenuItem.class);
-        menuItem.setRestaurant(restaurant);
-        menuItem.setCategories(categories);
-        menuItem.setName(menuItemDTO.getName());
-        menuItem.setDescription(menuItem.getDescription());
-        menuItem.setPrice(menuItem.getPrice());
-        menuItem.setAvailable(menuItem.isAvailable());
-        menuItem.setVeg(menuItem.isVeg());
-        return menuItemRepository.save(menuItem);
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public List<MenuItem> getMenuItemsByRestaurants(Long restaurantId) {
-        return menuItemRepository.findByRestaurant_RestaurantId(restaurantId);
+        if (restaurant != null) {
+            menuItem.setRestaurant(restaurant);
+            menuItemRepository.save(menuItem);
+            return "Menu item added successfully!";
+        } else {
+            return "Restaurant not found!";
+        }
     }
 }

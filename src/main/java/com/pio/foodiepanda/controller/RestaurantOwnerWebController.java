@@ -24,4 +24,17 @@ public class RestaurantOwnerWebController {
     public String addMenuItem() {
         return ViewConstant.ADD_MENU;
     }
+
+    @GetMapping("/view-menu")
+    public String viewMenuItem() {return ViewConstant.VIEW_MENU ;}
+
+    @GetMapping("/view-order")
+    public  String viewOrder() {
+        return ViewConstant.VIEW_ORDER;
+    }
+
+    @GetMapping("/add-category")
+    public String addCategory(){
+        return "restaurantowner/add-category";
+    }
 }

@@ -14,6 +14,11 @@ public class CategoriesServiceImpl implements CategoriesService {
     @Autowired
     private CategoriesRepository categoriesRepository;
 
+    @Override
+    public Categories addCategory(Categories categories) {
+        return categoriesRepository.save(categories);
+    }
+
     public List<Categories> getAllCategories() {
         return categoriesRepository.findAll();
     }
