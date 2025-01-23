@@ -1,11 +1,9 @@
 package com.pio.foodiepanda.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity
+@Table(name = "category")
 public class Categories extends BaseEntity {
 
     @Id
@@ -14,6 +12,8 @@ public class Categories extends BaseEntity {
 
     private String name;
     private String description;
+
+    private String createdBy;
 
     public Long getCategoryId() {
         return CategoryId;
@@ -38,4 +38,13 @@ public class Categories extends BaseEntity {
     public void setDescription(String description) {
         this.description = description;
     }
+
+    public String getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
+    }
+
 }

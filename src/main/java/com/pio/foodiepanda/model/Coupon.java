@@ -1,5 +1,6 @@
 package com.pio.foodiepanda.model;
 
+import com.pio.foodiepanda.constants.CouponStatus;
 import com.pio.foodiepanda.enums.CouponApplicableTo;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
@@ -36,6 +37,9 @@ public class Coupon extends BaseEntity {
 
     @Enumerated(EnumType.STRING)
     private CouponApplicableTo applicableTo;
+
+    @Enumerated(EnumType.STRING)
+    private CouponStatus status;
 
     @ManyToOne
     @JoinColumn(name = "restaurant_id", nullable = false)
@@ -111,5 +115,13 @@ public class Coupon extends BaseEntity {
 
     public void setRestaurant(Restaurant restaurant) {
         this.restaurant = restaurant;
+    }
+
+    public CouponStatus getCouponStatus() {
+        return status;
+    }
+
+    public void setCouponStatus(CouponStatus status) {
+        this.status = status;
     }
 }

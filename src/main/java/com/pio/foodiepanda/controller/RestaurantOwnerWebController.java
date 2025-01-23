@@ -26,15 +26,22 @@ public class RestaurantOwnerWebController {
     }
 
     @GetMapping("/view-menu")
-    public String viewMenuItem() {return ViewConstant.VIEW_MENU ;}
+    public String viewMenuItem() {
+        return ViewConstant.VIEW_MENU;
+    }
 
     @GetMapping("/view-order")
-    public  String viewOrder() {
+    public String viewOrder() {
         return ViewConstant.VIEW_ORDER;
     }
 
     @GetMapping("/add-category")
-    public String addCategory(){
+    public String addCategory() {
         return "restaurantowner/add-category";
+    }
+
+    @GetMapping("/view-category")
+    public String viewCategory() {
+        return "restaurantowner/view-category";
     }
 }

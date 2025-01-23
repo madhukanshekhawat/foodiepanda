@@ -7,6 +7,7 @@ public class RestaurantOwnerDTO extends BaseDTO {
     private String lastName;
     private String email;
     private String phoneNumber;
+    private String restaurantName;
 
     public Long getId() {
         return id;
@@ -48,4 +49,11 @@ public class RestaurantOwnerDTO extends BaseDTO {
         this.phoneNumber = phoneNumber;
     }
 
+    public String getRestaurantName() {
+        return restaurantName;
+    }
+
+    public void setRestaurantName(String restaurantName) {
+        this.restaurantName = restaurantName;
+    }
 }

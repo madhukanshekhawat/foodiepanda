@@ -1,12 +1,17 @@
 package com.pio.foodiepanda.service;
 
-import com.pio.foodiepanda.model.Categories;
+import com.pio.foodiepanda.dto.CategoriesDTO;
 
+import java.security.Principal;
 import java.util.List;
 
 public interface CategoriesService {
 
-    Categories addCategory(Categories categories);
+    void saveCategory(CategoriesDTO category, String username);
 
-    List<Categories> getAllCategories();
+    boolean deleteCategoriesByUser(Long id, String username);
+
+    List<CategoriesDTO> getAllCategoriesByUser(String username);
+
+    List<CategoriesDTO> getCategoriesForRestaurant(Principal principal);
 }

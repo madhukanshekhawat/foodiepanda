@@ -95,6 +95,9 @@ public class RegistrationServiceImpl implements RegistrationService {
         restaurant.setRestaurantOwner(restaurantOwner);
 
         restaurantRepository.save(restaurant);
+
+        restaurantOwner.setRestaurant(restaurant);
+        restaurantOwnerRepository.save(restaurantOwner);
     }
 }
 

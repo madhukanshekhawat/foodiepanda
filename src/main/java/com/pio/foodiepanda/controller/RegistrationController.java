@@ -1,7 +1,6 @@
 package com.pio.foodiepanda.controller;
 
 import com.pio.foodiepanda.constants.MessageConstant;
-import com.pio.foodiepanda.constants.ViewConstant;
 import com.pio.foodiepanda.dto.RestaurantRegisterDTO;
 import com.pio.foodiepanda.dto.UserDTO;
 import com.pio.foodiepanda.service.RegistrationService;

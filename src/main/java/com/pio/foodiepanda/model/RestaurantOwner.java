@@ -28,6 +28,10 @@ public class RestaurantOwner extends BaseEntity {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "restaurant_id")
+    private Restaurant restaurant;
+
 
     public Long getOwnerID() {
         return ownerID;
@@ -83,5 +87,13 @@ public class RestaurantOwner extends BaseEntity {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public Restaurant getRestaurant() {
+        return restaurant;
+    }
+
+    public void setRestaurant(Restaurant restaurant) {
+        this.restaurant = restaurant;
     }
 }

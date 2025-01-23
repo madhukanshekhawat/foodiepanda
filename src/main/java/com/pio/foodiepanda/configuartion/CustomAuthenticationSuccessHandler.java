@@ -2,10 +2,8 @@ package com.pio.foodiepanda.configuartion;
 
 import com.pio.foodiepanda.constants.ApiConstant;
 import com.pio.foodiepanda.enums.UserRole;
-import com.pio.foodiepanda.model.Admin;
 import com.pio.foodiepanda.model.RestaurantOwner;
 import com.pio.foodiepanda.model.User;
-import com.pio.foodiepanda.repository.AdminRepository;
 import com.pio.foodiepanda.repository.RestaurantOwnerRepository;
 import com.pio.foodiepanda.repository.UserRepository;
 import jakarta.servlet.ServletException;
@@ -47,7 +45,7 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
             redirectUrl = ApiConstant.CUSTOMER_DASHBOARD_API;
         }
 
-        if(redirectUrl == null) {
+        if (redirectUrl == null) {
             throw new IllegalStateException();
         }
 

@@ -13,7 +13,7 @@ public class MenuItem extends BaseEntity {
     private Long menuItemId;
 
 
-    @Column(name = "item_name", unique = true)
+    @Column(name = "item_name")
     private String name;
 
     @Column(name = "item_description")
@@ -25,6 +25,9 @@ public class MenuItem extends BaseEntity {
     private boolean isAvailable;
     private boolean isVeg;
 
+    @Lob
+    private String image;
+
     @ManyToOne
     @JoinColumn(name = "restaurant_id", nullable = false)
     private Restaurant restaurant;
@@ -32,9 +35,6 @@ public class MenuItem extends BaseEntity {
     @OneToOne
     @JoinColumn(name = "category_id", nullable = false)
     private Categories categories;
-
-    @Version
-    private Long version;
 
     public Long getMenuItemId() {
         return menuItemId;
@@ -100,7 +100,11 @@ public class MenuItem extends BaseEntity {
         this.categories = categories;
     }
 
-    public Long getVersion() {
-        return version;
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 }

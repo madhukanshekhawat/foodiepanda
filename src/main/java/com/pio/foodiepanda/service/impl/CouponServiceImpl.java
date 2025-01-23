@@ -1,5 +1,6 @@
 package com.pio.foodiepanda.service.impl;
 
+import com.pio.foodiepanda.constants.CouponStatus;
 import com.pio.foodiepanda.constants.MessageConstant;
 import com.pio.foodiepanda.dto.CouponDTO;
 import com.pio.foodiepanda.exception.ResourceNotFoundException;
@@ -12,8 +13,11 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 @Service
 public class CouponServiceImpl implements CouponService {
@@ -37,15 +41,36 @@ public class CouponServiceImpl implements CouponService {
                 .orElseThrow(() -> new ResourceNotFoundException(MessageConstant.RESTAURANT_NOT_FOUND + couponDTO.getRestaurantId()));
         logger.log(Level.INFO, MessageConstant.RESTAURANT_FOUND + restaurant.getName());
         Coupon coupon = modelMapper.map(couponDTO, Coupon.class);
+        if (coupon.getCouponStatus() == null) {
+            coupon.setCouponStatus(CouponStatus.ACTIVE);
+        }
         coupon.setRestaurant(restaurant);
         return couponRepository.save(coupon);
     }
 
-//    @Override
-//    public List<CouponDTO> getCouponByRestaurantId(Long restaurantId) {
-//        return couponRepository.findByRestaurant_RestaurantId(restaurantId).stream()
-//                .map(coupon -> modelMapper.map(coupon, CouponDTO.class))
-//                .collect(Collectors.toList());
-//    }
+    @Override
+    public List<CouponDTO> getCouponsByOwner(String ownerUsername) {
+        List<Restaurant> restaurants = restaurantRepository.findByRestaurantOwnerUsername(ownerUsername);
+
+        List<Coupon> coupons = new ArrayList<>();
+        for (Restaurant restaurant : restaurants) {
+            coupons.addAll(couponRepository.findByRestaurant_RestaurantId(restaurant.getRestaurantId()));
+        }
+        return coupons.stream().map(coupon ->
+                        modelMapper.map(coupon, CouponDTO.class))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public void updateCouponStatus(Long id, String ownerUsername, CouponStatus newStatus) {
+        Coupon coupon = couponRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("coupon not found"));
+        if (!coupon.getRestaurant().getRestaurantOwner().getUser().getEmail().equals(ownerUsername)) {
+            throw new RuntimeException("You are not authorized owner");
+        }
+        coupon.setCouponStatus(newStatus);
+        couponRepository.save(coupon);
+    }
+
 
 }

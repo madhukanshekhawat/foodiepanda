@@ -1,9 +1,7 @@
 package com.pio.foodiepanda.configuartion;
 
-import com.pio.foodiepanda.enums.UserRole;
-import com.pio.foodiepanda.filter.JwtRequestFilter;
+import com.pio.foodiepanda.filter.JwtAuthenticationFilter;
 import com.pio.foodiepanda.service.impl.CustomUserDetailsService;
-import com.pio.foodiepanda.utility.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -27,10 +25,10 @@ public class SecurityConfig {
     private CustomUserDetailsService userDetailsService;
 
     @Autowired
-    private JwtUtil jwtUtil;
+    private JwtAuthenticationFilter jwtRequestFilter;
 
     @Autowired
-    private JwtRequestFilter jwtRequestFilter;
+    private CustomAuthenticationSuccessHandler successHandler;
 
     @Bean
     public DaoAuthenticationProvider authenticationProvider() {
@@ -47,9 +45,9 @@ public class SecurityConfig {
         http.sessionManagement(session -> session
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS));
         http.formLogin(loginForm -> loginForm
-                .loginPage("/login-page")
+                .loginPage("/api/user-login")
                 .loginProcessingUrl("/login")
-                .successHandler(customAuthenticationSuccessHandler())
+                .successHandler(successHandler)
                 .permitAll());
         http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
         http.logout(LogoutConfigurer::permitAll);
@@ -66,10 +64,6 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
-    @Bean
-    public CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler() {
-        return new CustomAuthenticationSuccessHandler();
-    }
 
 }
 

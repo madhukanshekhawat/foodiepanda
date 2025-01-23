@@ -1,41 +1,52 @@
 package com.pio.foodiepanda.controller;
 
-import com.pio.foodiepanda.dto.CategoryRequest;
-import com.pio.foodiepanda.model.Categories;
+import com.pio.foodiepanda.dto.CategoriesDTO;
 import com.pio.foodiepanda.service.CategoriesService;
-import com.pio.foodiepanda.utility.JwtUtil;
-import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.security.Principal;
+import java.util.List;
 
 @RestController
 @RequestMapping("/categories")
 public class CategoryController {
 
     @Autowired
-    private JwtUtil jwtUtil;
-
-    @Autowired
     private CategoriesService categoriesService;
 
-
     @PostMapping("/add")
-    public ResponseEntity<?> addCategory(@RequestBody CategoryRequest categoryRequest, HttpServletRequest request) throws IllegalAccessException {
-        String token = jwtUtil.extractToken(request); // Extract the JWT token if needed
-        String username = jwtUtil.extractUsername(token); // Extract username from token if required
-
-        // Convert the CategoryRequest DTO to an Entity
-        Categories category = new Categories();
-        category.setName(categoryRequest.getName());
-        category.setDescription(categoryRequest.getDescription());
-
-        // Save the category (via service or repository)
-        categoriesService.addCategory(category);
-
-        return ResponseEntity.ok("Category added successfully!");
+    public ResponseEntity<String> addCategory(@RequestBody CategoriesDTO category, Principal principal) {
+        // Extract the username from the Principal
+        String username = principal.getName();
+        categoriesService.saveCategory(category, username);
+        return ResponseEntity.ok("saved successfully");
     }
+
+    @GetMapping("/all")
+    public List<CategoriesDTO> getAll(Principal principal) {
+        String username = principal.getName();
+        return categoriesService.getAllCategoriesByUser(username);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<String> deleteCategory(@PathVariable Long id, Principal principal) {
+        String username = principal.getName();
+        boolean isDeleted = categoriesService.deleteCategoriesByUser(id, username);
+
+        if (isDeleted) {
+            return ResponseEntity.ok("Category deleted successfully");
+        } else {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("You are not authorized to delete this category");
+        }
+    }
+
+    @GetMapping("/allCategory")
+    public ResponseEntity<List<CategoriesDTO>> getCategoriesForRestaurant(Principal principal){
+        List<CategoriesDTO> categoriesDTOS = categoriesService.getCategoriesForRestaurant(principal);
+        return ResponseEntity.ok(categoriesDTOS);
+    }
+
 }

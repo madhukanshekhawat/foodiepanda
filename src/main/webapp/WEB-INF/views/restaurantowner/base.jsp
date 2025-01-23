@@ -16,7 +16,8 @@
             <li><a href="/api/restaurant/view-menu">View All Menu Items</a></li>
             <li><a href="/api/restaurant/view-coupon">View All Coupons</a></li>
             <li><a href="/api/restaurant/view-order">View All Orders</a></li>
-            <li><a href="/api/restaurant/add-category">View All Orders</a></li>
+            <li><a href="/api/restaurant/add-category">Add New Category</a></li>
+            <li><a href="/api/restaurant/view-category">View Category</a></li>
         </ul>
     </nav>
 </body>

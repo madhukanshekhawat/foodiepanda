@@ -8,13 +8,25 @@ public class UserDTO extends BaseDTO {
     private String phoneNumber;
     private String password;
     private String role;
+    private String name;
 
+    private Long restaurantId;
     private String restaurantName;
     private String restaurantContact;
     private String addressLine;
     private String city;
     private String state;
     private String zipCode;
+
+    private boolean approved;
+
+    public boolean isApproved() {
+        return approved;
+    }
+
+    public void setApproved(boolean approved) {
+        this.approved = approved;
+    }
 
     public Long getId() {
         return id;
@@ -118,5 +130,21 @@ public class UserDTO extends BaseDTO {
 
     public void setAddressLine(String addressLine) {
         this.addressLine = addressLine;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Long getRestaurantId() {
+        return restaurantId;
+    }
+
+    public void setRestaurantId(Long restaurantId) {
+        this.restaurantId = restaurantId;
     }
 }

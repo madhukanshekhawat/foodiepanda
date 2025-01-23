@@ -1,7 +1,6 @@
 package com.pio.foodiepanda.service.impl;
 
 import com.pio.foodiepanda.constants.MessageConstant;
-import com.pio.foodiepanda.constants.ViewConstant;
 import com.pio.foodiepanda.dto.RestaurantOwnerDTO;
 import com.pio.foodiepanda.exception.ResourceNotFoundException;
 import com.pio.foodiepanda.model.RestaurantOwner;

@@ -8,7 +8,7 @@ public class CouponDTO extends BaseDTO {
 
     private Long couponId;
     private Long restaurantId;
-    private Long restaurantName;
+    private String restaurantName;
     private String code;
     private Double discountPercentage;
     private LocalDate validFrom;
@@ -81,19 +81,19 @@ public class CouponDTO extends BaseDTO {
         this.usageLimit = usageLimit;
     }
 
-    public Long getRestaurantName() {
-        return restaurantName;
-    }
-
-    public void setRestaurantName(Long restaurantName) {
-        this.restaurantName = restaurantName;
-    }
-
     public CouponApplicableTo getApplicableTo() {
         return applicableTo;
     }
 
     public void setApplicableTo(CouponApplicableTo applicableTo) {
         this.applicableTo = applicableTo;
+    }
+
+    public String getRestaurantName() {
+        return restaurantName;
+    }
+
+    public void setRestaurantName(String restaurantName) {
+        this.restaurantName = restaurantName;
     }
 }

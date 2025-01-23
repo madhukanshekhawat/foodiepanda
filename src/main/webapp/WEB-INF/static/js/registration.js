@@ -118,7 +118,7 @@ async function registerUserAndRestaurant() {
 
             if (restaurantResponse.ok) {
                 alert('Restaurant registered successfully');
-                window.location.href = "/approval-pending";
+                window.location.href = "/api/approval-pending";
             } else {
                 console.error('Failed to register restaurant');
             }
