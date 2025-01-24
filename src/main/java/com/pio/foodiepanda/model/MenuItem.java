@@ -9,7 +9,7 @@ public class MenuItem extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "menu_item")
+    @Column(name = "menu_item_id")
     private Long menuItemId;
 
 
@@ -29,11 +29,11 @@ public class MenuItem extends BaseEntity {
     private String image;
 
     @ManyToOne
-    @JoinColumn(name = "restaurant_id", nullable = false)
+    @JoinColumn(name = "restaurant_id")
     private Restaurant restaurant;
 
     @OneToOne
-    @JoinColumn(name = "category_id", nullable = false)
+    @JoinColumn(name = "category_id")
     private Categories categories;
 
     public Long getMenuItemId() {

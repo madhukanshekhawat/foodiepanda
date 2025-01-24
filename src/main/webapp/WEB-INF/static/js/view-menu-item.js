@@ -20,7 +20,6 @@
                                 <p>Description: ${item.description}</p>
                                 <p>Price: ${item.price ? item.price : 'N/A'}</p>
                                 <p>Available: ${item.available ? 'Yes' : 'No'}</p>
-                                <p>Vegetarian: ${item.isVeg ? 'Yes' : 'No'}</p>
                                 <p>Category: ${item.categoryName ? item.categoryName : 'Uncategorized'}</p>
                                 <img src="data:image/jpeg;base64,${item.image}" alt="${item.name}" style="width: 150px; height: 100px;"/>
                                 <div>
@@ -44,22 +43,20 @@
         // Confirm and change availability status
         function confirmAvailabilityChange(menuItemId, newValue) {
             const confirmed = confirm("Are you sure you want to change the availability status?");
-            if (confirmed) {
-                $.ajax({
-                    url: `/api/menu-items/${menuItemId}/availability?available=${newValue}`,
-                    method: "PUT",
-                    success: function () {
-                        alert("Availability status updated successfully.");
-                        loadMenuItems(); // Reload the menu items
-                    },
-                    error: function () {
-                        alert("Error updating availability status.");
-                    }
-                });
-            } else {
-                // Revert dropdown to the original value
-                $(`#availability-${menuItemId}`).val(newValue === "true" ? "false" : "true");
-            }
+            $.ajax({
+                        url: "/menu/" + menuItemId + "/availability",
+                        method: "PUT",
+                        data: {available : newValue},
+                        success: function () {
+                            alert("Availability status updated successfully.");
+                            loadMenuItems(); // Reload the menu items
+                        },
+                        error: function () {
+                            alert("Error updating availability status.");
+                            loadMenuItems();
+                        }
+                    });
+
         }
 
         // Load menu items on page load

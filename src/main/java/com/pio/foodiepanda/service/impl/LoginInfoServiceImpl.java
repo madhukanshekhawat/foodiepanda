@@ -21,7 +21,11 @@ public class LoginInfoServiceImpl implements LoginInfoService {
         switch (user.getRole()) {
             case ADMIN:
                 userDto = new UserDTO();
-                userDto.setName(user.getAdmin().getFirstName() + " " + user.getAdmin().getLastName());
+                if (user.getAdmin() != null) {
+                    userDto.setName(user.getAdmin().getFirstName() + " " + user.getAdmin().getLastName());
+                } else {
+                    userDto.setName("Admin not found");
+                }
                 userDto.setRole(user.getRole().toString());
                 break;
             case RESTAURANT_OWNER:

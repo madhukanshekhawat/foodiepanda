@@ -5,16 +5,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Menu Items</title>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <title>Orders</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- Include jQuery -->
 </head>
 <body>
     <div class="container">
-        <h1>Menu Items</h1>
-        <div id="menuItemsContainer">
-            <!-- Dynamic data will be injected here -->
+        <h1>Orders</h1>
+        <div id="ordersContainer">
+            <!-- Orders will be dynamically loaded here -->
         </div>
     </div>
-<script src="/static/js/view-menu-item.js"></script>
+
+    <script src="/static/js/view-restaurant-order.js"></script>
 </body>
 </html>

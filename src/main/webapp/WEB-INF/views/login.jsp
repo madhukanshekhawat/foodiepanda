@@ -44,9 +44,6 @@
                       <button  type="submit" data-mdb-button-init
                         data-mdb-ripple-init class="btn btn-success btn-block btn-lg gradient-custom-4 text-body">Login</button>
                     </div>
-                    <p class="text-right text-muted mt-2 mb-0"><a href="/forgot-password"
-                                            class="fw-bold text-body"><u>Forgot Password?</u></a></p>
-
                     <p class="text-center text-muted mt-3 mb-0">Create an account? <a href="/api/registration"
                         class="fw-bold text-body"><u>SignUp Here</u></a></p>
 

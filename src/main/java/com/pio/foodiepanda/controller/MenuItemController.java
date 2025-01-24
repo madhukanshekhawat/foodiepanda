@@ -29,4 +29,10 @@ public class MenuItemController {
         return ResponseEntity.ok(menuItems);
     }
 
+    @PutMapping("/{id}/availability")
+    public ResponseEntity<MenuItemDTO> updateMenuItemAvailability(@PathVariable Long id, @RequestParam boolean available, Principal principal){
+        String ownerEmail = principal.getName();
+        MenuItemDTO updateMenuItem = menuItemService.updateMenuItemAvailability(id,available,ownerEmail);
+        return ResponseEntity.ok(updateMenuItem);
+    }
 }

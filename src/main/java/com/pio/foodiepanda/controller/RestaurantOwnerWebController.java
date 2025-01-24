@@ -30,9 +30,9 @@ public class RestaurantOwnerWebController {
         return ViewConstant.VIEW_MENU;
     }
 
-    @GetMapping("/view-order")
+    @GetMapping("/manage-order")
     public String viewOrder() {
-        return ViewConstant.VIEW_ORDER;
+        return "restaurantowner/view-order-page";
     }
 
     @GetMapping("/add-category")

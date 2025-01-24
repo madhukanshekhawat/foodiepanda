@@ -30,6 +30,11 @@
       <li class="nav-item">
         <a class="nav-link" id="viewOwnerLink" href="/api/admin/approved-owners">View Owners</a>
       </li>
+       <form id="logoutForm" action="/logout" method="POST" style="display:inline;">
+      <button type="submit" class="logout-btn">Logout</button>
+      <% if(request.getParameter("logout")!=null){%> alert: You have been logged out successfully
+      <%} %>
+      </form>
     </ul>
   </div>
 </nav>

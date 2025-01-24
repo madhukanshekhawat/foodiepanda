@@ -19,12 +19,11 @@ public class Cart extends BaseEntity {
     @JoinColumn(name = "customer_id", nullable = false)
     private Customer customer;
 
-    @OneToMany(
+    @OneToOne(
             cascade = CascadeType.ALL,
-            orphanRemoval = true
-    )
+            orphanRemoval = true)
     @JoinColumn(name = "cart_id")
-    private List<MenuItem> menuItems;
+    private MenuItem menuItems;
 
     public Long getCartId() {
         return cartId;
@@ -58,11 +57,11 @@ public class Cart extends BaseEntity {
         this.customer = customer;
     }
 
-    public List<MenuItem> getMenuItems() {
+    public MenuItem getMenuItems() {
         return menuItems;
     }
 
-    public void setMenuItems(List<MenuItem> menuItems) {
+    public void setMenuItems(MenuItem menuItems) {
         this.menuItems = menuItems;
     }
 }

@@ -15,9 +15,14 @@
             <li><a href="/api/restaurant/addMenu">Add Menu Item</a></li>
             <li><a href="/api/restaurant/view-menu">View All Menu Items</a></li>
             <li><a href="/api/restaurant/view-coupon">View All Coupons</a></li>
-            <li><a href="/api/restaurant/view-order">View All Orders</a></li>
             <li><a href="/api/restaurant/add-category">Add New Category</a></li>
             <li><a href="/api/restaurant/view-category">View Category</a></li>
+            <li><a href="/api/restaurant/manage-order">View All Orders</a></li>
+            <form id="logoutForm" action="/logout" method="POST" style="display:inline;">
+            <button type="submit" class="logout-btn">Logout</button>
+            <% if(request.getParameter("logout")!=null){%> alert: You have been logged out successfully
+            <%} %>
+            </form>
         </ul>
     </nav>
 </body>

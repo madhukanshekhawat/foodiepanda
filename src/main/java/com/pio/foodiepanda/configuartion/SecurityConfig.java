@@ -49,6 +49,13 @@ public class SecurityConfig {
                 .loginProcessingUrl("/login")
                 .successHandler(successHandler)
                 .permitAll());
+        http.logout(logout -> logout
+                .logoutUrl("/logout") // URL to trigger logout
+                .logoutSuccessUrl("/api/user-login?logout") // Redirect to login page after logout
+                .invalidateHttpSession(true) // Invalidate the session
+                .clearAuthentication(true) // Clear authentication
+                .deleteCookies("JSESSIONID", "JWT-TOKEN")
+                .permitAll());
         http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
         http.logout(LogoutConfigurer::permitAll);
         return http.build();

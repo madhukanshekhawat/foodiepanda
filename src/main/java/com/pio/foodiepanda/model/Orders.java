@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 public class Orders extends BaseEntity {
@@ -30,6 +31,9 @@ public class Orders extends BaseEntity {
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "delivery_address_id", nullable = false)
     private Address deliveryAddress;
+
+    @OneToOne
+    private OrderDetail orderDetails;
 
     public Long getOrderId() {
         return orderId;
@@ -85,5 +89,13 @@ public class Orders extends BaseEntity {
 
     public void setDeliveryAddress(Address deliveryAddress) {
         this.deliveryAddress = deliveryAddress;
+    }
+
+    public OrderDetail getOrderDetails() {
+        return orderDetails;
+    }
+
+    public void setOrderDetails(OrderDetail orderDetails) {
+        this.orderDetails = orderDetails;
     }
 }

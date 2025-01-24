@@ -80,5 +80,30 @@ public class MenuItemServiceImpl implements MenuItemService {
                 }).collect(Collectors.toList());
     }
 
+    @Override
+    public MenuItemDTO updateMenuItemAvailability(Long id, boolean available, String ownerEmail) {
+        MenuItem menuItem = menuItemRepository.findById(id)
+                .orElseThrow(()-> new ResourceNotFoundException("Menu item not found"));
+
+        if(!menuItem.getRestaurant().getRestaurantOwner().getUser().getEmail().equals(ownerEmail)){
+            throw new RuntimeException("Unauthorized");
+        }
+
+        menuItem.setAvailable(available);
+        MenuItem updatedMenuItem = menuItemRepository.save(menuItem);
+
+        MenuItemDTO dto = new MenuItemDTO();
+        dto.setId(updatedMenuItem.getMenuItemId());
+        dto.setName(updatedMenuItem.getName());
+        dto.setDescription(updatedMenuItem.getDescription());
+        dto.setPrice(updatedMenuItem.getPrice());
+        dto.setCategoryName(updatedMenuItem.getCategories().getName());
+        dto.setAvailable(updatedMenuItem.isAvailable());
+        dto.setVeg(updatedMenuItem.isVeg());
+        dto.setImage(updatedMenuItem.getImage());
+        return dto;
+    }
+
+
 
 }
