@@ -14,19 +14,21 @@ function loadRestaurantCoupons() {
                         <td>${coupon.validTo}</td>
                         <td>${coupon.minOrderValue}</td>
                         <td>${coupon.usageLimit}</td>
+                         <td>${coupon.applicableTo}</td>
                         <td>
                           <select onChange = "confirmStatusChange(${coupon.couponId},this.value)">
                            <option value="ACTIVE" ${coupon.status === 'ACTIVE' ? 'selected' : ''}>ACTIVE</option>
                            <option value="INACTIVE" ${coupon.status === 'INACTIVE' ? 'selected' : ''}>INACTIVE</option>
                            <option value="EXPIRED" ${coupon.status === 'EXPIRED' ? 'selected' : ''}>EXPIRED</option>
                            </select>
-                           <td>
+                        </td>
                     </tr>
                 `);
             });
         },
         error: function(xhr) {
-            alert('Error fetching coupons: ' + xhr.responseText);
+            alert('Error fetching coupons');
+
         }
     });
 }

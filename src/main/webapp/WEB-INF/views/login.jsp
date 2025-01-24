@@ -28,16 +28,10 @@
                     </div>
 
                     <div data-mdb-input-init class="form-outline mb-4">
-                      <label class="form-label" for="form3Example4cg">Password</label>
+                      <label class="form-label" for="form3Example4cg">Password </label>
                       <input type="password" id="password" name="password" required class="form-control form-control-lg" placeholder="Enter password here"/>
                     </div>
 
-                      <c:if test="${param.error != null}">
-                        <div class="text-center alert alert-danger "> Invalid username or password.. </div>
-                      </c:if>
-                      <c:if test="${param.logout != null}">
-                        <div id="logoutMessage" class="text-center alert alert-success"> You have been logged out.. </div>
-                      </c:if>
                       <div id="errorMessage" class="text-center alert alert-danger" style="display: none;"></div>
 
                     <div class="d-flex justify-content-center">
@@ -45,8 +39,7 @@
                         data-mdb-ripple-init class="btn btn-success btn-block btn-lg gradient-custom-4 text-body">Login</button>
                     </div>
                     <p class="text-center text-muted mt-3 mb-0">Create an account? <a href="/api/registration"
-                        class="fw-bold text-body"><u>SignUp Here</u></a></p>
-
+                        class="fw-bold text-body">SignUp Here</a></p>
                   </form>
                 </div>
               </div>
@@ -56,6 +49,6 @@
       </div>
     </section>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="${pageContext.request.contextPath}/static/js/login.js"></script>
+    <script src="/static/js/login.js"></script>
   </body>
 </html>

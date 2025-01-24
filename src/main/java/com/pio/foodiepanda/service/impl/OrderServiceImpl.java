@@ -55,7 +55,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public void updateOrderStatus(Long orderId, OrderStatus orderStatus) {
         Orders orders = ordersRepository.findById(orderId)
-                .orElseThrow(()-> new ResourceNotFoundException("Order not found"));
+                .orElseThrow(()-> new ResourceNotFoundException("Orders not found"));
         orders.setStatus(orderStatus);
         ordersRepository.save(orders);
     }

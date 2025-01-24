@@ -33,7 +33,7 @@ public class MenuItem extends BaseEntity {
     private Restaurant restaurant;
 
     @OneToOne
-    @JoinColumn(name = "category_id")
+    @JoinColumn(name = "category_id",unique = false)
     private Categories categories;
 
     public Long getMenuItemId() {

@@ -1,0 +1,122 @@
+/* General page styling */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: #F5EFFF; /* Light purple background */
+    color: #333; /* Dark gray for text */
+}
+
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 30px auto; /* Center the container */
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Header styling */
+h1 {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #A294F9; /* Primary purple */
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Menu items container */
+#menuItemsContainer {
+    margin-top: 20px;
+}
+
+/* Individual menu item styling */
+.menu-item {
+    border: 1px solid #EFD9F2; /* Light pink border */
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 20px;
+    background-color: #FFF; /* White background */
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.menu-details{
+flex:1;
+}
+
+.menu-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Menu item title */
+.menu-item h3 {
+    font-size: 1.5rem;
+    color: #A294F9; /* Primary purple */
+    margin-bottom: 10px;
+}
+
+/* Menu item description and other details */
+.menu-item p {
+    margin: 5px 0;
+    color: #555; /* Medium gray for text */
+    font-size: 1rem;
+}
+
+/* Image styling */
+.menu-item img {
+    display: block;
+    margin: 10px 0;
+    border-radius: 5px;
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Select dropdown for availability */
+.menu-item label {
+    font-size: 1rem;
+    font-weight: bold;
+    margin-right: 10px;
+    color: #333;
+}
+
+.menu-item select {
+    padding: 5px 10px;
+    border: 1px solid #CDC1FF; /* Light purple border */
+    border-radius: 5px;
+    background-color: #EFD9F2; /* Light pink background */
+    color: #333; /* Dark gray text */
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+.menu-item select:hover {
+    border-color: #A294F9; /* Primary purple */
+    background-color: #CDC1FF;
+}
+
+/* Responsive design */
+@media screen and (max-width: 768px) {
+    .container {
+        width: 95%;
+        padding: 15px;
+    }
+
+    .menu-item {
+        padding: 10px;
+    }
+
+    .menu-item h3 {
+        font-size: 1.2rem;
+    }
+
+    .menu-item p {
+        font-size: 0.9rem;
+    }
+
+    .menu-item img {
+        width: 100%;
+        height: auto;
+    }
+}

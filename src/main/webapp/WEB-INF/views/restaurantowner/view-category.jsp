@@ -4,9 +4,11 @@
 <html>
 <head>
     <title>View Categories</title>
+    <link rel="stylesheet" href="/static/css/view-category.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
+<div class="table-container">
     <h2>All Categories</h2>
     <table border="1" id="categoriesTable">
         <thead>
@@ -20,6 +22,7 @@
 
         </tbody>
     </table>
+    </div>
 <script src="/static/js/view-category.js"></script>
 </body>
 </html>

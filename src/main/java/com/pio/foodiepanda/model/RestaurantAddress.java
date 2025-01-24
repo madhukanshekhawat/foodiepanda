@@ -26,9 +26,12 @@ public class RestaurantAddress {
     @Column(name = "delivery_address_label", nullable = false)
     private DeliveryAddressLabel addressLabel;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "owner_id", nullable = false)
     private RestaurantOwner restaurantOwner;
+
+    @OneToOne
+    private Restaurant restaurant;
 
     public Long getRestaurantAddressId() {
         return restaurantAddressId;
@@ -84,5 +87,13 @@ public class RestaurantAddress {
 
     public void setRestaurantOwner(RestaurantOwner restaurantOwner) {
         this.restaurantOwner = restaurantOwner;
+    }
+
+    public Restaurant getRestaurant() {
+        return restaurant;
+    }
+
+    public void setRestaurant(Restaurant restaurant) {
+        this.restaurant = restaurant;
     }
 }

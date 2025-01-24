@@ -15,11 +15,10 @@
                     // Dynamically add menu items
                     data.forEach(item => {
                         const menuItem = `
-                            <div class="menu-item" style="border: 1px solid #ddd; padding: 10px; margin-bottom: 15px;">
+                            <div class="menu-item">
                                 <h3>${item.name}</h3>
                                 <p>Description: ${item.description}</p>
-                                <p>Price: ${item.price ? item.price : 'N/A'}</p>
-                                <p>Available: ${item.available ? 'Yes' : 'No'}</p>
+                                <p>Price: ${item.price ? item.price : 'N/A'} RS.</p>
                                 <p>Category: ${item.categoryName ? item.categoryName : 'Uncategorized'}</p>
                                 <img src="data:image/jpeg;base64,${item.image}" alt="${item.name}" style="width: 150px; height: 100px;"/>
                                 <div>
@@ -53,7 +52,7 @@
                         },
                         error: function () {
                             alert("Error updating availability status.");
-                            loadMenuItems();
+                            dropdown.value=previousValue;
                         }
                     });
 
