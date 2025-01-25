@@ -11,37 +11,55 @@ const statuses = ["PLACED", "PREPARING", "OUT_FOR_DELIVERY", "DELIVERED"]; // St
              container.empty(); // Clear the container
 
              if (data.length === 0) {
-                 container.append("<p>No orders found.</p>");
+                 container.append(`
+                    <p class="no-orders">Oops! No Orders Yet</p>
+                 `);
                  return;
              }
 
              // Display each order
-             data.forEach(order => {
-                 const orderDetailsHtml = order.orderDetails.map(detail => `
-                     <div class="order-detail-item" style="margin-left: 20px;">
-                         <p>Name: ${detail.menuItem}</p>
-                         <p>Description: ${detail.description}</p>
-                         <p>Price: ${detail.price} RS.</p>
-                         <p>Quantity: ${detail.quantity}</p>
-                         <img src="data:image/jpeg;base64,${detail.image}" alt="${detail.menuItem}" style="width: 150px; height: 100px;"/>
-                     </div>
-                 `).join('');
+            data.forEach(order => {
+                const orderDetailsRows = order.orderDetails.map(detail => `
+                    <tr>
+                        <td><img src="data:image/jpeg;base64,${detail.image}" alt="${detail.menuItem}" style="width: 50px; height: 50px;"/></td>
+                        <td>${detail.menuItem}</td>
+                        <td>${detail.description}</td>
+                        <td>${detail.price} RS.</td>
+                        <td>${detail.quantity}</td>
+                        <td>${order.totalAmount} RS.</td>
+                        <td>${order.deliveryAddress}</td>
+                        <td>${order.scheduledTime}</td>
+                        <td>${order.orderStatus}</td>
+                    </tr>
+                `).join('');
 
-                 const orderElement = `
-                     <div class="order-item" style="border: 1px solid #ddd; padding: 10px; margin-bottom: 15px;">
-                         <p>Status: <strong id="status-${order.orderId}">${order.orderStatus}</strong></p>
-                         <p>Total Amount: ${order.totalAmount} RS.</p>
-                         <p>Delivery Address: ${order.deliveryAddress}</p>
-                         <p>Schedule Time: ${order.scheduledTime}</p>
-                         <h4>Menu Details:</h4>
-                         ${orderDetailsHtml}
-                     </div>
-                 `;
-                 container.append(orderElement);
+                const orderElement = `
+                    <div class="order-item" style="margin-bottom: 30px;">
+                        <table class="order-details-table">
+                            <thead>
+                                <tr>
+                                    <th>Image</th>
+                                    <th>Item Name</th>
+                                    <th>Description</th>
+                                    <th>Price</th>
+                                    <th>Quantity</th>
+                                    <th>Total Amount</th>
+                                    <th>Delivery Address</th>
+                                    <th>Schedule Time</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${orderDetailsRows}
+                            </tbody>
+                        </table>
+                    </div>
+                `;
+                container.append(orderElement);
 
-                 // Start automatic status updates for each order
-                 startAutoStatusUpdate(order.orderId, order.orderStatus);
-             });
+                // Start automatic status updates for each order
+                startAutoStatusUpdate(order.orderId, order.orderStatus);
+            });
          },
          error: function () {
              alert("Error fetching orders.");

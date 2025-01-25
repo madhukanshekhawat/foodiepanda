@@ -64,7 +64,7 @@ public class MenuItemServiceImpl implements MenuItemService {
         Restaurant restaurant = restaurantRepository.findByOwnerEmail(ownerEmail)
                 .orElseThrow(() -> new ResourceNotFoundException("Restaurant not found"));
 
-        List<MenuItem> menuItems= menuItemRepository.findByRestaurant(restaurant);
+        List<MenuItem> menuItems= menuItemRepository.findByRestaurantAndDeletedFalse(restaurant);
         return menuItems.stream()
                 .map( menuItem -> {
                     MenuItemDTO dto = new MenuItemDTO();
@@ -104,6 +104,22 @@ public class MenuItemServiceImpl implements MenuItemService {
         return dto;
     }
 
+    @Override
+    public void deleteMenuItem(Long menuItemId, Principal principal) {
+        String email = principal.getName();
 
+        Restaurant restaurant = restaurantRepository.findByOwnerEmail(email)
+                .orElseThrow(()-> new ResourceNotFoundException("No Restaurant owner found"));
+
+        MenuItem menuItem = menuItemRepository.findById(menuItemId)
+                .orElseThrow(()-> new ResourceNotFoundException("Menu Item not found"));
+
+        if(!menuItem.getRestaurant().getRestaurantId().equals(restaurant.getRestaurantId())){
+            throw new RuntimeException("Unauthorized");
+        }
+
+        menuItem.setDeleted(true);
+        menuItemRepository.save(menuItem);
+    }
 
 }

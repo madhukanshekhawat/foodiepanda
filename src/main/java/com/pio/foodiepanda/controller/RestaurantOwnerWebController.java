@@ -44,4 +44,10 @@ public class RestaurantOwnerWebController {
     public String viewCategory() {
         return "restaurantowner/view-category";
     }
+
+    @GetMapping("/view-profile")
+    public String viewProfile(){
+        return "restaurantowner/change-availability";
+    }
 }
+

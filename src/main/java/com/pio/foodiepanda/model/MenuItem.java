@@ -25,6 +25,9 @@ public class MenuItem extends BaseEntity {
     private boolean isAvailable;
     private boolean isVeg;
 
+    @Column(columnDefinition = "boolean default false")
+    private boolean deleted;
+
     @Lob
     private String image;
 
@@ -106,5 +109,13 @@ public class MenuItem extends BaseEntity {
 
     public void setImage(String image) {
         this.image = image;
+    }
+
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
     }
 }

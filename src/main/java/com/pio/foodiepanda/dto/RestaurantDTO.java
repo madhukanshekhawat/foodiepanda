@@ -8,8 +8,8 @@ public class RestaurantDTO extends BaseDTO {
     private String name;
 
     private String address;
-    private LocalTime startTime;
-    private LocalTime endTime;
+    private LocalTime availabilityStartTime;
+    private LocalTime availabilityEndTime;
     private boolean isAvailable;
     private String phoneNumber;
 
@@ -35,23 +35,23 @@ public class RestaurantDTO extends BaseDTO {
         this.name = name;
     }
 
-    public LocalTime getStartTime() {
-        return startTime;
+    public LocalTime getAvailabilityStartTime() {
+        return availabilityStartTime;
     }
 
-    public void setStartTime(LocalTime startTime) {
-        this.startTime = startTime;
+    public void setAvailabilityStartTime(LocalTime availabilityStartTime) {
+        this.availabilityStartTime = availabilityStartTime;
     }
 
-    public LocalTime getEndTime() {
-        return endTime;
+    public LocalTime getAvailabilityEndTime() {
+        return availabilityEndTime;
     }
 
-    public void setEndTime(LocalTime endTime) {
-        this.endTime = endTime;
+    public void setAvailabilityEndTime(LocalTime availabilityEndTime) {
+        this.availabilityEndTime = availabilityEndTime;
     }
 
-    public boolean isAvailable() {
+    public boolean isAvailable(boolean available) {
         return isAvailable;
     }
 
@@ -89,6 +89,10 @@ public class RestaurantDTO extends BaseDTO {
 
     public void setRestaurantId(Long restaurantId) {
         this.restaurantId = restaurantId;
+    }
+
+    public boolean isAvailable() {
+        return isAvailable;
     }
 
     public static class OwnerDetails {

@@ -51,7 +51,13 @@
         padding: 12px 15px;
         text-align: center;
     }
- 
+
+     .no-categories {
+            text-align: center;
+            color: gray;
+            font-size: 18px;
+            margin-top: 20px;
+        }
     /* Button Styling */
     button {
         padding: 8px 15px;

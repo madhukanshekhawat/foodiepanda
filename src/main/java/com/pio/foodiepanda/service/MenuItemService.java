@@ -12,4 +12,6 @@ public interface MenuItemService {
     List<MenuItemDTO> getMenuItemsForOwner(String ownerEmail);
 
     MenuItemDTO updateMenuItemAvailability(Long id, boolean available, String ownerEmail);
+
+    void deleteMenuItem(Long menuItemId, Principal principal);
 }

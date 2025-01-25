@@ -35,4 +35,10 @@ public class MenuItemController {
         MenuItemDTO updateMenuItem = menuItemService.updateMenuItemAvailability(id,available,ownerEmail);
         return ResponseEntity.ok(updateMenuItem);
     }
+
+    @DeleteMapping("/{menuItemId}")
+    public ResponseEntity<String> deleteMenuItem(@PathVariable Long menuItemId, Principal principal){
+        menuItemService.deleteMenuItem(menuItemId, principal);
+        return ResponseEntity.ok("Deleted Successfully");
+    }
 }

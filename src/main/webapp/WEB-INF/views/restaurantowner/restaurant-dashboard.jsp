@@ -6,6 +6,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Restaurant Dashboard</title>
+    <style>
+        /* Center the content and style the text */
+        .content {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh; /* Full viewport height */
+            text-align: center;
+        }
+
+        .content h1 {
+            color: gray;
+            font-weight: bold;
+            font-size: 2rem; /* Adjust font size as needed */
+        }
+    </style>
 </head>
 <body>
     <div class="content" id="main-content">

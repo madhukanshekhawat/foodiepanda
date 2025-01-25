@@ -20,7 +20,7 @@
         width: 100%;
         border-collapse: collapse;
         font-size: 16px;
-        text-align: left;
+        text-align: center;
     }
 
     #couponsTable thead tr {
@@ -66,4 +66,31 @@
 
     button:hover {
         background-color: #6B5DFB;
+    }
+
+    .no-coupons {
+        text-align: center;
+        color: gray;
+        font-size: 18px;
+        margin-top: 20px;
+    }
+
+    @media screen and (max-width: 480px) {
+        #couponsTable th, #couponsTable td {
+            padding: 8px;
+            font-size: 12px;
+        }
+
+        select {
+            font-size: 10px;
+        }
+
+        button {
+            font-size: 10px;
+            padding: 4px 8px;
+        }
+
+        .no-coupons {
+            font-size: 14px;
+        }
     }
