@@ -39,7 +39,7 @@ function loadCategories() {
                         <td>${category.name}</td>
                         <td>${category.description}</td>
                         <td>
-                            <button onclick="deleteCategory(${category.categoryId})">Delete</button>
+                            <button onclick="showDeleteModal(${category.categoryId})">Delete</button>
                         </td>
                     </tr>
                 `;
@@ -54,19 +54,30 @@ function loadCategories() {
     });
 }
 
+function showDeleteModal(categoryId) {
+    const modal = $('#deleteModal');
+    modal.show();
+
+    $('#confirmDelete').off('click').on('click', function() {
+        deleteCategory(categoryId);
+        modal.hide();
+    });
+
+    $('#cancelDelete').off('click').on('click', function() {
+        modal.hide();
+    });
+}
+
 // Function to delete a category
 function deleteCategory(id) {
-    if (confirm('Are you sure you want to delete this category?')) {
-        $.ajax({
-            url: "/categories/delete/" + id,
-            method: 'DELETE',
-            success: function(response) {
-                alert("Category deleted successfully!");
-                loadCategories(); // Reload the table to reflect changes
-            },
-            error: function() {
-                alert('Error deleting category!');
-            }
-        });
-    }
+    $.ajax({
+        url: "/categories/delete/" + id,
+        method: 'DELETE',
+        success: function(response) {
+            loadCategories(); // Reload the table to reflect changes
+        },
+        error: function() {
+            alert('Error deleting category!');
+        }
+    });
 }

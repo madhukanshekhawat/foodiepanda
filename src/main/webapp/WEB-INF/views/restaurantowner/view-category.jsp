@@ -14,6 +14,19 @@
         <!-- Dynamic table will be injected here -->
     </div>
 </div>
+
+<!-- Modal Structure -->
+<div id="deleteModal" class="modal">
+    <div class="modal-content">
+        <h4>Confirm Delete</h4>
+        <p>Are you sure you want to delete this category?</p>
+    <div class="modal-footer">
+        <button id="confirmDelete" class="btn btn-danger">Delete</button>
+        <button id="cancelDelete" class="btn btn-secondary">Cancel</button>
+    </div>
+     </div>
+</div>
+
 <script src="/static/js/view-category.js"></script>
 </body>
 </html>
