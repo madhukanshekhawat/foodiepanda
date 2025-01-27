@@ -33,15 +33,6 @@
             </form>
         </ul>
     </nav>
-
-        <footer>
-            <div class="footer-container">
-                <div class="footer-content">
-                    <h3 id="footer-restaurant-name">Restaurant Name</h3>
-                    <p>&copy; 2025 Foodie Panda. All rights reserved.</p>
-                </div>
-            </div>
-        </footer>
         </div>
     <script>
            $(document).ready(function() {
@@ -73,7 +64,6 @@
                            method: "GET",
                            success: function (data) {
                                $("#restaurant-logo").text(data.name);
-                                $("#footer-restaurant-name").text(data.name);
                            },
                            error: function () {
                                alert("Failed to fetch restaurant name.");

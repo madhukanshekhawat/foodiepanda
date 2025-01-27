@@ -54,7 +54,7 @@
                     description: $("#description").val(),
                     price: $("#price").val(),
                     available: $("#available").is(":checked"),
-                    isVeg: $("#isVeg").is(":checked"),
+                    veg: $("#isVeg").is(":checked"),
                     category: $("#category").val(),
                     image: base64Image
                 };
