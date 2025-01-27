@@ -53,7 +53,6 @@
                     name: $("#name").val(),
                     description: $("#description").val(),
                     price: $("#price").val(),
-                    available: $("#available").is(":checked"),
                     veg: $("#isVeg").is(":checked"),
                     category: $("#category").val(),
                     image: base64Image
@@ -67,10 +66,11 @@
                     isValid = false;
                 }
 
-                 if (!formData.price) {
-                    showError("categoryError", "Price is required.");
-                    isValid = false;
-                 }
+
+        if (!formData.price || formData.price < 0) {
+            showError("priceError", "Price is required and must be non-negative.");
+            isValid = false;
+        }
 
                 if (!isValid) {
                     return;

@@ -22,12 +22,41 @@ h1 {
     color: #444;
 }
 
- .no-coupons {
-        text-align: center;
-        color: gray;
-        font-size: 18px;
-        margin-top: 20px;
-    }
+.no-coupons {
+    text-align: center;
+    color: gray;
+    font-size: 18px;
+    margin-top: 20px;
+}
+
+/* Search Container */
+.search-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+#searchStatus {
+    width: 300px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px 0 0 4px;
+    outline: none;
+}
+
+#searchButton {
+    padding: 10px 20px;
+    border: 1px solid #ddd;
+    border-left: none;
+    background-color: #EFD9F2;
+    color: #fff;
+    border-radius: 0 4px 4px 0;
+    cursor: pointer;
+}
+
+#searchButton:hover {
+    background-color: #CDC1FF;
+}
 
 /* Order Item Styles */
 .order-details-table {

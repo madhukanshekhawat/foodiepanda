@@ -24,14 +24,10 @@
         <textarea id="description" name="description" required></textarea><br><br>
 
         <!-- Price -->
+        <div id="priceError" class="error"></div>
         <label for="price">Price</label>
         <input type="number" id="price" name="price" required><br><br>
-
         <div class="checkboxes">
-        <!-- Available -->
-        <label for="available">Available</label>
-        <input type="checkbox" id="available" name="available"><br><br>
-
         <!-- IsVeg -->
         <label for="isVeg">Vegetarian</label>
         <input type="checkbox" id="isVeg" name="isVeg"><br><br>

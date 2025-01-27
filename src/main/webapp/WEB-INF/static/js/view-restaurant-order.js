@@ -1,24 +1,27 @@
 const statuses = ["PLACED", "PREPARING", "OUT_FOR_DELIVERY", "DELIVERED"]; // Statuses in order
-        const statusUpdateInterval = 5000; // 10 minutes in milliseconds[10 * 60 * 1000]
+const statusUpdateInterval = 5000; // 10 minutes in milliseconds[10 * 60 * 1000]
 
-        // Function to load all orders
- function loadOrders() {
-     $.ajax({
-         url: "/order/all", // API endpoint to fetch orders
-         method: "GET",
-         success: function (data) {
-             const container = $("#ordersContainer");
-             container.empty(); // Clear the container
+// Function to load all orders
+function loadOrders(statusFilter = "") {
+    $.ajax({
+        url: "/order/all", // API endpoint to fetch orders
+        method: "GET",
+        success: function (data) {
+            const container = $("#ordersContainer");
+            container.empty(); // Clear the container
 
-             if (data.length === 0) {
-                 container.append(`
-                    <p class="no-orders">Oops! No Orders Yet</p>
-                 `);
-                 return;
-             }
+            // Filter orders by status if a filter is provided
+            const filteredData = statusFilter ? data.filter(order => order.orderStatus.includes(statusFilter)) : data;
 
-             // Display each order
-            data.forEach(order => {
+            if (filteredData.length === 0) {
+                container.append(`
+                    <p class="no-orders">No orders found matching the status "${statusFilter}".</p>
+                `);
+                return;
+            }
+
+            // Display each order
+            filteredData.forEach(order => {
                 const orderDetailsRows = order.orderDetails.map(detail => `
                     <tr>
                         <td><img src="data:image/jpeg;base64,${detail.image}" alt="${detail.menuItem}" style="width: 50px; height: 50px;"/></td>
@@ -60,43 +63,49 @@ const statuses = ["PLACED", "PREPARING", "OUT_FOR_DELIVERY", "DELIVERED"]; // St
                 // Start automatic status updates for each order
                 startAutoStatusUpdate(order.orderId, order.orderStatus);
             });
-         },
-         error: function () {
-             alert("Error fetching orders.");
-         }
-     });
- }
-
-        // Function to start auto-updating the status of an order
-        function startAutoStatusUpdate(orderId, currentStatus) {
-            let currentIndex = statuses.indexOf(currentStatus);
-
-            // Update status every 10 minutes
-            setInterval(() => {
-                if (currentIndex < statuses.length - 1) {
-                    currentIndex++;
-                    const newStatus = statuses[currentIndex];
-
-                    // Update status on the server
-                    $.ajax({
-                        url: "/order/" + orderId + "/status", // API endpoint for updating status
-                        method: "PUT",
-                        contentType: "application/json",
-                        data: JSON.stringify({ status: newStatus }),
-                        success: function () {
-                            // Update status on the frontend
-                            $(`#status-${orderId}`).text(newStatus);
-                            console.log(`Order ${orderId} status updated to ${newStatus}`);
-                        },
-                        error: function () {
-                            console.error(`Error updating status for order ${orderId}`);
-                        }
-                    });
-                }
-            }, statusUpdateInterval);
+        },
+        error: function () {
+            alert("Error fetching orders.");
         }
+    });
+}
 
-        // Load orders on page load
-        $(document).ready(function () {
-            loadOrders();
-        });
+// Function to start auto-updating the status of an order
+function startAutoStatusUpdate(orderId, currentStatus) {
+    let currentIndex = statuses.indexOf(currentStatus);
+
+    // Update status every 10 minutes
+    setInterval(() => {
+        if (currentIndex < statuses.length - 1) {
+            currentIndex++;
+            const newStatus = statuses[currentIndex];
+
+            // Update status on the server
+            $.ajax({
+                url: "/order/" + orderId + "/status", // API endpoint for updating status
+                method: "PUT",
+                contentType: "application/json",
+                data: JSON.stringify({ status: newStatus }),
+                success: function () {
+                    // Update status on the frontend
+                    $(`#status-${orderId}`).text(newStatus);
+                    console.log(`Order ${orderId} status updated to ${newStatus}`);
+                },
+                error: function () {
+                    console.error(`Error updating status for order ${orderId}`);
+                }
+            });
+        }
+    }, statusUpdateInterval);
+}
+
+// Load orders on page load
+$(document).ready(function () {
+    loadOrders();
+
+    // Search input event for dynamic filtering
+    $("#searchStatus").on("input", function() {
+        const statusFilter = $(this).val().toUpperCase();
+        loadOrders(statusFilter);
+    });
+});

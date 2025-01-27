@@ -12,6 +12,10 @@
 <body>
     <div class="container">
         <h1>Orders</h1>
+        <div class="search-container">
+            <input type="text" id="searchStatus" placeholder="Search by status...">
+            <button id="searchButton">Search</button>
+        </div>
         <div id="ordersContainer">
             <!-- Orders will be dynamically loaded here -->
         </div>

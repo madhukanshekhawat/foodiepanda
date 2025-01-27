@@ -51,7 +51,7 @@ public class MenuItemServiceImpl implements MenuItemService {
         menuItem.setName(menuItemDTO.getName());
         menuItem.setDescription(menuItemDTO.getDescription());
         menuItem.setPrice(menuItemDTO.getPrice());
-        menuItem.setAvailable(menuItemDTO.isAvailable());
+        menuItem.setAvailable(true);
         menuItem.setVeg(menuItemDTO.isVeg());
         menuItem.setCategories(categories);
         menuItem.setImage(menuItemDTO.getImage()); // Save Base64 string directlyn

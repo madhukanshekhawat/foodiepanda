@@ -44,47 +44,49 @@ function createCoupon() {
     let applicableTo = $("#applicableTo").val();
 
     // Validation checks
-    let isValid = true;
+       let isValid = true;
 
-    if (!restaurantId) {
-        showError("restaurantIdError", "Restaurant is required.");
-        isValid = false;
-    }
+           if (!restaurantId) {
+               showError("restaurantIdError", "Restaurant is required.");
+               isValid = false;
+           }
 
-    if (!code) {
-        showError("codeError", "Coupon code is required.");
-        isValid = false;
-    }
+           if (!code) {
+               showError("codeError", "Coupon code is required.");
+               isValid = false;
+           }
 
-    if (discountPercentage < 1) {
-        showError("discountPercentageError", "Discount percentage must be at least 1%.");
-        isValid = false;
-    }
+           if (discountPercentage < 1 || discountPercentage >= 100) {
+               showError("discountPercentageError", "Discount percentage must be between 1% and 99%.");
+               isValid = false;
+           }
 
-    if (!validFrom) {
-        showError("validFromError", "Valid from date is required.");
-        isValid = false;
-    }
+           if (!validFrom) {
+               showError("validFromError", "Valid from date is required.");
+               isValid = false;
+           }
 
-    if (!validTo) {
-        showError("validToError", "Valid to date is required.");
-        isValid = false;
-    }
+           if (!validTo) {
+               showError("validToError", "Valid to date is required.");
+               isValid = false;
+           } else if (new Date(validTo) < new Date(validFrom)) {
+               showError("validToError", "Valid to date must be greater than or equal to valid from date.");
+               isValid = false;
+           }
 
-    if (minOrderValue < 199) {
-        showError("minOrderValueError", "Minimum order value must be at least 199.");
-        isValid = false;
-    }
+           if (minOrderValue < 199) {
+               showError("minOrderValueError", "Minimum order value must be at least 199.");
+               isValid = false;
+           }
 
-    if (usageLimit < 1) {
-        showError("usageLimitError", "Usage limit must be at least 1.");
-        isValid = false;
-    }
+           if (usageLimit < 1) {
+               showError("usageLimitError", "Usage limit must be at least 1.");
+               isValid = false;
+           }
 
-    if (!isValid) {
-        return;
-    }
-
+           if (!isValid) {
+               return;
+           }
     let couponData = {
         restaurantId: restaurantId,
         code: code,

@@ -1,3 +1,4 @@
+
   .form-container {
         width: 50%;
         margin: 40px auto;
@@ -83,6 +84,10 @@
 
     form button:hover {
         background-color: #6B5DFB;
+    }
+
+    .error{
+    color:red;
     }
 
     /* Responsive Design */
