@@ -67,6 +67,11 @@
                     isValid = false;
                 }
 
+                 if (!formData.price) {
+                    showError("categoryError", "Price is required.");
+                    isValid = false;
+                 }
+
                 if (!isValid) {
                     return;
                 }

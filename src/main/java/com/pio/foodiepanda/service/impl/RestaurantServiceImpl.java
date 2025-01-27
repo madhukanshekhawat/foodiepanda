@@ -10,6 +10,9 @@ import com.pio.foodiepanda.model.RestaurantOwner;
 import com.pio.foodiepanda.repository.RestaurantRepository;
 import com.pio.foodiepanda.service.RestaurantService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.security.Principal;
@@ -84,6 +87,21 @@ public class RestaurantServiceImpl implements RestaurantService {
 
         restaurant.setAvailable(availabilityRequest.isAvailable());
         restaurantRepository.save(restaurant);
+    }
+
+    @Override
+    public Page<RestaurantDTO> getAllRestaurants(int page, int size) {
+        Pageable pageable = PageRequest.of(page,size);
+
+        Page<Restaurant> restaurantPage = restaurantRepository.findAll(pageable);
+
+        return restaurantPage.map(restaurant -> {
+            RestaurantDTO dto = new RestaurantDTO();
+            dto.setName(restaurant.getName());
+            dto.setAddress(restaurant.getRestaurantAddress().getCity());
+            dto.isAvailable(restaurant.isAvailable());
+            return dto;
+        });
     }
 
 }

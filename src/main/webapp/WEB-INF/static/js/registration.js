@@ -124,7 +124,7 @@ async function registerUserAndRestaurant() {
             }
         } else {
             alert("Registration Successful!");
-            window.location.href = "/customer/dashboard";
+            window.location.href = "/api/customer/dashboard";
         }
     } catch (error) {
         console.error('An error occurred:', error);
