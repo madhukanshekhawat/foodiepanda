@@ -1,6 +1,6 @@
 package com.pio.foodiepanda.dto;
 
-public class CategoriesDTO extends BaseDTO{
+public class CategoriesDTO extends BaseDTO {
 
     private Long categoryId;
     private String name;

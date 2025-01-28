@@ -3,6 +3,7 @@ package com.pio.foodiepanda.model;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Entity
 public class Cart extends BaseEntity {
@@ -14,13 +15,16 @@ public class Cart extends BaseEntity {
     private int quantity;
     private BigDecimal price;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @OneToOne
     @JoinColumn(name = "customer_id", nullable = false)
     private Customer customer;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "menu_item_id", nullable = false)
-    private MenuItem menuItem;
+    @OneToMany(
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    @JoinColumn(name = "cart_id")
+    private List<MenuItem> menuItems;
 
     public Long getCartId() {
         return cartId;
@@ -54,11 +58,12 @@ public class Cart extends BaseEntity {
         this.customer = customer;
     }
 
-    public MenuItem getMenuItem() {
-        return menuItem;
+    public List<MenuItem> getMenuItems() {
+        return menuItems;
     }
 
-    public void setMenuItem(MenuItem menuItem) {
-        this.menuItem = menuItem;
+    public void setMenuItems(List<MenuItem> menuItems) {
+        this.menuItems = menuItems;
     }
 }
+

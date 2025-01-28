@@ -1,15 +1,15 @@
 package com.pio.foodiepanda.model;
 
 import jakarta.persistence.*;
-import jdk.jfr.Category;
 
 import java.math.BigDecimal;
 
 @Entity
-public class MenuItem extends BaseEntity{
+public class MenuItem extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "menu_item")
     private Long menuItemId;
 
     @Column(name = "item_name")
@@ -24,11 +24,11 @@ public class MenuItem extends BaseEntity{
     private boolean isAvailable;
     private boolean isVeg;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     @JoinColumn(name = "restaurant_id", nullable = false)
     private Restaurant restaurant;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @OneToOne
     @JoinColumn(name = "category_id", nullable = false)
     private Categories categories;
 

@@ -1,16 +1,16 @@
 package com.pio.foodiepanda.dto;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 public class CouponDTO extends BaseDTO {
 
     private Long couponId;
-    private Long adminId;
     private Long restaurantId;
+    private Long restaurantName;
     private String code;
     private Double discountPercentage;
-    private LocalDateTime validFrom;
-    private LocalDateTime validTo;
+    private LocalDate validFrom;
+    private LocalDate validTo;
     private Double minOrderValue;
     private Integer usageLimit;
     private String applicableTo;
@@ -21,14 +21,6 @@ public class CouponDTO extends BaseDTO {
 
     public void setCouponId(Long couponId) {
         this.couponId = couponId;
-    }
-
-    public Long getAdminId() {
-        return adminId;
-    }
-
-    public void setAdminId(Long adminId) {
-        this.adminId = adminId;
     }
 
     public Long getRestaurantId() {
@@ -55,19 +47,19 @@ public class CouponDTO extends BaseDTO {
         this.discountPercentage = discountPercentage;
     }
 
-    public LocalDateTime getValidFrom() {
+    public LocalDate getValidFrom() {
         return validFrom;
     }
 
-    public void setValidFrom(LocalDateTime validFrom) {
+    public void setValidFrom(LocalDate validFrom) {
         this.validFrom = validFrom;
     }
 
-    public LocalDateTime getValidTo() {
+    public LocalDate getValidTo() {
         return validTo;
     }
 
-    public void setValidTo(LocalDateTime validTo) {
+    public void setValidTo(LocalDate validTo) {
         this.validTo = validTo;
     }
 
@@ -93,5 +85,13 @@ public class CouponDTO extends BaseDTO {
 
     public void setApplicableTo(String applicableTo) {
         this.applicableTo = applicableTo;
+    }
+
+    public Long getRestaurantName() {
+        return restaurantName;
+    }
+
+    public void setRestaurantName(Long restaurantName) {
+        this.restaurantName = restaurantName;
     }
 }

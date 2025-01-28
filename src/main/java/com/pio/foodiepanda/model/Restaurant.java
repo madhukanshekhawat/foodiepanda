@@ -6,7 +6,7 @@ import java.time.LocalTime;
 
 @Entity
 @Table(name = "restaurants")
-public class Restaurant extends BaseEntity{
+public class Restaurant extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,11 +22,11 @@ public class Restaurant extends BaseEntity{
     private String phoneNumber;
 
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @OneToOne
     @JoinColumn(name = "address_id", nullable = false)
     private Address address;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "owner_id", referencedColumnName = "ownerID")
     private RestaurantOwner restaurantOwner;
 
@@ -44,22 +44,6 @@ public class Restaurant extends BaseEntity{
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public Address getAddress() {
-        return address;
-    }
-
-    public void setAddress(Address address) {
-        this.address = address;
-    }
-
-    public RestaurantOwner getRestaurantOwner() {
-        return restaurantOwner;
-    }
-
-    public void setRestaurantOwner(RestaurantOwner restaurantOwner) {
-        this.restaurantOwner = restaurantOwner;
     }
 
     public LocalTime getStartTime() {
@@ -93,4 +77,21 @@ public class Restaurant extends BaseEntity{
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
+    }
+
+    public RestaurantOwner getRestaurantOwner() {
+        return restaurantOwner;
+    }
+
+    public void setRestaurantOwner(RestaurantOwner restaurantOwner) {
+        this.restaurantOwner = restaurantOwner;
+    }
+
 }
