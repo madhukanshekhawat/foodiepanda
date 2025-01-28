@@ -1,5 +1,6 @@
 package com.pio.foodiepanda.controller;
 
+import com.pio.foodiepanda.constants.MessageConstant;
 import com.pio.foodiepanda.dto.AvailabilityRequest;
 import com.pio.foodiepanda.dto.RestaurantDTO;
 import com.pio.foodiepanda.service.RestaurantService;
@@ -33,12 +34,12 @@ public class RestaurantController {
     @PutMapping("/change-availability")
     public ResponseEntity<String> updateRestaurantTiming(@RequestBody RestaurantDTO restaurantDTO, Principal principal){
         restaurantService.updateRestaurantTiming(restaurantDTO, principal);
-        return ResponseEntity.ok("Restaurant Timing updated successfully");
+        return ResponseEntity.ok(MessageConstant.SUCCESSFUL_MESSAGE);
     }
 
     @PutMapping("/availability")
     public ResponseEntity<String> updateRestaurantAvailability(@RequestBody AvailabilityRequest availabilityRequest, Principal principal){
        restaurantService.updateRestaurantAvailability(availabilityRequest,principal);
-       return ResponseEntity.ok("Store Availability set successfully");
+       return ResponseEntity.ok(MessageConstant.SUCCESSFUL_MESSAGE);
     }
 }

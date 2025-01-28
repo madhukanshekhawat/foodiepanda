@@ -11,6 +11,6 @@ public class CustomerWebController {
 
     @GetMapping("/dashboard")
     public String restaurantDashboard() {
-        return "customer/base";
+        return ViewConstant.CUSTOMER_DASHBOARD;
     }
 }

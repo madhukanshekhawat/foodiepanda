@@ -18,7 +18,7 @@
             <li><a href="/api/restaurant/add-category">Create Category</a></li>
             <li><a href="/api/restaurant/view-category">Category List</a></li>
             <li><a href="/api/restaurant/manage-order">Order Summary</a></li>
-            <li><a href="/api/restaurant/view-profile">Timing</a></li>
+            <li><a href="/api/restaurant/change-availability">Timing</a></li>
             <div class="form-group">
                 <label for="availabilityToggle">Available</label>
                 <label class="switch">

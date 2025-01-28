@@ -70,6 +70,11 @@ public class RegistrationServiceImpl implements RegistrationService {
         return user.getId(); // Return the user ID
     }
 
+    /*
+     * Registers a new restaurant based on RestaurantRegisterDTO
+     * @param : restaurantRegisterDTO contain the restaurant  information
+     * @throws : throws the exception when the restaurant not found
+     */
     @Override
     public void registerRestaurant(RestaurantRegisterDTO restaurantRegisterDTO) throws Exception {
 

@@ -1,5 +1,6 @@
 package com.pio.foodiepanda.service.impl;
 
+import com.pio.foodiepanda.constants.MessageConstant;
 import com.pio.foodiepanda.dto.OrderDetailDTO;
 import com.pio.foodiepanda.dto.OrdersDTO;
 import com.pio.foodiepanda.enums.OrderStatus;
@@ -15,9 +16,12 @@ import org.springframework.stereotype.Service;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.logging.Logger;
 
 @Service
 public class OrderServiceImpl implements OrderService {
+
+    Logger logger = Logger.getLogger(OrderServiceImpl.class.getName());
 
     @Autowired
     private OrdersRepository ordersRepository;
@@ -25,10 +29,16 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     private RestaurantRepository restaurantRepository;
 
+    /**
+     * Retrieves a list of orders for a specific restaurant based on the owner's email.
+     * @param email the email of the restaurant owner.
+     * @return a list of OrdersDTO objects representing the orders.
+     */
     @Override
     public List<OrdersDTO> getOrdersForRestaurant(String email) {
+        logger.info("Fetching orders for restaurant with owner email:" + email);
         Restaurant restaurant = restaurantRepository.findByOwnerEmail(email)
-                .orElseThrow(()-> new ResourceNotFoundException("No Restaurant Found"));
+                .orElseThrow(() -> new ResourceNotFoundException(MessageConstant.RESTAURANT_NOT_FOUND_MESSAGE));
         List<Orders> orders = ordersRepository.findByRestaurant_RestaurantId(restaurant.getRestaurantId());
         return orders.stream().map(order -> {
             OrdersDTO dto = new OrdersDTO();
@@ -52,11 +62,19 @@ public class OrderServiceImpl implements OrderService {
         }).toList();
     }
 
+    /**
+     * Updates the status of an order based on the provided order ID and new status.
+     * @param orderId the ID of the order to be updated.
+     * @param orderStatus the new status to be set for the order.
+     */
     @Override
     public void updateOrderStatus(Long orderId, OrderStatus orderStatus) {
+        logger.info("Updating order status for order ID:" + orderId);
         Orders orders = ordersRepository.findById(orderId)
-                .orElseThrow(()-> new ResourceNotFoundException("Orders not found"));
+                .orElseThrow(() -> new ResourceNotFoundException(MessageConstant.ORDER_NOT_FOUND_MESSAGE));
         orders.setStatus(orderStatus);
         ordersRepository.save(orders);
+        logger.info("Order status updated successfully for order ID:" + orderId);
     }
 }
+

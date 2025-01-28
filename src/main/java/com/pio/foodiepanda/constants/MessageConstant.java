@@ -19,8 +19,22 @@ public class MessageConstant {
 
     public static String RESTAURANT_FOUND = "Restaurant found: ";
 
+    public static String RESTAURANT_NOT_FOUND_MESSAGE = "No Restaurant Found";
+
+    public static String ORDER_NOT_FOUND_MESSAGE = "Orders not found";
+
     public static String USER_NOT_FOUND = "User not found";
 
     public static String RESTAURANT_OR_OWNER_NOT_FOUND = "Restaurant or restaurant owner not found";
+
+    public static String COUPON_NOT_FOUND = "No coupon's not found";
+
+    public static String  UNAUTHORIZED = "Unauthorized";
+
+    public static String NO_RESTAURANT_OWNER_FOUND = "No Restaurant owner found";
+
+    public static String NO_MENU_ITEM_FOUND = "Menu Item not found";
+
+    public static String RESTAURANT_NOT_FOUND_WITH_USERNAME = "Restaurant not found with the username :";
 
 }

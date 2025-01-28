@@ -1,6 +1,7 @@
 package com.pio.foodiepanda.controller;
 
 import com.pio.foodiepanda.constants.CouponStatus;
+import com.pio.foodiepanda.constants.MessageConstant;
 import com.pio.foodiepanda.dto.CouponDTO;
 import com.pio.foodiepanda.service.CouponService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +28,7 @@ public class CouponController {
     public ResponseEntity<String> updateCouponStatus(@PathVariable Long id, @RequestParam("status") CouponStatus status, Principal principal) {
         String ownerUsername = principal.getName();
         couponService.updateCouponStatus(id, ownerUsername, status);
-        return ResponseEntity.ok("Coupon Status Changed");
+        return ResponseEntity.ok(MessageConstant.SUCCESSFUL_MESSAGE);
     }
 
 }

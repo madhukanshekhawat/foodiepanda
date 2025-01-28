@@ -1,5 +1,6 @@
 package com.pio.foodiepanda.configuartion;
 
+import com.pio.foodiepanda.constants.ApiConstant;
 import com.pio.foodiepanda.filter.JwtAuthenticationFilter;
 import com.pio.foodiepanda.service.impl.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,15 +46,15 @@ public class SecurityConfig {
         http.sessionManagement(session -> session
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS));
         http.formLogin(loginForm -> loginForm
-                .loginPage("/api/user-login")
-                .loginProcessingUrl("/login")
+                .loginPage(ApiConstant.CUSTOM_LOGIN)
+                .loginProcessingUrl(ApiConstant.LOGIN)
                 .successHandler(successHandler)
                 .permitAll());
         http.logout(logout -> logout
-                .logoutUrl("/logout") // URL to trigger logout
-                .logoutSuccessUrl("/api/user-login?logout") // Redirect to login page after logout
-                .invalidateHttpSession(true) // Invalidate the session
-                .clearAuthentication(true) // Clear authentication
+                .logoutUrl(ApiConstant.LOGOUT)
+                .logoutSuccessUrl(ApiConstant.LOGOUT_SUCCESS_URL)
+                .invalidateHttpSession(true)
+                .clearAuthentication(true)
                 .deleteCookies("JSESSIONID", "JWT-TOKEN")
                 .permitAll());
         http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);

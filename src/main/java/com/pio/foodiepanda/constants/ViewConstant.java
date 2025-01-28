@@ -32,4 +32,11 @@ public class ViewConstant {
 
     public static final String VIEW_ORDER = "restaurantowner/view-order-page";
 
+    public static final String ADD_CATEGORY = "restaurantowner/add-category";
+
+    public static final String VIEW_CATEGORY = "restaurantowner/view-category";
+
+    public static final String CHANGE_AVAILABILITY = "restaurantowner/change-availability";
+
+    public static final String CUSTOMER_DASHBOARD = "customer/base";
 }

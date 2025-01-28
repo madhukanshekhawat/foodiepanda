@@ -64,9 +64,9 @@ public class CouponServiceImpl implements CouponService {
     @Override
     public void updateCouponStatus(Long id, String ownerUsername, CouponStatus newStatus) {
         Coupon coupon = couponRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("No coupon's not found"));
+                .orElseThrow(() -> new ResourceNotFoundException(MessageConstant.COUPON_NOT_FOUND));
         if (!coupon.getRestaurant().getRestaurantOwner().getUser().getEmail().equals(ownerUsername)) {
-            throw new RuntimeException("You are not authorized owner");
+            throw new RuntimeException(MessageConstant.UNAUTHORIZED);
         }
         coupon.setCouponStatus(newStatus);
         couponRepository.save(coupon);

@@ -32,22 +32,22 @@ public class RestaurantOwnerWebController {
 
     @GetMapping("/manage-order")
     public String viewOrder() {
-        return "restaurantowner/view-order-page";
+        return ViewConstant.VIEW_ORDER;
     }
 
     @GetMapping("/add-category")
     public String addCategory() {
-        return "restaurantowner/add-category";
+        return ViewConstant.ADD_CATEGORY;
     }
 
     @GetMapping("/view-category")
     public String viewCategory() {
-        return "restaurantowner/view-category";
+        return ViewConstant.VIEW_CATEGORY;
     }
 
-    @GetMapping("/view-profile")
+    @GetMapping("/change-availability")
     public String viewProfile(){
-        return "restaurantowner/change-availability";
+        return ViewConstant.CHANGE_AVAILABILITY;
     }
 }
 

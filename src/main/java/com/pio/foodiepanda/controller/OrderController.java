@@ -1,5 +1,6 @@
 package com.pio.foodiepanda.controller;
 
+import com.pio.foodiepanda.constants.MessageConstant;
 import com.pio.foodiepanda.dto.OrderStatusDTO;
 import com.pio.foodiepanda.dto.OrdersDTO;
 import com.pio.foodiepanda.enums.OrderStatus;
@@ -29,6 +30,6 @@ public class OrderController {
     @PutMapping("/{orderId}/status")
     public ResponseEntity<String> updateOrderStatus(@PathVariable Long orderId, @RequestBody OrderStatusDTO orderStatusDTO){
         orderService.updateOrderStatus(orderId,OrderStatus.valueOf(orderStatusDTO.getStatus()));
-        return ResponseEntity.ok("Order status updated successfully");
+        return ResponseEntity.ok(MessageConstant.SUCCESSFUL_MESSAGE);
     }
 }

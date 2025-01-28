@@ -1,5 +1,6 @@
 package com.pio.foodiepanda.controller;
 
+import com.pio.foodiepanda.constants.MessageConstant;
 import com.pio.foodiepanda.dto.CategoriesDTO;
 import com.pio.foodiepanda.service.CategoriesService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +23,7 @@ public class CategoryController {
         // Extract the username from the Principal
         String username = principal.getName();
         categoriesService.saveCategory(category, username);
-        return ResponseEntity.ok("saved successfully");
+        return ResponseEntity.ok(MessageConstant.SUCCESSFUL_MESSAGE);
     }
 
     @GetMapping("/all")
@@ -37,7 +38,7 @@ public class CategoryController {
         boolean isDeleted = categoriesService.deleteCategoriesByUser(id, username);
 
         if (isDeleted) {
-            return ResponseEntity.ok("Category deleted successfully");
+            return ResponseEntity.ok(MessageConstant.SUCCESSFUL_MESSAGE);
         } else {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body("You are not authorized to delete this category");
         }

@@ -1,5 +1,6 @@
 package com.pio.foodiepanda.controller;
 
+import com.pio.foodiepanda.constants.MessageConstant;
 import com.pio.foodiepanda.dto.MenuItemDTO;
 import com.pio.foodiepanda.service.MenuItemService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,7 @@ public class MenuItemController {
     @PostMapping("/add")
     public ResponseEntity<String> addMenuItem(@RequestBody MenuItemDTO menuItemDTO, Principal principal) {
         menuItemService.addMenuItem(menuItemDTO,principal);
-        return ResponseEntity.ok("Menu Item added successfully");
+        return ResponseEntity.ok(MessageConstant.SUCCESSFUL_MESSAGE);
     }
 
     @GetMapping("/all")
@@ -39,6 +40,6 @@ public class MenuItemController {
     @DeleteMapping("/{menuItemId}")
     public ResponseEntity<String> deleteMenuItem(@PathVariable Long menuItemId, Principal principal){
         menuItemService.deleteMenuItem(menuItemId, principal);
-        return ResponseEntity.ok("Deleted Successfully");
+        return ResponseEntity.ok(MessageConstant.SUCCESSFUL_MESSAGE);
     }
 }
