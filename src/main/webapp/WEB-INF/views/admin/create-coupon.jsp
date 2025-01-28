@@ -19,32 +19,25 @@
                 <option value=" ">Select a restaurant</option>
             </select><br>
 
-            <div id="codeError" class="error"></div>
-            <label for="code">Coupon Code</label>
+            <label for="code">Coupon Code <div id="codeError" class="error"></div> </label>
             <input type="text" id="code" name="code" maxlength="10" required><br>
 
-            <div id="discountPercentageError" class="error"></div>
-            <label for="discountPercentage">Discount Percentage</label>
+            <label for="discountPercentage">Discount Percentage <div id="discountPercentageError" class="error"></div></label>
             <input type="number" id="discountPercentage" name="discountPercentage" min="0" required><br>
 
-            <div id="validFromError" class="error"></div>
-            <label for="validFrom">Valid From</label>
+            <label for="validFrom">Valid From <div id="validFromError" class="error"></div></label>
             <input type="date" id="validFrom" name="validFrom" required><br>
 
-            <div id="validToError" class="error"></div>
-            <label for="validTo">Valid To</label>
+            <label for="validTo">Valid To <div id="validToError" class="error"></div></label>
             <input type="date" id="validTo" name="validTo" required><br>
 
-            <div id="minOrderValueError" class="error"></div>
-            <label for="minOrderValue">Min Order Value</label>
+            <label for="minOrderValue">Min Order Value <div id="minOrderValueError" class="error"></div></label>
             <input type="number" id="minOrderValue" name="minOrderValue" min="0" required><br>
 
-            <div id="usageLimitError" class="error"></div>
-            <label for="usageLimit">Usage Limit</label>
+            <label for="usageLimit">Usage Limit <div id="usageLimitError" class="error"></div></label>
             <input type="number" id="usageLimit" name="usageLimit" required><br>
 
-            <div id="applicableToError" class="error"></div>
-            <label for="applicableTo">Applicable To</label>
+            <label for="applicableTo">Applicable To <div id="applicableToError" class="error"></div></label>
             <select id="applicableTo" name="applicableTo" required>
                 <option value="ALL">All</option>
                 <option value="NEW_USER">New Users</option>
