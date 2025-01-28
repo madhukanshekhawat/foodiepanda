@@ -34,7 +34,7 @@ public class RestaurantServiceImpl implements RestaurantService {
      */
     @Override
     public List<RestaurantDTO> getAll() {
-        List<Restaurant> restaurants = restaurantRepository.findAll();
+        List<Restaurant> restaurants = restaurantRepository.findAllByOwnerApproved();
         return restaurants.stream().map(restaurant -> {
             RestaurantDTO restaurantDTO = new RestaurantDTO();
             restaurantDTO.setRestaurantId(restaurant.getRestaurantId());

@@ -20,5 +20,7 @@ public interface RestaurantRepository extends JpaRepository<Restaurant, Long> {
     @Query("SELECT r from Restaurant r WHERE r.restaurantOwner.user.email = :email")
     Optional<Restaurant> findByOwnerEmail(@Param("email") String username);
 
+    @Query("SELECT r FROM Restaurant r WHERE r.restaurantOwner.isApproved = true")
+    List<Restaurant> findAllByOwnerApproved();
 
 }
