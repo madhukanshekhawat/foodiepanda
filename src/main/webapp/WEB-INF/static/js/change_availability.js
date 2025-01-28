@@ -1,6 +1,21 @@
 $(document).ready(function () {
+  // Populate the time slots for the dropdowns
   populateTimeSlots('#startTime');
   populateTimeSlots('#endTime');
+
+  // Fetch current availability times and populate the fields
+  $.ajax({
+    url: '/api/restaurant/profile', // Your endpoint to get current availability
+    method: 'GET',
+    success: function (data) {
+      // Assuming data contains `availabilityStartTime` and `availabilityEndTime`
+      $('#currentStartTime').val(convertTo12HourFormat(data.availabilityStartTime));
+      $('#currentEndTime').val(convertTo12HourFormat(data.availabilityEndTime));
+    },
+    error: function () {
+      showMessage("Error fetching current availability times.", "red");
+    }
+  });
 });
 
 function populateTimeSlots(selector) {
@@ -39,7 +54,7 @@ function changeAvailability() {
   }
 
   $.ajax({
-    url: '/api/restaurant/profile',
+    url: '/api/restaurant/change-availability',
     method: 'PUT',
     contentType: 'application/json',
     data: JSON.stringify({
@@ -48,10 +63,10 @@ function changeAvailability() {
     }),
     success: function (response) {
       $('#changeAvailabilityForm')[0].reset();
-      showMessage("Profile updated successfully.", "green");
+      showMessage("Availability updated successfully.", "green");
     },
     error: function (error) {
-      showMessage("Error updating profile.", "red");
+      showMessage("Error updating availability.", "red");
     }
   });
 }
@@ -71,4 +86,11 @@ function convertTo24HourFormat(time12h) {
   if (hours === '12') hours = '00';
   if (modifier === 'PM') hours = parseInt(hours, 10) + 12;
   return `${hours}:${minutes}`;
+}
+
+function convertTo12HourFormat(time24h) {
+  const [hours, minutes] = time24h.split(':');
+  const modifier = hours >= 12 ? 'PM' : 'AM';
+  const hour = hours % 12 || 12; // Convert 24-hour to 12-hour format
+  return `${hour}:${minutes} ${modifier}`;
 }

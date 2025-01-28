@@ -64,6 +64,7 @@
                            method: "GET",
                            success: function (data) {
                                $("#restaurant-logo").text(data.name);
+                               $("#user-name").text("Hi, " + data.ownerDetails.firstName);
                            },
                            error: function () {
                                alert("Failed to fetch restaurant name.");

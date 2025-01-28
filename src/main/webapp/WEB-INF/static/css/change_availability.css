@@ -1,105 +1,103 @@
+/* General Page Styling */
 body {
+    background-color: #F5EFFF; /* Light background color */
+    font-family: Arial, sans-serif;
+    color: #4B4B4B; /* Subtle dark gray for text */
     margin: 0;
     padding: 0;
-    font-family: Arial, sans-serif;
-    background-color: #F5EFFF; /* Light purple background */
 }
-/* Page Container */
-.container {
-    margin-top: 50px;
-    max-width: 800px;
-}
-
-/* Page Title */
+ 
 h1 {
-    color: #444;
-    margin-bottom: 30px;
+    color: #A294F9; /* Primary color for the title */
+    margin-top: 20px;
     font-size: 28px;
-}
-
-/* Card Styles */
-.card {
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    border: none;
-    background: #ffffff;
-}
-
-/* Card Body */
-.card-body {
-    padding: 30px;
-}
-
-/* Form Labels */
-label.form-label {
-    font-size: 14px;
-    color: #555;
     font-weight: bold;
-    margin-bottom: 8px;
 }
-
-label.form-label span {
-    color: red;
+ 
+/* Card Styling */
+.card {
+    background-color: #FFFFFF; /* White background for the card */
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    border: none; /* Remove border */
+    border-radius: 10px; /* Rounded corners */
+    padding: 20px;
 }
-
-/* Select Dropdowns */
-select.form-control {
-    height: 40px;
-    font-size: 14px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    padding: 5px;
-    color: #555;
+ 
+.card-body {
+    padding: 20px;
 }
-
-select.form-control:focus {
-    border-color: #80bdff;
-    box-shadow: 0 0 4px rgba(0, 123, 255, 0.5);
-    outline: none;
-}
-
-/* Error Messages */
-.error {
-    color: red;
-    font-size: 12px;
-    margin-top: -10px;
+ 
+/* Input Fields */
+input[readonly] {
+    background-color: #E5D9F2; /* Accent color for readonly fields */
+    border: none;
+    border-radius: 5px;
+    padding: 8px;
+    color: #4B4B4B; /* Text color */
+    font-weight: bold;
+    width: 100%;
     margin-bottom: 15px;
 }
-
-/* Success/Message Text */
-#message {
-    font-size: 14px;
-    color: green;
+ 
+select {
+    border: 1px solid #CDC1FF; /* Border matching the secondary theme */
+    border-radius: 5px; /* Rounded corners */
+    padding: 8px;
+    color: #4B4B4B; /* Text color */
+    background-color: #FFFFFF; /* White background */
+    transition: border-color 0.3s ease, box-shadow 0.3s ease; /* Smooth focus effect */
 }
-
+ 
+select:focus {
+    border-color: #A294F9; /* Primary color on focus */
+    box-shadow: 0 0 6px rgba(162, 148, 249, 0.5); /* Purple glow */
+    outline: none;
+}
+ 
+/* Error Messages */
+.error {
+    color: #FF6B6B; /* Error color */
+    font-size: 14px;
+    margin-top: -10px;
+    margin-bottom: 10px;
+}
+ 
 /* Buttons */
-button.btn {
-    width: 150px;
-    padding: 10px;
-    font-size: 14px;
+.btn-success {
+    background-color: #A294F9; /* Primary theme color */
+    border: none; /* Remove border */
+    border-radius: 20px; /* Rounded corners */
+    color: #FFFFFF; /* White text */
+    padding: 10px 20px;
     font-weight: bold;
-    border-radius: 4px;
-    border: none;
-    transition: background 0.3s, transform 0.2s;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
-
-button.btn-success {
-    background-color: #4A3F8C;
-    color: #ffffff;
+ 
+.btn-success:hover {
+    background-color: #7C68E8; /* Slightly darker purple on hover */
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow */
 }
-
-button.btn-success:hover {
-    background-color: #CDC1FF;
-    transform: scale(1.05);
+ 
+/* Message Styling */
+#message {
+    font-size: 16px;
+    font-weight: bold;
+    color: #4B4B4B;
 }
-
-/* Responsive Design */
+ 
+/* Responsive Adjustments */
 @media (max-width: 768px) {
     .card {
-        margin: 0 10px;
+        margin: 10px; /* Reduce margins on small screens */
     }
-
-    button.btn {
-        width: 100%;
+ 
+    h1 {
+        font-size: 24px;
+    }
+ 
+    button {
+        width: 100%; /* Full width for buttons on small screens */
+        margin-top: 10px;
     }
 }
+

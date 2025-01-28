@@ -15,8 +15,12 @@
         <div class="container-fluid mt-3 mr-3">
           <div class="row">
             <div class="col-md-8 offset-md-2">
-              <form id="changeAvailabilityForm">
+             <label for="currentStartTime">Current Opening Time:</label>
+                 <input type="text" id="currentStartTime" readonly>
 
+                <label for="currentEndTime">Current Closing Time:</label>
+                <input type="text" id="currentEndTime" readonly>
+              <form id="changeAvailabilityForm">
                 <!--Availability Start Time-->
                 <label class="form-label" for="startTime">Restaurant Opening Time<span>*</span></label>
                 <div class="input-group mb-3">

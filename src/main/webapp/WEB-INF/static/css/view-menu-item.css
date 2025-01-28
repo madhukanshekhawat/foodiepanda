@@ -101,6 +101,37 @@ select:hover {
     background-color: #6B5DFB; /* Darker purple on hover */
 }
 
+.search-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+#searchMenuItem {
+    width: 300px;
+    padding: 10px;
+    border: 1px solid #CDC1FF; /* Light purple border */
+    border-radius: 5px 0 0 5px;
+    outline: none;
+    font-size: 1rem;
+}
+
+#searchButton {
+    padding: 10px 20px;
+    border: 1px solid #CDC1FF; /* Light purple border */
+    border-left: none;
+    background-color: #A294F9; /* Primary purple */
+    color: white;
+    border-radius: 0 5px 5px 0;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+}
+
+#searchButton:hover {
+    background-color: #6B5DFB; /* Darker purple on hover */
+}
+
 @media screen and (max-width: 768px) {
     .container {
         width: 95%;

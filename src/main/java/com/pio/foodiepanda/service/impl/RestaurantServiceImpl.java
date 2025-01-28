@@ -74,7 +74,7 @@ public class RestaurantServiceImpl implements RestaurantService {
                 .orElseThrow(()-> new ResourceNotFoundException("Restaurant not found"));
 
         restaurant.setStartTime(restaurantDTO.getAvailabilityStartTime());
-        restaurant.setEndTime(restaurantDTO.getAvailabilityStartTime());
+        restaurant.setEndTime(restaurantDTO.getAvailabilityEndTime());
 
         restaurantRepository.save(restaurant);
     }

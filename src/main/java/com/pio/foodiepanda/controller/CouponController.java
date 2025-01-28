@@ -29,4 +29,5 @@ public class CouponController {
         couponService.updateCouponStatus(id, ownerUsername, status);
         return ResponseEntity.ok("Coupon Status Changed");
     }
+
 }
