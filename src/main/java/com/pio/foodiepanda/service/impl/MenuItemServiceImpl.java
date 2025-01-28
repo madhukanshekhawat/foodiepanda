@@ -157,4 +157,38 @@ public class MenuItemServiceImpl implements MenuItemService {
         menuItemRepository.save(menuItem);
         logger.info("Menu item ID:" + menuItemId + "marked as deleted for restaurant owner with email:" + email);
     }
+
+    @Override
+    public MenuItemDTO getMenuItemById(Long id) {
+        MenuItem menuItem = menuItemRepository.findById(id)
+                .orElseThrow(()-> new ResourceNotFoundException(MessageConstant.NO_MENU_ITEM_FOUND));
+        return convertToDTO(menuItem);
+    }
+
+    @Override
+    public String updateMenuItem(Long id, MenuItemDTO menuItemDTO) {
+        Optional<MenuItem> optionalMenuItem = menuItemRepository.findById(id);
+        if(optionalMenuItem.isPresent()){
+            MenuItem menuItem = optionalMenuItem.get();
+
+            menuItem.setName(menuItemDTO.getName());
+            menuItem.setDescription(menuItemDTO.getDescription());
+            menuItem.setPrice(menuItemDTO.getPrice());
+
+            menuItemRepository.save(menuItem);
+            return MessageConstant.SUCCESSFUL_MESSAGE;
+        }
+        else {
+            throw new ResourceNotFoundException(MessageConstant.NO_MENU_ITEM_FOUND);
+        }
+    }
+
+    private MenuItemDTO convertToDTO(MenuItem menuItem){
+        MenuItemDTO dto = new MenuItemDTO();
+        dto.setId(menuItem.getMenuItemId());
+        dto.setName(menuItem.getName());
+        dto.setDescription(menuItem.getDescription());
+        dto.setPrice(menuItem.getPrice());
+        return dto;
+    }
 }

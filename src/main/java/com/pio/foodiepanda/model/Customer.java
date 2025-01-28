@@ -2,6 +2,8 @@ package com.pio.foodiepanda.model;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "customers")
 public class Customer extends BaseEntity {
@@ -18,6 +20,9 @@ public class Customer extends BaseEntity {
 
     @Column(name = "phone_number")
     private String phoneNumber;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "customer")
+    private List<Orders> ordersList;
 
     @OneToOne
     @JoinColumn(name = "user_id")

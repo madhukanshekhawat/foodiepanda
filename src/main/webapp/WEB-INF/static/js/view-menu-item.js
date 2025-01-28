@@ -58,8 +58,10 @@ function loadMenuItems() {
                                 <option value="false" ${!item.available ? 'selected' : ''}>Unavailable</option>
                             </select>
                         </td>
+
                         <td>
                             <button class="btn btn-danger btn-sm" onclick="deleteMenuItem(${item.id})">Delete</button>
+                            <button class="btn btn-primary btn-sm" onclick="openEditPopup(${item.id})">Edit</button>
                         </td>
                     </tr>
                 `;
@@ -129,6 +131,7 @@ function filterMenuItems(searchTerm) {
                         </td>
                         <td>
                             <button class="btn btn-danger btn-sm" onclick="deleteMenuItem(${item.id})">Delete</button>
+                            <button class="btn btn-primary btn-sm" onclick="openEditPopup(${item.id})">Edit</button>
                         </td>
                     </tr>
                 `;
@@ -141,6 +144,49 @@ function filterMenuItems(searchTerm) {
     });
 }
 
+        function openEditPopup(menuItemId) {
+            $.ajax({
+                url: "/menu/" + menuItemId,
+                type: 'GET',
+                success: function(item) {
+                    $('#menuItemId').val(item.id);
+                    $('#menuItemName').val(item.name);
+                    $('#menuItemDescription').val(item.description);
+                    $('#menuItemPrice').val(item.price);
+                    $('#editMenuItemModal').modal('show');
+                },
+                error: function(error) {
+                    console.error(error);
+                }
+            });
+        }
+
+        function submitEditMenuItem() {
+            const menuItemId = $('#menuItemId').val();
+            const updatedData = {
+                name: $('#menuItemName').val(),
+                description: $('#menuItemDescription').val(),
+                price: $('#menuItemPrice').val(),
+                available: $('#menuItemAvailability').val() === 'true'
+            };
+
+            $.ajax({
+                url: "/menu/update/" +menuItemId ,
+                type: 'PUT',
+                contentType: 'application/json',
+                data: JSON.stringify(updatedData),
+                success: function(response) {
+                    $('#editMenuItemModal').modal('hide');
+                    loadMenuItems();
+                    alert('Menu item updated successfully!');
+                },
+                error: function(error) {
+                    console.error(error);
+                }
+            });
+        }
+
+
 function confirmAvailabilityChange(menuItemId, newValue) {
     const confirmed = confirm("Are you sure you want to change the availability status?");
     if (confirmed) {
@@ -150,7 +196,7 @@ function confirmAvailabilityChange(menuItemId, newValue) {
             data: { available: newValue },
             success: function () {
                 alert("Availability status updated successfully.");
-                loadMenuItems(); // Reload the menu items
+                loadMenuItems();
             },
             error: function () {
                 alert("Error updating availability status.");

@@ -2,6 +2,7 @@ package com.pio.foodiepanda.controller;
 
 import com.pio.foodiepanda.constants.MessageConstant;
 import com.pio.foodiepanda.dto.MenuItemDTO;
+import com.pio.foodiepanda.model.MenuItem;
 import com.pio.foodiepanda.service.MenuItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -41,5 +42,17 @@ public class MenuItemController {
     public ResponseEntity<String> deleteMenuItem(@PathVariable Long menuItemId, Principal principal){
         menuItemService.deleteMenuItem(menuItemId, principal);
         return ResponseEntity.ok(MessageConstant.SUCCESSFUL_MESSAGE);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<MenuItemDTO> getMenuItemById(@PathVariable Long id){
+        MenuItemDTO menuItemDTO = menuItemService.getMenuItemById(id);
+        return ResponseEntity.ok(menuItemDTO);
+    }
+
+    @PutMapping("/update/{id}")
+    public ResponseEntity<String> updateMenuItem(@PathVariable Long id, @RequestBody MenuItemDTO menuItemDTO){
+        String message = menuItemService.updateMenuItem(id,menuItemDTO);
+        return ResponseEntity.ok(message);
     }
 }

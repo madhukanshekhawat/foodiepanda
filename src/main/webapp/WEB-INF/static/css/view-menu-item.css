@@ -132,6 +132,157 @@ select:hover {
     background-color: #6B5DFB; /* Darker purple on hover */
 }
 
+/* Popup Modal */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1000; /* Ensure it appears above everything else */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgba(0, 0, 0, 0.5); /* Black with opacity for background overlay */
+    padding-top: 60px;
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: auto; /* Center the modal */
+    padding: 20px;
+    border: 1px solid #ccc;
+    width: 80%; /* Adjust width as needed */
+    max-width: 500px; /* Ensure the modal doesn't get too large */
+    border-radius: 10px;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+    position: relative; /* Position relative for close button positioning */
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 15px;
+}
+
+.modal-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #333;
+}
+
+.close {
+    color: #aaa;
+    font-size: 1.5rem;
+    font-weight: bold;
+    border: none;
+    background: none;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.close:hover {
+    color: #333; /* Darker gray on hover */
+}
+
+/* Edit Button */
+.btn-primary {
+    padding: 8px 12px;
+    font-size: 14px;
+    color: white;
+    background-color: #A294F9; /* Primary purple */
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: #6B5DFB; /* Darker purple on hover */
+}
+
+/* Form inside the modal */
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+    border-color: #A294F9; /* Highlight color */
+    box-shadow: 0 0 5px rgba(162, 148, 249, 0.5);
+}
+
+/* Buttons inside the modal */
+.modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 20px;
+}
+
+.modal-footer .btn-secondary {
+    margin-right: 10px;
+    padding: 10px 15px;
+    font-size: 1rem;
+    color: white;
+    background-color: #6c757d; /* Secondary button color */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.modal-footer .btn-secondary:hover {
+    background-color: #5a6268; /* Darker secondary on hover */
+}
+
+.modal-footer .btn-primary {
+    padding: 10px 15px;
+    font-size: 1rem;
+    color: white;
+    background-color: #A294F9; /* Primary button color */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.modal-footer .btn-primary:hover {
+    background-color: #6B5DFB; /* Darker primary on hover */
+}
+
+/* Responsive Modal */
+@media screen and (max-width: 768px) {
+    .modal-content {
+        width: 90%; /* Adjust width for smaller screens */
+        padding: 15px;
+    }
+
+    .modal-title {
+        font-size: 1.2rem;
+    }
+}
+
 @media screen and (max-width: 768px) {
     .container {
         width: 95%;

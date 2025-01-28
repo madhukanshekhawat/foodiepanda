@@ -20,16 +20,16 @@ public class Orders extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private OrderStatus status;
 
-    @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "customer_id", nullable = false)
+    private Customer customer;
 
-    @OneToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "restaurant_id", nullable = false)
     private Restaurant restaurant;
 
-    @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "delivery_address_id", nullable = false)
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "addressId")
     private Address deliveryAddress;
 
     @OneToOne
@@ -41,14 +41,6 @@ public class Orders extends BaseEntity {
 
     public void setOrderId(Long orderId) {
         this.orderId = orderId;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
     }
 
     public Restaurant getRestaurant() {
@@ -98,4 +90,13 @@ public class Orders extends BaseEntity {
     public void setOrderDetails(OrderDetail orderDetails) {
         this.orderDetails = orderDetails;
     }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
 }
+

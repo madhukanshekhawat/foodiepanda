@@ -3,6 +3,7 @@ package com.pio.foodiepanda.model;
 import jakarta.persistence.*;
 
 import java.time.LocalTime;
+import java.util.List;
 
 @Entity
 @Table(name = "restaurants")
@@ -29,6 +30,9 @@ public class Restaurant extends BaseEntity {
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "owner_id", referencedColumnName = "ownerID")
     private RestaurantOwner restaurantOwner;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "restaurant")
+    private List<Orders> ordersList;
 
     public Long getRestaurantId() {
         return restaurantId;
@@ -92,5 +96,13 @@ public class Restaurant extends BaseEntity {
 
     public void setRestaurantAddress(RestaurantAddress restaurantAddress) {
         this.restaurantAddress = restaurantAddress;
+    }
+
+    public List<Orders> getOrdersList() {
+        return ordersList;
+    }
+
+    public void setOrdersList(List<Orders> ordersList) {
+        this.ordersList = ordersList;
     }
 }

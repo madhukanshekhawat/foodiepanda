@@ -10,6 +10,7 @@ public class Categories extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long CategoryId;
 
+    @Column(nullable = false, unique = true)
     private String name;
     private String description;
 

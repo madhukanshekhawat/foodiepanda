@@ -13,7 +13,7 @@ public class MenuItem extends BaseEntity {
     private Long menuItemId;
 
 
-    @Column(name = "item_name")
+    @Column(name = "item_name", unique = true, nullable = false )
     private String name;
 
     @Column(name = "item_description")

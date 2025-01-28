@@ -98,11 +98,15 @@ public class RegistrationServiceImpl implements RegistrationService {
         restaurant.setPhoneNumber(restaurantRegisterDTO.getRestaurantContact());
         restaurant.setRestaurantAddress(restaurantAddress);
         restaurant.setRestaurantOwner(restaurantOwner);
+        restaurant.setRestaurantId(restaurantRegisterDTO.getRestaurantId());
+        restaurantAddress.setRestaurant(restaurant);
 
         restaurantRepository.save(restaurant);
 
         restaurantOwner.setRestaurant(restaurant);
+        restaurantAddress.setRestaurant(restaurant);
         restaurantOwnerRepository.save(restaurantOwner);
+
     }
 }
 

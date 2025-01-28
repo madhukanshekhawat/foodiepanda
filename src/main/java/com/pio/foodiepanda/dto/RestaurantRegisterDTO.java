@@ -2,6 +2,7 @@ package com.pio.foodiepanda.dto;
 
 public class RestaurantRegisterDTO {
     private Long ownerId;
+    private Long restaurantId;
     private String restaurantName;
     private String restaurantContact;
     private Long addressId;
@@ -72,5 +73,13 @@ public class RestaurantRegisterDTO {
 
     public void setPostalCode(String postalCode) {
         this.postalCode = postalCode;
+    }
+
+    public Long getRestaurantId() {
+        return restaurantId;
+    }
+
+    public void setRestaurantId(Long restaurantId) {
+        this.restaurantId = restaurantId;
     }
 }

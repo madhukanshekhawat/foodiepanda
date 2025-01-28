@@ -32,7 +32,6 @@ public class RestaurantOwner extends BaseEntity {
     @JoinColumn(name = "restaurant_id")
     private Restaurant restaurant;
 
-
     public Long getOwnerID() {
         return ownerID;
     }
