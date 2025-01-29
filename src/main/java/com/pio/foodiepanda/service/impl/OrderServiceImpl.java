@@ -8,6 +8,7 @@ import com.pio.foodiepanda.exception.ResourceNotFoundException;
 import com.pio.foodiepanda.model.OrderDetail;
 import com.pio.foodiepanda.model.Orders;
 import com.pio.foodiepanda.model.Restaurant;
+import com.pio.foodiepanda.repository.OrderDetailRepository;
 import com.pio.foodiepanda.repository.OrdersRepository;
 import com.pio.foodiepanda.repository.RestaurantRepository;
 import com.pio.foodiepanda.service.OrderService;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Service;
 import java.security.Principal;
 import java.util.List;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -28,6 +30,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Autowired
     private RestaurantRepository restaurantRepository;
+
+    @Autowired
+    private OrderDetailRepository orderDetailRepository;
 
     /**
      * Retrieves a list of orders for a specific restaurant based on the owner's email.
@@ -45,21 +50,25 @@ public class OrderServiceImpl implements OrderService {
             dto.setOrderId(order.getOrderId());
             dto.setOrderStatus(order.getStatus().toString());
             dto.setDeliveryAddress(order.getDeliveryAddress().getAddressLine() + " " + order.getDeliveryAddress().getCity() + " " + order.getDeliveryAddress().getState() + " " + order.getDeliveryAddress().getPostalCode());
-            dto.setUserName(order.getRestaurant().getRestaurantOwner().getFirstName() + " " + order.getRestaurant().getRestaurantOwner().getLastName());
+            dto.setUserName(order.getCustomer().getFirstName() + " " + order.getCustomer().getLastName());
             dto.setScheduledTime(order.getScheduledTime());
             dto.setTotalAmount(order.getTotalAmount());
 
-            OrderDetail orderDetail = order.getOrderDetails();
-            OrderDetailDTO detailDTO = new OrderDetailDTO();
-            detailDTO.setMenuItem(orderDetail.getMenuItems().getName());
-            detailDTO.setDescription(orderDetail.getMenuItems().getDescription());
-            detailDTO.setImage(orderDetail.getMenuItems().getImage());
-            detailDTO.setQuantity(orderDetail.getQuantity());
-            detailDTO.setPrice(orderDetail.getPrice());
+            // Fetch order details
+            List<OrderDetail> orderDetails = orderDetailRepository.findByOrders_OrderId(order.getOrderId());
+            List<OrderDetailDTO> orderDetailDTOs = orderDetails.stream().map(detail -> {
+                OrderDetailDTO detailDTO = new OrderDetailDTO();
+                detailDTO.setOrderDetailId(detail.getOrderDetailId());
+                detailDTO.setQuantity(detail.getQuantity());
+                detailDTO.setPrice(detail.getPrice());
+                detailDTO.setMenuItem(detail.getMenuItems().getName());
+                detailDTO.setImage(detail.getMenuItems().getImage());
+                return detailDTO;
+            }).collect(Collectors.toList());
+            dto.setOrderDetails(orderDetailDTOs);
 
-            dto.setOrderDetails(List.of(detailDTO));
             return dto;
-        }).toList();
+        }).collect(Collectors.toList());
     }
 
     /**

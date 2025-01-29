@@ -24,7 +24,7 @@ public class CouponController {
         return couponService.getCouponsByOwner(ownerUsername);
     }
 
-    @PatchMapping("/update/{id}")
+    @PutMapping("/update/{id}")
     public ResponseEntity<String> updateCouponStatus(@PathVariable Long id, @RequestParam("status") CouponStatus status, Principal principal) {
         String ownerUsername = principal.getName();
         couponService.updateCouponStatus(id, ownerUsername, status);

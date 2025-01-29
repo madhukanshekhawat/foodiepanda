@@ -15,11 +15,11 @@ public class OrderDetail extends BaseEntity {
 
     private BigDecimal price;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "order_id")
     private Orders orders;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "menu_item_id")
     private MenuItem menuItems;
 

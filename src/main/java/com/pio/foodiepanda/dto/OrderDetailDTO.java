@@ -6,6 +6,7 @@ import java.math.BigDecimal;
 
 public class OrderDetailDTO extends BaseDTO {
 
+    private Long orderDetailId;
     private String menuItem;
     private String description;
     private int quantity;
@@ -50,5 +51,13 @@ public class OrderDetailDTO extends BaseDTO {
 
     public void setImage(String image) {
         this.image = image;
+    }
+
+    public Long getOrderDetailId() {
+        return orderDetailId;
+    }
+
+    public void setOrderDetailId(Long orderDetailId) {
+        this.orderDetailId = orderDetailId;
     }
 }

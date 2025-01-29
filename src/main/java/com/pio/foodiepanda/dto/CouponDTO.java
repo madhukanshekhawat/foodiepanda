@@ -16,6 +16,7 @@ public class CouponDTO extends BaseDTO {
     private Double minOrderValue;
     private Integer usageLimit;
     private CouponApplicableTo applicableTo;
+    private String status;
 
     public Long getCouponId() {
         return couponId;
@@ -95,5 +96,13 @@ public class CouponDTO extends BaseDTO {
 
     public void setRestaurantName(String restaurantName) {
         this.restaurantName = restaurantName;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

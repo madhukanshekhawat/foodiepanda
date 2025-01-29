@@ -35,8 +35,8 @@ public class MenuItem extends BaseEntity {
     @JoinColumn(name = "restaurant_id")
     private Restaurant restaurant;
 
-    @OneToOne
-    @JoinColumn(name = "category_id",unique = false)
+    @ManyToOne
+    @JoinColumn(name = "category_id")
     private Categories categories;
 
     public Long getMenuItemId() {

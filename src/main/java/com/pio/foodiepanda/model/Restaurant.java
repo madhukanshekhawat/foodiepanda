@@ -22,7 +22,15 @@ public class Restaurant extends BaseEntity {
     private boolean isAvailable;
     private String phoneNumber;
 
-
+    @PrePersist
+    public void setDefaultTiming(){
+        if(this.startTime == null){
+            this.startTime = LocalTime.of(9,0);
+        }
+        if(this.endTime == null){
+            this.endTime = LocalTime.of(21,0);
+        }
+    }
     @OneToOne
     @JoinColumn(name = "address_id", nullable = false)
     private RestaurantAddress restaurantAddress;

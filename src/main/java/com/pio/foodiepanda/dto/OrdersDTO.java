@@ -24,14 +24,6 @@ public class OrdersDTO extends BaseDTO {
         this.orderId = orderId;
     }
 
-    public String getOrderStatus() {
-        return orderStatus;
-    }
-
-    public void setOrderStatus(String orderStatus) {
-        this.orderStatus = orderStatus;
-    }
-
     public LocalDateTime getScheduledTime() {
         return scheduledTime;
     }
@@ -70,5 +62,13 @@ public class OrdersDTO extends BaseDTO {
 
     public void setOrderDetails(List<OrderDetailDTO> orderDetails) {
         this.orderDetails = orderDetails;
+    }
+
+    public String getOrderStatus() {
+        return orderStatus;
+    }
+
+    public void setOrderStatus(String orderStatus) {
+        this.orderStatus = orderStatus;
     }
 }

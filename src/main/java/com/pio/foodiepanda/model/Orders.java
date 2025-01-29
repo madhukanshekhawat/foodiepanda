@@ -32,9 +32,6 @@ public class Orders extends BaseEntity {
     @JoinColumn(name = "addressId")
     private Address deliveryAddress;
 
-    @OneToOne
-    private OrderDetail orderDetails;
-
     public Long getOrderId() {
         return orderId;
     }
@@ -81,14 +78,6 @@ public class Orders extends BaseEntity {
 
     public void setDeliveryAddress(Address deliveryAddress) {
         this.deliveryAddress = deliveryAddress;
-    }
-
-    public OrderDetail getOrderDetails() {
-        return orderDetails;
-    }
-
-    public void setOrderDetails(OrderDetail orderDetails) {
-        this.orderDetails = orderDetails;
     }
 
     public Customer getCustomer() {
