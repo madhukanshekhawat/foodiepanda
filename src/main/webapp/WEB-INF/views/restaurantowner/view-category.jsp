@@ -10,6 +10,10 @@
 <body>
 <div class="table-container">
     <h2>All Categories</h2>
+    <div class="search-container">
+            <input type="text" id="searchCategory" placeholder="Search categories...">
+            <button onclick="window.location.href='/api/restaurant/add-category'" class="btn btn-primary">Create Category</button>
+    </div>
     <div id="categoriesContainer">
         <!-- Dynamic table will be injected here -->
     </div>
@@ -28,5 +32,6 @@
 </div>
 
 <script src="/static/js/view-category.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

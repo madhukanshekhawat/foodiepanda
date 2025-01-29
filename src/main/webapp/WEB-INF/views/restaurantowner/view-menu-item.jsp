@@ -15,6 +15,7 @@
         <div class="search-container">
             <input type="text" id="searchMenuItem" placeholder="Search menu items...">
             <button id="searchButton">Search</button>
+            <button id="newDishButton" onclick="window.location.href='/api/restaurant/addMenu'" class="btn btn-primary">New Dish</button>
         </div>
         <div id="menuItemsContainer">
             <!-- Dynamic data will be injected here -->

@@ -87,6 +87,7 @@ select:hover {
 }
 
 .btn-danger {
+    margin:5px;
     padding: 8px 12px;
     font-size: 14px;
     color: white;
@@ -117,6 +118,7 @@ select:hover {
 }
 
 #searchButton {
+    margin-right:60px;
     padding: 10px 20px;
     border: 1px solid #CDC1FF; /* Light purple border */
     border-left: none;
@@ -211,7 +213,6 @@ select:hover {
     display: block;
     font-weight: bold;
     margin-bottom: 5px;
-    color: #333;
 }
 
 .form-group input,

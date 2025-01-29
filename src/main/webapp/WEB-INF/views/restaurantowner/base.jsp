@@ -12,10 +12,8 @@
     <nav class="navbar">
         <div class="logo" id="restaurant-logo">My Restaurant</div>
         <ul class="nav-links">
-            <li><a href="/api/restaurant/addMenu">New Dish</a></li>
             <li><a href="/api/restaurant/view-menu">Menu Overview</a></li>
             <li><a href="/api/restaurant/view-coupon">Discounts</a></li>
-            <li><a href="/api/restaurant/add-category">Create Category</a></li>
             <li><a href="/api/restaurant/view-category">Category List</a></li>
             <li><a href="/api/restaurant/manage-order">Order Summary</a></li>
             <li><a href="/api/restaurant/change-availability">Timing</a></li>

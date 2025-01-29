@@ -11,6 +11,8 @@
 <div class="form-container">
     <h2>Add Menu Item</h2>
     <form id="menuItemForm">
+        <div id="menuItemError" class="error"></div>
+
         <!-- Image Upload -->
         <label for="image">Image</label>
         <input type="file" id="image" name="image" accept="image/*" required><br><br>

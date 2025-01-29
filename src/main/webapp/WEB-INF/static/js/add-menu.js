@@ -86,7 +86,7 @@
                         $("#menuItemForm")[0].reset();
                     },
                     error: function(xhr) {
-                        showError("errorMessages", "Error adding menu item.");
+                        showError("menuItemError", "Error adding menu item.");
                     }
                 });
             });

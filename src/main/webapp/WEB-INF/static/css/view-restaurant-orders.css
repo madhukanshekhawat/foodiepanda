@@ -58,7 +58,39 @@ h1 {
     background-color: #CDC1FF;
 }
 
+.action-btn{
+    display: block;
+    margin: 0 auto;
+    margin-top:10px;
+    padding: 10px 50px;
+    border: 1px solid #ddd;
+    background-color: #EFD9F2;
+    color: #fff;
+    border-radius:4px;
+    cursor: pointer;
+}
+
+/* Container for Orders */
+.orders-container {
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
 /* Order Item Styles */
+.order-item {
+    display:inline-block;
+      /* Two items per row with a gap */
+    background: #fff;
+    width:45%;
+    height:350px;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin:7px;
+    overflow-y: auto;
+}
+
+/* Ensure the table takes full width of the order item */
 .order-details-table {
     width: 100%;
     border-collapse: collapse;
@@ -107,6 +139,10 @@ h1 {
     .order-details-table td,
     .order-details-table th {
         padding: 8px;
+    }
+
+    .order-item {
+        flex: 1 1 100%; /* One item per row on smaller screens */
     }
 }
 

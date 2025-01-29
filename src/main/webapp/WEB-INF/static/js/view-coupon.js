@@ -1,3 +1,7 @@
+// Fetch coupons on page load
+$(document).ready(function() {
+    loadRestaurantCoupons();
+});
 function loadRestaurantCoupons() {
     $.ajax({
         url: '/coupon/all',
@@ -67,22 +71,22 @@ function confirmStatusChange(couponId, newStatus) {
     if (confirmed) {
         $.ajax({
             url: "/coupon/update/" + couponId,
-            method: 'PATCH',
+            method: 'PUT',
             data: { status: newStatus },
             success: function() {
                 alert("Status updated successfully!");
-                loadRestaurantCoupons(); // Reload the table to reflect changes
+
+                // Optimistic update: Change status directly in the frontend
+                $(`#couponsTableBody tr`).each(function () {
+                    const row = $(this);
+                    if (row.find('td:first').text() == couponId) {
+                        row.find('selected').val(newStatus);
+                    }
+                });
             },
             error: function(xhr) {
                 alert("Error updating status: " + xhr.responseText);
             }
         });
-    } else {
-        loadRestaurantCoupons(); // Reload table to reset the dropdown
     }
 }
-
-// Fetch coupons on page load
-$(document).ready(function() {
-    loadRestaurantCoupons();
-});

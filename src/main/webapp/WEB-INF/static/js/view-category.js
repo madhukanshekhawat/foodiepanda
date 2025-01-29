@@ -1,8 +1,14 @@
 $(document).ready(function() {
     loadCategories();
+
+    // Search input event for dynamic filtering
+    $("#searchCategory").on("input", function() {
+        const categoryFilter = $(this).val().toUpperCase();
+        loadCategories(categoryFilter);
+    });
 });
 
-function loadCategories() {
+function loadCategories(categoryFilter = "") {
     $.ajax({
         url: '/categories/allCategory',
         method: 'GET',
@@ -10,8 +16,13 @@ function loadCategories() {
             const container = $('#categoriesContainer');
             container.empty(); // Clear existing content
 
-            if (categories.length === 0) {
-                container.append("<p class='no-categories'>No categories found.</p>");
+            // Filter categories if a filter is provided
+            const filteredData = categoryFilter ? categories.filter(item => item.name.toUpperCase().includes(categoryFilter)) : categories;
+
+            if (filteredData.length === 0) {
+                container.append(`
+                    <p class="no-categories">No categories found matching "${categoryFilter}".</p>
+                `);
                 return;
             }
 
@@ -33,7 +44,7 @@ function loadCategories() {
 
             // Populate table with categories
             const tbody = $('#categoriesTableBody');
-            categories.forEach(category => {
+            filteredData.forEach(category => {
                 const row = `
                     <tr>
                         <td>${category.name}</td>
@@ -77,7 +88,7 @@ function deleteCategory(id) {
             loadCategories(); // Reload the table to reflect changes
         },
         error: function() {
-            alert('Error deleting category!');
+            alert('We can not delete category until it contain Item in it!');
         }
     });
 }

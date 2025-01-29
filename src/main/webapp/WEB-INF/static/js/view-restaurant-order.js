@@ -1,5 +1,5 @@
-const statuses = ["PLACED", "PREPARING", "OUT_FOR_DELIVERY", "DELIVERED"]; // Statuses in order
-const statusUpdateInterval = 5000; // 10 minutes in milliseconds[10 * 60 * 1000]
+const statuses = ["PENDING", "CONFIRMED", "PREPARING", "OUT_FOR_DELIVERY", "DELIVERED"];
+const autoDeliveryTime = 1*60*1000; // 5 minutes in milliseconds
 
 // Function to load all orders
 function loadOrders(statusFilter = "") {
@@ -20,48 +20,64 @@ function loadOrders(statusFilter = "") {
                 return;
             }
 
+            // Create a flex container for orders
+            const ordersContainer = $('<div class="orders-container"></div>');
+            container.append(ordersContainer);
+
             // Display each order
             filteredData.forEach(order => {
                 const orderDetailsRows = order.orderDetails.map(detail => `
                     <tr>
                         <td><img src="data:image/jpeg;base64,${detail.image}" alt="${detail.menuItem}" style="width: 50px; height: 50px;"/></td>
                         <td>${detail.menuItem}</td>
-                        <td>${detail.description}</td>
                         <td>${detail.price} RS.</td>
                         <td>${detail.quantity}</td>
-                        <td>${order.totalAmount} RS.</td>
-                        <td>${order.deliveryAddress}</td>
-                        <td>${order.scheduledTime}</td>
-                        <td>${order.orderStatus}</td>
                     </tr>
                 `).join('');
 
                 const orderElement = `
-                    <div class="order-item" style="margin-bottom: 30px;">
+                    <div class="order-item">
+                        <h3>Orders for ${order.userName}</h3>
                         <table class="order-details-table">
                             <thead>
                                 <tr>
                                     <th>Image</th>
                                     <th>Item Name</th>
-                                    <th>Description</th>
                                     <th>Price</th>
                                     <th>Quantity</th>
-                                    <th>Total Amount</th>
-                                    <th>Delivery Address</th>
-                                    <th>Schedule Time</th>
-                                    <th>Status</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 ${orderDetailsRows}
+                                <tr>
+                                    <td colspan="3" style="text-align: right;"><strong>Total Amount:</strong></td>
+                                    <td>${order.totalAmount} RS.</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3" style="text-align: right;"><strong>Delivery Address:</strong></td>
+                                    <td>${order.deliveryAddress}</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3" style="text-align: right;"><strong>Schedule Time:</strong></td>
+                                    <td>${order.scheduledTime}</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3" style="text-align: right;"><strong>Status:</strong></td>
+                                    <td id="status-${order.orderId}">${order.orderStatus}</td>
+                                </tr>
                             </tbody>
                         </table>
+                        <div id="actions-${order.orderId}" class="actions">
+                            ${generateActionButtons(order.orderId, order.orderStatus)}
+                        </div>
                     </div>
                 `;
-                container.append(orderElement);
+                ordersContainer.append(orderElement);
 
-                // Start automatic status updates for each order
-                startAutoStatusUpdate(order.orderId, order.orderStatus);
+                // If the order is OUT_FOR_DELIVERY, start the auto-delivery timer
+                if (order.orderStatus === "OUT_FOR_DELIVERY") {
+                    startAutoDelivery(order.orderId);
+                }
             });
         },
         error: function () {
@@ -70,33 +86,47 @@ function loadOrders(statusFilter = "") {
     });
 }
 
-// Function to start auto-updating the status of an order
-function startAutoStatusUpdate(orderId, currentStatus) {
-    let currentIndex = statuses.indexOf(currentStatus);
+// Function to generate action buttons based on current status
+function generateActionButtons(orderId, currentStatus) {
+    const currentIndex = statuses.indexOf(currentStatus);
+    if (currentIndex === -1 || currentIndex >= statuses.length - 2) {
+        return ''; // No buttons for invalid status or if status is DELIVERED
+    }
 
-    // Update status every 10 minutes
-    setInterval(() => {
-        if (currentIndex < statuses.length - 1) {
-            currentIndex++;
-            const newStatus = statuses[currentIndex];
+    const nextStatus = statuses[currentIndex + 1];
+    return `
+        <button class="action-btn" onclick="updateOrderStatus(${orderId}, '${nextStatus}')">${nextStatus}</button>
+    `;
+}
 
-            // Update status on the server
-            $.ajax({
-                url: "/order/" + orderId + "/status", // API endpoint for updating status
-                method: "PUT",
-                contentType: "application/json",
-                data: JSON.stringify({ status: newStatus }),
-                success: function () {
-                    // Update status on the frontend
-                    $(`#status-${orderId}`).text(newStatus);
-                    console.log(`Order ${orderId} status updated to ${newStatus}`);
-                },
-                error: function () {
-                    console.error(`Error updating status for order ${orderId}`);
-                }
-            });
+// Function to update the order status
+function updateOrderStatus(orderId, newStatus) {
+    $.ajax({
+        url: "/order/" +orderId+ "/status", // API endpoint for updating status
+        method: "PUT",
+        contentType: "application/json",
+        data: JSON.stringify({ status: newStatus }),
+        success: function () {
+            // Update status on the frontend
+            $(`#status-${orderId}`).text(newStatus);
+            $(`#actions-${orderId}`).html(generateActionButtons(orderId, newStatus));
+
+            // If the new status is OUT_FOR_DELIVERY, start the auto-delivery timer
+            if (newStatus === "OUT_FOR_DELIVERY") {
+                startAutoDelivery(orderId);
+            }
+        },
+        error: function () {
+            alert("Not able to change order status")
         }
-    }, statusUpdateInterval);
+    });
+}
+
+// Function to start the auto-delivery timer
+function startAutoDelivery(orderId) {
+    setTimeout(() => {
+        updateOrderStatus(orderId, "DELIVERED");
+    }, autoDeliveryTime);
 }
 
 // Load orders on page load
