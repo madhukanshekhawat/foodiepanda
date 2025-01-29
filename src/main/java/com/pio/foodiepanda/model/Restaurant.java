@@ -3,10 +3,11 @@ package com.pio.foodiepanda.model;
 import jakarta.persistence.*;
 
 import java.time.LocalTime;
+import java.util.List;
 
 @Entity
 @Table(name = "restaurants")
-public class Restaurant extends BaseEntity{
+public class Restaurant extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,13 +23,16 @@ public class Restaurant extends BaseEntity{
     private String phoneNumber;
 
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @OneToOne
     @JoinColumn(name = "address_id", nullable = false)
-    private Address address;
+    private RestaurantAddress restaurantAddress;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "owner_id", referencedColumnName = "ownerID")
     private RestaurantOwner restaurantOwner;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "restaurant")
+    private List<Orders> ordersList;
 
     public Long getRestaurantId() {
         return restaurantId;
@@ -44,22 +48,6 @@ public class Restaurant extends BaseEntity{
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public Address getAddress() {
-        return address;
-    }
-
-    public void setAddress(Address address) {
-        this.address = address;
-    }
-
-    public RestaurantOwner getRestaurantOwner() {
-        return restaurantOwner;
-    }
-
-    public void setRestaurantOwner(RestaurantOwner restaurantOwner) {
-        this.restaurantOwner = restaurantOwner;
     }
 
     public LocalTime getStartTime() {
@@ -92,5 +80,29 @@ public class Restaurant extends BaseEntity{
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public RestaurantOwner getRestaurantOwner() {
+        return restaurantOwner;
+    }
+
+    public void setRestaurantOwner(RestaurantOwner restaurantOwner) {
+        this.restaurantOwner = restaurantOwner;
+    }
+
+    public RestaurantAddress getRestaurantAddress() {
+        return restaurantAddress;
+    }
+
+    public void setRestaurantAddress(RestaurantAddress restaurantAddress) {
+        this.restaurantAddress = restaurantAddress;
+    }
+
+    public List<Orders> getOrdersList() {
+        return ordersList;
+    }
+
+    public void setOrdersList(List<Orders> ordersList) {
+        this.ordersList = ordersList;
     }
 }

@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import java.math.BigDecimal;
 
 @Entity
-public class OrderDetail extends BaseEntity{
+public class OrderDetail extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -15,13 +15,13 @@ public class OrderDetail extends BaseEntity{
 
     private BigDecimal price;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "order_id", nullable = false)
-    private Orders order;
+    @OneToOne
+    @JoinColumn(name = "order_id")
+    private Orders orders;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "menu_item", nullable = false)
-    private MenuItem menuItem;
+    @OneToOne
+    @JoinColumn(name = "menu_item_id")
+    private MenuItem menuItems;
 
     public Long getOrderDetailId() {
         return orderDetailId;
@@ -47,19 +47,19 @@ public class OrderDetail extends BaseEntity{
         this.price = price;
     }
 
-    public Orders getOrder() {
-        return order;
+    public Orders getOrders() {
+        return orders;
     }
 
-    public void setOrder(Orders order) {
-        this.order = order;
+    public void setOrders(Orders orders) {
+        this.orders = orders;
     }
 
-    public MenuItem getMenuItem() {
-        return menuItem;
+    public MenuItem getMenuItems() {
+        return menuItems;
     }
 
-    public void setMenuItem(MenuItem menuItem) {
-        this.menuItem = menuItem;
+    public void setMenuItems(MenuItem menuItems) {
+        this.menuItems = menuItems;
     }
 }

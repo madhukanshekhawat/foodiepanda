@@ -1,18 +1,19 @@
 package com.pio.foodiepanda.model;
 
 import jakarta.persistence.*;
-import jdk.jfr.Category;
 
 import java.math.BigDecimal;
 
 @Entity
-public class MenuItem extends BaseEntity{
+public class MenuItem extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "menu_item_id")
     private Long menuItemId;
 
-    @Column(name = "item_name")
+
+    @Column(name = "item_name", unique = true, nullable = false )
     private String name;
 
     @Column(name = "item_description")
@@ -24,12 +25,18 @@ public class MenuItem extends BaseEntity{
     private boolean isAvailable;
     private boolean isVeg;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "restaurant_id", nullable = false)
+    @Column(columnDefinition = "boolean default false")
+    private boolean deleted;
+
+    @Lob
+    private String image;
+
+    @ManyToOne
+    @JoinColumn(name = "restaurant_id")
     private Restaurant restaurant;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "category_id", nullable = false)
+    @OneToOne
+    @JoinColumn(name = "category_id",unique = false)
     private Categories categories;
 
     public Long getMenuItemId() {
@@ -94,5 +101,21 @@ public class MenuItem extends BaseEntity{
 
     public void setCategories(Categories categories) {
         this.categories = categories;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
     }
 }

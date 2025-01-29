@@ -1,17 +1,20 @@
 package com.pio.foodiepanda.dto;
 
+import com.pio.foodiepanda.enums.OrderStatus;
+
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
-public class OrdersDTO extends BaseDTO{
+public class OrdersDTO extends BaseDTO {
 
     private Long orderId;
-    private Long userId;
-    private Long restaurantId;
+    private String orderStatus;
     private LocalDateTime scheduledTime;
     private BigDecimal totalAmount;
-    private String status;
-    private Long deliveryAddressId;
+    private String deliveryAddress;
+    private String userName;
+    private List<OrderDetailDTO> orderDetails;
 
     public Long getOrderId() {
         return orderId;
@@ -21,20 +24,12 @@ public class OrdersDTO extends BaseDTO{
         this.orderId = orderId;
     }
 
-    public Long getUserId() {
-        return userId;
+    public String getOrderStatus() {
+        return orderStatus;
     }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }
-
-    public Long getRestaurantId() {
-        return restaurantId;
-    }
-
-    public void setRestaurantId(Long restaurantId) {
-        this.restaurantId = restaurantId;
+    public void setOrderStatus(String orderStatus) {
+        this.orderStatus = orderStatus;
     }
 
     public LocalDateTime getScheduledTime() {
@@ -53,19 +48,27 @@ public class OrdersDTO extends BaseDTO{
         this.totalAmount = totalAmount;
     }
 
-    public String getStatus() {
-        return status;
+    public String getDeliveryAddress() {
+        return deliveryAddress;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setDeliveryAddress(String deliveryAddress) {
+        this.deliveryAddress = deliveryAddress;
     }
 
-    public Long getDeliveryAddressId() {
-        return deliveryAddressId;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setDeliveryAddressId(Long deliveryAddressId) {
-        this.deliveryAddressId = deliveryAddressId;
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public List<OrderDetailDTO> getOrderDetails() {
+        return orderDetails;
+    }
+
+    public void setOrderDetails(List<OrderDetailDTO> orderDetails) {
+        this.orderDetails = orderDetails;
     }
 }

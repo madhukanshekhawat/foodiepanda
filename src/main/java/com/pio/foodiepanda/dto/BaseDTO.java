@@ -1,5 +1,4 @@
 package com.pio.foodiepanda.dto;
-
 import java.util.Date;
 
 public class BaseDTO {

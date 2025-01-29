@@ -3,17 +3,17 @@ package com.pio.foodiepanda.model;
 import jakarta.persistence.*;
 
 @Entity
-public class Feedback extends BaseEntity{
+public class Feedback extends BaseEntity {
 
     @Id
-    @GeneratedValue (strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long feedbackId;
 
     private Double rating;
 
     private String comments;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "order_id", nullable = false)
     private Orders order;
 

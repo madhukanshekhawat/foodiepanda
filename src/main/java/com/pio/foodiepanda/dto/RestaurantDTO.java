@@ -2,23 +2,29 @@ package com.pio.foodiepanda.dto;
 
 import java.time.LocalTime;
 
-public class RestaurantDTO extends BaseDTO{
+public class RestaurantDTO extends BaseDTO {
+    private Long ownerId;
     private Long restaurantId;
     private String name;
-    private Long ownerId;
 
-    private Long addressId;
-    private LocalTime startTime;
-    private LocalTime endTime;
+    private String address;
+    private LocalTime availabilityStartTime;
+    private LocalTime availabilityEndTime;
     private boolean isAvailable;
     private String phoneNumber;
 
-    public Long getRestaurantId() {
-        return restaurantId;
+
+    private OwnerDetails ownerDetails;
+
+    public RestaurantDTO() {
     }
 
-    public void setRestaurantId(Long restaurantId) {
-        this.restaurantId = restaurantId;
+    public Long getOwnerId() {
+        return ownerId;
+    }
+
+    public void setOwnerId(Long restaurantId) {
+        this.ownerId = restaurantId;
     }
 
     public String getName() {
@@ -29,39 +35,23 @@ public class RestaurantDTO extends BaseDTO{
         this.name = name;
     }
 
-    public Long getOwnerId() {
-        return ownerId;
+    public LocalTime getAvailabilityStartTime() {
+        return availabilityStartTime;
     }
 
-    public void setOwnerId(Long ownerId) {
-        this.ownerId = ownerId;
+    public void setAvailabilityStartTime(LocalTime availabilityStartTime) {
+        this.availabilityStartTime = availabilityStartTime;
     }
 
-    public Long getAddressId() {
-        return addressId;
+    public LocalTime getAvailabilityEndTime() {
+        return availabilityEndTime;
     }
 
-    public void setAddressId(Long addressId) {
-        this.addressId = addressId;
+    public void setAvailabilityEndTime(LocalTime availabilityEndTime) {
+        this.availabilityEndTime = availabilityEndTime;
     }
 
-    public LocalTime getStartTime() {
-        return startTime;
-    }
-
-    public void setStartTime(LocalTime startTime) {
-        this.startTime = startTime;
-    }
-
-    public LocalTime getEndTime() {
-        return endTime;
-    }
-
-    public void setEndTime(LocalTime endTime) {
-        this.endTime = endTime;
-    }
-
-    public boolean isAvailable() {
+    public boolean isAvailable(boolean available) {
         return isAvailable;
     }
 
@@ -75,5 +65,72 @@ public class RestaurantDTO extends BaseDTO{
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public OwnerDetails getOwnerDetails() {
+        return ownerDetails;
+    }
+
+    public void setOwnerDetails(OwnerDetails ownerDetails) {
+        this.ownerDetails = ownerDetails;
+    }
+
+    public Long getRestaurantId() {
+        return restaurantId;
+    }
+
+    public void setRestaurantId(Long restaurantId) {
+        this.restaurantId = restaurantId;
+    }
+
+    public boolean isAvailable() {
+        return isAvailable;
+    }
+
+    public static class OwnerDetails {
+        private Long ownerId;
+        private String firstName;
+        private String lastName;
+        private String phoneNumber;
+
+        public Long getOwnerId() {
+            return ownerId;
+        }
+
+        public void setOwnerId(Long ownerId) {
+            this.ownerId = ownerId;
+        }
+
+        public String getFirstName() {
+            return firstName;
+        }
+
+        public void setFirstName(String firstName) {
+            this.firstName = firstName;
+        }
+
+        public String getLastName() {
+            return lastName;
+        }
+
+        public void setLastName(String lastName) {
+            this.lastName = lastName;
+        }
+
+        public String getPhoneNumber() {
+            return phoneNumber;
+        }
+
+        public void setPhoneNumber(String phoneNumber) {
+            this.phoneNumber = phoneNumber;
+        }
     }
 }
