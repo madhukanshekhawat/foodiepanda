@@ -1,6 +1,6 @@
 package com.pio.foodiepanda.dto;
 
-public class FavoriteDTO extends BaseDTO {
+public class   FavoriteDTO extends BaseDTO {
 
     private Long favoriteId;
     private Long customerId;

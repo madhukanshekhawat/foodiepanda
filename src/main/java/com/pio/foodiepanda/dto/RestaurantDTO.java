@@ -12,6 +12,7 @@ public class RestaurantDTO extends BaseDTO {
     private LocalTime availabilityEndTime;
     private boolean isAvailable;
     private String phoneNumber;
+    private String image;
 
 
     private OwnerDetails ownerDetails;
@@ -51,7 +52,7 @@ public class RestaurantDTO extends BaseDTO {
         this.availabilityEndTime = availabilityEndTime;
     }
 
-    public boolean isAvailable(boolean available) {
+    public boolean isAvailable() {
         return isAvailable;
     }
 
@@ -91,8 +92,12 @@ public class RestaurantDTO extends BaseDTO {
         this.restaurantId = restaurantId;
     }
 
-    public boolean isAvailable() {
-        return isAvailable;
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 
     public static class OwnerDetails {

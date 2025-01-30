@@ -4,9 +4,11 @@ package com.pio.foodiepanda.service.impl;
 import com.pio.foodiepanda.dto.AvailabilityRequest;
 import com.pio.foodiepanda.dto.RestaurantDTO;
 import com.pio.foodiepanda.exception.ResourceNotFoundException;
+import com.pio.foodiepanda.model.MenuItem;
 import com.pio.foodiepanda.model.Restaurant;
 import com.pio.foodiepanda.model.RestaurantAddress;
 import com.pio.foodiepanda.model.RestaurantOwner;
+import com.pio.foodiepanda.repository.MenuItemRepository;
 import com.pio.foodiepanda.repository.RestaurantRepository;
 import com.pio.foodiepanda.service.RestaurantService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +27,9 @@ public class RestaurantServiceImpl implements RestaurantService {
 
     @Autowired
     private RestaurantRepository restaurantRepository;
+
+    @Autowired
+    private MenuItemRepository menuItemRepository;
 
     Logger logger = Logger.getLogger(RestaurantServiceImpl.class.getName());
 
@@ -68,7 +73,7 @@ public class RestaurantServiceImpl implements RestaurantService {
         dto.setName(restaurant.getName());
         dto.setAvailabilityStartTime(restaurant.getStartTime());
         dto.setAvailabilityEndTime(restaurant.getEndTime());
-        dto.isAvailable(restaurant.isAvailable());
+        dto.setAvailable(restaurant.isAvailable());
 
         if (restaurant.getRestaurantAddress() != null) {
             dto.setAddress(restaurant.getRestaurantAddress().getAddressLine() + " " + restaurant.getRestaurantAddress().getCity() + " " + restaurant.getRestaurantAddress().getState() + " " + restaurant.getRestaurantAddress().getPostalCode());
@@ -123,13 +128,18 @@ public class RestaurantServiceImpl implements RestaurantService {
         logger.info("Fetching all restaurants with pagination - page:" +page + ", size:"+ size);
         Pageable pageable = PageRequest.of(page, size);
 
-        Page<Restaurant> restaurantPage = restaurantRepository.findAll(pageable);
+        Page<Restaurant> restaurantPage = restaurantRepository.findAllRestaurantByOwnerApproved(pageable);
 
         return restaurantPage.map(restaurant -> {
             RestaurantDTO dto = new RestaurantDTO();
             dto.setName(restaurant.getName());
             dto.setAddress(restaurant.getRestaurantAddress().getCity());
-            dto.isAvailable(restaurant.isAvailable());
+            dto.setAvailable(restaurant.isAvailable());
+
+            MenuItem menuItem = menuItemRepository.findFirstByRestaurant_RestaurantId(restaurant.getRestaurantId());
+            if (menuItem != null) {
+                dto.setImage(menuItem.getImage());
+            }
             return dto;
         });
     }

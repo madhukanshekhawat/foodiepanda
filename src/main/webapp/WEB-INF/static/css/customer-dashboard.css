@@ -1,0 +1,204 @@
+/* Navbar Styling */
+.navbar {
+    background-color: #F5EFFF; /* Light background for navbar */
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    padding: 10px 20px;
+}
+
+/* Text Logo */
+.navbar-brand {
+    font-size: 24px; /* Larger font for the logo */
+    font-weight: bold; /* Bold text for emphasis */
+    color: #A294F9; /* Primary theme color */
+    text-decoration: none; /* Remove underline */
+    transition: color 0.3s ease; /* Smooth hover effect */
+}
+
+.navbar-brand:hover {
+    color: #7C68E8; /* Slightly darker purple on hover */
+}
+
+/* Search Bar */
+.search-bar {
+    width: 300px; /* Default width */
+    border-radius: 20px; /* Rounded corners */
+    border: 1px solid #E5D9F2; /* Subtle border matching theme */
+    padding: 8px 15px;
+    background-color: #ffffff; /* White background for input */
+    transition: width 0.3s ease, box-shadow 0.3s ease; /* Smooth expansion */
+}
+
+.search-bar:focus {
+    width: 400px; /* Expand on focus */
+    outline: none;
+    box-shadow: 0 0 6px rgba(162, 148, 249, 0.5); /* Purple glow on focus */
+}
+
+/* Search Button */
+.btn-outline-success {
+    border-radius: 20px; /* Rounded corners */
+    color: #A294F9; /* Primary theme color */
+    border-color: #A294F9;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.btn-outline-success:hover {
+    background-color: #A294F9; /* Purple fill on hover */
+    color: #ffffff; /* White text on hover */
+}
+
+/* Login and Signup Buttons */
+.btn-outline-primary {
+    border-radius: 20px; /* Rounded corners */
+    color: #CDC1FF; /* Secondary theme color */
+    border-color: #CDC1FF;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.btn-outline-primary:hover {
+    background-color: #CDC1FF; /* Purple fill on hover */
+    color: #ffffff; /* White text on hover */
+}
+
+.btn-primary {
+    border-radius: 20px; /* Rounded corners */
+    background-color: #A294F9; /* Primary theme color */
+    border-color: #A294F9;
+    color: #ffffff; /* White text */
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: #7C68E8; /* Slightly darker purple on hover */
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+}
+
+/* Restaurants Section */
+.container h3 {
+    margin: 20px;
+    color: #A294F9; /* Primary theme color */
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+#restaurant-cards {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.restaurant-card {
+    background-color: #FBFBFB; /* Light background for cards */
+    border: 1px solid #E5D9F2; /* Subtle border */
+    border-radius: 10px; /* Rounded corners */
+    padding: 15px;
+    margin-bottom: 20px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth hover effect */
+    width: 30%; /* Three items in one row */
+}
+
+.restaurant-card:hover {
+    transform: translateY(-5px); /* Slight lift on hover */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+
+.restaurant-card img {
+    width: 100%; /* Full width for images */
+    height: auto; /* Maintain aspect ratio */
+    border-radius: 10px; /* Rounded corners for images */
+    margin-bottom: 10px; /* Space below image */
+}
+
+/* Restaurant Name */
+.restaurant-name {
+    font-size: 20px; /* Larger font for name */
+    font-weight: bold; /* Bold text */
+    color: #7C68E8; /* Slightly darker purple */
+    margin-bottom: 10px;
+}
+
+/* Restaurant Address */
+.restaurant-address {
+    font-size: 16px; /* Standard font size */
+    color: #6C757D; /* Gray color */
+    margin-bottom: 10px;
+}
+
+/* Pagination Button */
+.text-center button {
+    border-radius: 20px; /* Rounded corners */
+    background-color: #A294F9; /* Primary theme color */
+    border: none;
+    color: #ffffff; /* White text */
+    padding: 10px 20px;
+    margin: 0 5px;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    width: 100px; /* Fixed width for consistency */
+    text-align: center; /* Center the text */
+}
+
+.text-center button:hover {
+    background-color: #7C68E8; /* Slightly darker purple on hover */
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+}
+
+.availability-status {
+    font-size: 14px; /* Smaller font size */
+    color: #28A745; /* Green color for available */
+}
+
+.restaurant-card.gray {
+    background-color: #E0E0E0; /* Gray background for unavailable cards */
+    pointer-events: none; /* Disable click events */
+    filter: grayscale(100%); /* Apply grayscale filter */
+}
+
+.restaurant-card.gray .restaurant-name,
+.restaurant-card.gray .restaurant-address,
+.restaurant-card.gray .availability-status {
+    color: #A0A0A0; /* Gray color for text */
+}
+
+.restaurant-card.gray img {
+    filter: grayscale(100%); /* Apply grayscale filter to images */
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .search-bar {
+        width: 100%; /* Full width for smaller screens */
+        margin-bottom: 10px;
+    }
+
+    .navbar {
+        padding: 10px;
+    }
+
+    .d-flex > a {
+        width: 100%; /* Buttons take full width */
+        margin-bottom: 5px; /* Add spacing between buttons */
+    }
+
+    .btn-outline-primary,
+    .btn-primary {
+        text-align: center;
+    }
+
+    .restaurant-card {
+        width: 100%; /* Full width for smaller screens */
+        margin-bottom: 10px;
+    }
+
+    .carousel-item img {
+        max-height: 300px; /* Adjust height for smaller screens */
+    }
+}
+
+/* Navbar Toggle Button */
+.navbar-toggler {
+    border: none; /* Clean look for toggle button */
+}
+
+.navbar-toggler-icon {
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba%280, 0, 0, 0.5%29' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+}
