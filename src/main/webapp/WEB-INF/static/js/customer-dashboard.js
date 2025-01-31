@@ -1,6 +1,37 @@
 let currentPage = 0;
 const pageSize = 6;
 
+// Function to load menu items
+function loadMenuItems(page) {
+    $.ajax({
+        url: "/menu/available/" + page + "/size/" + pageSize,
+        type: "GET",
+        success: function (data) {
+             $("#menuItemsContainer").empty();
+
+                data.forEach(item => {
+                    let cardClass = item.restaurantAvailable ? 'menu-card' : 'menu-card gray';
+                    const card = `
+                        <div class="${cardClass}" data-id="${item.id}">
+                            <img src="data:image/jpeg;base64,${item.itemImage}" alt="${item.name}" style="width: 350px; height: 250px;"/>
+                            <h5>${item.name}</h5>
+                            <p>Price: ₹${item.price}</p>
+                            <p class = "restro-name">${item.restaurantName}</p>
+                        </div>
+                    `;
+                    $("#menuItemsContainer").append(card);
+                });
+
+                // Update pagination buttons
+                $("#currentPage").text(page + 1);
+                $("#prev").prop("disabled", page === 0);
+                $("#nex").prop("disabled", data.last);
+        }
+    });
+}
+
+
+// Function to fetch restaurants
 function fetchRestaurants(page) {
     $.ajax({
         url: "/api/customer/restaurant/page/" + page + "/size/" + pageSize,
@@ -27,6 +58,20 @@ function fetchRestaurants(page) {
     });
 }
 
+// Pagination for menu items
+$("#prev").click(function () {
+    if (currentPage > 0) {
+        currentPage--;
+        loadMenuItems(currentPage);
+    }
+});
+
+$("#nex").click(function () {
+    currentPage++;
+    loadMenuItems(currentPage);
+});
+
+// Pagination for restaurants
 $("#prevPage").click(function () {
     if (currentPage > 0) {
         currentPage--;
@@ -39,6 +84,8 @@ $("#nextPage").click(function () {
     fetchRestaurants(currentPage);
 });
 
+// Initialize on document ready
 $(document).ready(function () {
+    loadMenuItems(currentPage);
     fetchRestaurants(currentPage);
 });

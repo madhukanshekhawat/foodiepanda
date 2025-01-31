@@ -2,9 +2,11 @@ package com.pio.foodiepanda.controller;
 
 import com.pio.foodiepanda.constants.MessageConstant;
 import com.pio.foodiepanda.dto.MenuItemDTO;
+import com.pio.foodiepanda.dto.MenuItemResponse;
 import com.pio.foodiepanda.model.MenuItem;
 import com.pio.foodiepanda.service.MenuItemService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -54,5 +56,10 @@ public class MenuItemController {
     public ResponseEntity<String> updateMenuItem(@PathVariable Long id, @RequestBody MenuItemDTO menuItemDTO){
         String message = menuItemService.updateMenuItem(id,menuItemDTO);
         return ResponseEntity.ok(message);
+    }
+
+    @GetMapping("/available/{page}/size/{size}")
+    public List<MenuItemResponse> getAvailableMenuItem(@PathVariable int page, @PathVariable int size){
+       return menuItemService.getAvailableMenuItems(page,size);
     }
 }

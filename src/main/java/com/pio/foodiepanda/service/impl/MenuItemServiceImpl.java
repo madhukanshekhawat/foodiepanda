@@ -2,6 +2,7 @@ package com.pio.foodiepanda.service.impl;
 
 import com.pio.foodiepanda.constants.MessageConstant;
 import com.pio.foodiepanda.dto.MenuItemDTO;
+import com.pio.foodiepanda.dto.MenuItemResponse;
 import com.pio.foodiepanda.exception.ResourceNotFoundException;
 import com.pio.foodiepanda.model.Categories;
 import com.pio.foodiepanda.model.MenuItem;
@@ -12,9 +13,13 @@ import com.pio.foodiepanda.repository.RestaurantRepository;
 import com.pio.foodiepanda.service.MenuItemService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.logging.Logger;
@@ -181,6 +186,28 @@ public class MenuItemServiceImpl implements MenuItemService {
         else {
             throw new ResourceNotFoundException(MessageConstant.NO_MENU_ITEM_FOUND);
         }
+    }
+
+    @Override
+    public List<MenuItemResponse> getAvailableMenuItems(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+
+        List<MenuItem> menuItems = menuItemRepository.findIsAvailableMenuItems(pageable);
+        List<MenuItemResponse> responseList = new ArrayList<>();
+
+        for(MenuItem item : menuItems){
+            if(item.isAvailable() && item.getRestaurant().isAvailable()){
+                responseList.add(new MenuItemResponse(
+                        item.getMenuItemId(),
+                        item.getName(),
+                        item.getPrice(),
+                        item.getRestaurant().getName(),
+                        item.getRestaurant().isAvailable(),
+                        item.getImage()
+                ));
+            }
+        }
+        return responseList;
     }
 
     private MenuItemDTO convertToDTO(MenuItem menuItem){
