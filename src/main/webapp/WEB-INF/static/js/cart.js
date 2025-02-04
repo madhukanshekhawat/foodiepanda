@@ -5,7 +5,6 @@ $(document).ready(function() {
         method: "GET",
         success: function(response) {
             if (response.loggedIn) {
-                loadCartItems();
                 loadAddresses();
             } else {
                 alert("Please log in to view your cart.");
@@ -18,49 +17,24 @@ $(document).ready(function() {
         }
     });
 
-    function loadCartItems() {
-        $.ajax({
-            url: "/api/cart/items",
-            method: "GET",
-            success: function(cart) {
-                const cartItemsContainer = $("#cartItems");
-
-                if (cart.length === 0) {
-                    cartItemsContainer.html("<p>Your cart is empty.</p>");
-                } else {
-                    cart.forEach(item => {
-                        const cartItem = `
-                            <div class="cart-item" data-id="${item.id}">
-                                <img src="data:image/jpeg;base64,${item.image}" alt="${item.name}">
-                                <div class="cart-item-details">
-                                    <h5>${item.name}</h5>
-                                    <p>Price: ₹${item.price}</p>
-                                    <p>Quantity: <input type="number" class="item-quantity" value="${item.quantity}" min="1"></p>
-                                    <button class="delete-item">Delete</button>
-                                </div>
-                            </div>
-                        `;
-                        cartItemsContainer.append(cartItem);
-                    });
-                }
-            },
-            error: function(xhr, status, error) {
-                console.error("Error fetching cart items:", status, error);
-                alert("Error fetching cart items.");
-            }
-        });
-    }
-
     function loadAddresses() {
         $.ajax({
             url: "/api/user/addresses",
             method: "GET",
             success: function(addresses) {
-                const addressDropdown = $("#addressDropdown");
-                addresses.forEach(address => {
-                    const option = `<option value="${address.id}">${address.details}</option>`;
-                    addressDropdown.append(option);
-                });
+                const addressContainer = $("#addressContainer");
+                if (addresses.length === 0) {
+                    $("#newAddressForm").show();
+                } else {
+                    addresses.forEach(address => {
+                        const radioOption = `
+                            <div>
+                                <input type="radio" name="address" value="${address.id}" id="address-${address.id}">
+                                <label for="address-${address.id}">${address.label} - ${address.addressLine}, ${address.city}, ${address.state}, ${address.postalCode}</label>
+                            </div>`;
+                        addressContainer.append(radioOption);
+                    });
+                }
             },
             error: function(xhr, status, error) {
                 console.error("Error fetching addresses:", status, error);
@@ -74,68 +48,64 @@ $(document).ready(function() {
     });
 
     $("#saveNewAddress").click(function() {
-        const newAddress = $("#newAddress").val().trim();
-        if (newAddress) {
-            $.ajax({
-                url: "/api/user/addresses",
-                method: "POST",
-                contentType: "application/json",
-                data: JSON.stringify({ details: newAddress }),
-                success: function(response) {
-                    const option = `<option value="${response.id}">${response.details}</option>`;
-                    $("#addressDropdown").append(option);
-                    $("#newAddressForm").hide();
-                    $("#newAddress").val("");
-                },
-                error: function(xhr, status, error) {
-                    console.error("Error saving new address:", status, error);
-                    alert("Error saving new address.");
-                }
-            });
-        } else {
-            alert("Please enter a valid address.");
+        const newAddress = {
+            label: $("input[name='addressLabel']:checked").val(),
+            addressLine: $("#newAddressLine").val().trim(),
+            city: $("#newAddressCity").val().trim(),
+            postalCode: $("#newAddressPostalCode").val().trim(),
+            state: $("#newAddressState").val().trim()
+        };
+
+        // Validation
+        if (!newAddress.label) {
+            alert("Please select an address label.");
+            return;
         }
-    });
+        if (!newAddress.addressLine) {
+            alert("Please enter the address line.");
+            return;
+        }
+        if (newAddress.addressLine.length > 50) {
+            alert("Address line should not exceed 50 characters.");
+            return;
+        }
+        if (!newAddress.city) {
+            alert("Please enter the city.");
+            return;
+        }
+        if (!newAddress.postalCode) {
+            alert("Please enter the postal code.");
+            return;
+        }
+        if (!newAddress.state) {
+            alert("Please enter the state.");
+            return;
+        }
 
-    $(document).on("click", ".delete-item", function() {
-        const itemId = $(this).closest(".cart-item").data("id");
         $.ajax({
-            url: "/api/cart/items/" + itemId,
-            method: "DELETE",
-            success: function(response) {
-                loadCartItems();
-            },
-            error: function(xhr, status, error) {
-                console.error("Error deleting cart item:", status, error);
-                alert("Error deleting cart item.");
-            }
-        });
-    });
-
-    $(document).on("change", ".item-quantity", function() {
-        const itemId = $(this).closest(".cart-item").data("id");
-        const newQuantity = $(this).val();
-        $.ajax({
-            url: "/api/cart/items/" + itemId,
-            method: "PUT",
+            url: "/api/user/address/add",
+            method: "POST",
             contentType: "application/json",
-            data: JSON.stringify({ quantity: newQuantity }),
+            data: JSON.stringify(newAddress),
             success: function(response) {
-                loadCartItems();
+                const radioOption = `
+                    <div>
+                        <input type="radio" name="address" value="${response.id}" id="address-${response.id}">
+                        <label for="address-${response.id}">${response.label} - ${response.addressLine}, ${response.city}, ${response.state}, ${response.postalCode}</label>
+                    </div>`;
+                $("#addressContainer").append(radioOption);
+                $("#newAddressForm").hide();
+                $("input[name='addressLabel']").prop('checked', false);
+                $("#newAddressLine").val("");
+                $("#newAddressCity").val("");
+                $("#newAddressPostalCode").val("");
+                $("#newAddressState").val("");
+                alert("Address added successfully!");
             },
             error: function(xhr, status, error) {
-                console.error("Error updating cart item quantity:", status, error);
-                alert("Error updating cart item quantity.");
+                console.error("Error saving new address:", status, error);
+                alert("Error saving new address.");
             }
         });
-    });
-
-    $("#proceedButton").click(function() {
-        const selectedAddressId = $("#addressDropdown").val();
-        if (selectedAddressId) {
-            window.location.href = "/checkout?addressId=" + selectedAddressId;
-        } else {
-            alert("Please select an address.");
-        }
     });
 });

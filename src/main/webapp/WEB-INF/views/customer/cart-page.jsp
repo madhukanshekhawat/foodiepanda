@@ -22,7 +22,7 @@
             border: 1px solid #E5D9F2;
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            margin-bottom: 20px;
+           px;
             padding: 20px;
             display: flex;
             align-items: center;
@@ -48,20 +48,36 @@
     </style>
 </head>
 <body>
-   <div class="cart-container">
-       <h2>Your Cart</h2>
-       <div id="cartItems"></div>
-       <h3>Select Address</h3>
-       <select id="addressDropdown">
-           <!-- Addresses will be populated here -->
-       </select>
-       <button id="addNewAddress">Add New Address</button>
-       <div id="newAddressForm" style="display: none;">
-           <input type="text" id="newAddress" placeholder="Enter new address">
-           <button id="saveNewAddress">Save Address</button>
-       </div>
-       <button id="proceedButton">Proceed</button>
-   </div>
+  <div class="cart-container">
+      <h2>Your Cart</h2>
+      <div id="cartItems"></div>
+      <h3>Select Address</h3>
+      <div id="addressContainer">
+          <!-- Addresses will be populated here -->
+      </div>
+      <button id="addNewAddress">Add New Address</button>
+      <div id="newAddressForm" style="display: none;">
+          <label>Address Label:</label>
+          <div>
+              <input type="radio" name="addressLabel" value="HOME" id="label-home">
+              <label for="label-home">HOME</label>
+          </div>
+          <div>
+              <input type="radio" name="addressLabel" value="OFFICE" id="label-office">
+              <label for="label-office">OFFICE</label>
+          </div>
+          <div>
+              <input type="radio" name="addressLabel" value="OTHER" id="label-other">
+              <label for="label-other">OTHER</label>
+          </div>
+          <input type="text" id="newAddressLine" placeholder="Address Line">
+          <input type="text" id="newAddressCity" placeholder="City">
+          <input type="text" id="newAddressPostalCode" placeholder="Postal Code">
+          <input type="text" id="newAddressState" placeholder="State">
+          <button id="saveNewAddress">Save Address</button>
+      </div>
+      <button id="proceedButton">Proceed</button>
+  </div>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="/static/js/cart.js"></script>
 </body>

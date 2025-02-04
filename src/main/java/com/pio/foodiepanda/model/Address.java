@@ -2,6 +2,7 @@ package com.pio.foodiepanda.model;
 
 import com.pio.foodiepanda.enums.DeliveryAddressLabel;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(name = "addresses")
@@ -11,7 +12,8 @@ public class Address extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long addressId;
 
-    @Column(name = "address_line", nullable = false, length = 255)
+    @Column(name = "address_line", nullable = false)
+    @Size(max = 50)
     private String addressLine;
 
     @Column(name = "city", nullable = false, length = 100)

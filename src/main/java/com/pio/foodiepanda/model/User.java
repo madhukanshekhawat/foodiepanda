@@ -1,5 +1,7 @@
 package com.pio.foodiepanda.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.pio.foodiepanda.enums.UserRole;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
@@ -29,6 +31,7 @@ public class User extends BaseEntity {
     private Customer customer;
 
     @OneToOne(mappedBy = "user", fetch = FetchType.EAGER)
+    @JsonIgnore
     private RestaurantOwner restaurantOwner;
 
     public User() {
