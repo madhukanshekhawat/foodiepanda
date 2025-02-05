@@ -23,7 +23,7 @@ public class AdminUserInitializer implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         // Check if admin user already exists
-        if (userRepository.findByEmail("mani@gmail.com")==null) {
+        if (userRepository.findByEmail("mani@gmail.com") == null) {
             // Create an admin user with their login details
             Admin admin = new Admin();
             admin.setFirstName("Madhu");

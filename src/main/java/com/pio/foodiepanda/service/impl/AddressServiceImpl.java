@@ -45,7 +45,7 @@ public class AddressServiceImpl implements AddressService {
     @Override
     public AddressDTO addNewAddress(String username, AddressDTO addressDTO) {
         User user = userRepository.findByEmail(username);
-        if(user == null){
+        if (user == null) {
             throw new ResourceNotFoundException(MessageConstant.USER_NOT_FOUND);
         }
 

@@ -1,13 +1,9 @@
 package com.pio.foodiepanda.controller;
 
 import com.pio.foodiepanda.dto.AddressDTO;
-import com.pio.foodiepanda.model.Address;
 import com.pio.foodiepanda.service.AddressService;
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -22,13 +18,13 @@ public class AddressController {
 
     @GetMapping("/addresses")
     public ResponseEntity<List<AddressDTO>> getUserAddresses(Principal principal) {
-     String username = principal.getName();
-     List<AddressDTO> addressDTOS = addressService.getAddressByUsername(username);
-     return ResponseEntity.ok(addressDTOS);
+        String username = principal.getName();
+        List<AddressDTO> addressDTOS = addressService.getAddressByUsername(username);
+        return ResponseEntity.ok(addressDTOS);
     }
 
     @PostMapping("/address/add")
-    public ResponseEntity<AddressDTO> addAddress(Principal principal, @RequestBody AddressDTO addressDTO){
+    public ResponseEntity<AddressDTO> addAddress(Principal principal, @RequestBody AddressDTO addressDTO) {
         String username = principal.getName();
         AddressDTO savedAddress = addressService.addNewAddress(username, addressDTO);
         return ResponseEntity.ok(savedAddress);
