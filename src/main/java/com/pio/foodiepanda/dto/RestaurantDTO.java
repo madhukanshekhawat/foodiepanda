@@ -1,6 +1,7 @@
 package com.pio.foodiepanda.dto;
 
 import java.time.LocalTime;
+import java.util.List;
 
 public class RestaurantDTO extends BaseDTO {
     private Long ownerId;
@@ -13,19 +14,14 @@ public class RestaurantDTO extends BaseDTO {
     private boolean isAvailable;
     private String phoneNumber;
     private String image;
-
-
+    private List<MenuItemDTO> menuItems;
     private OwnerDetails ownerDetails;
 
     public RestaurantDTO() {
     }
 
-    public Long getOwnerId() {
+    public Long getOwnerId(Long ownerID) {
         return ownerId;
-    }
-
-    public void setOwnerId(Long restaurantId) {
-        this.ownerId = restaurantId;
     }
 
     public String getName() {
@@ -60,8 +56,8 @@ public class RestaurantDTO extends BaseDTO {
         isAvailable = available;
     }
 
-    public String getPhoneNumber() {
-        return phoneNumber;
+    public String getPhoneNumber(String phoneNumber) {
+        return this.phoneNumber;
     }
 
     public void setPhoneNumber(String phoneNumber) {
@@ -98,6 +94,22 @@ public class RestaurantDTO extends BaseDTO {
 
     public void setImage(String image) {
         this.image = image;
+    }
+
+    public Long getOwnerId() {
+        return ownerId;
+    }
+
+    public void setOwnerId(Long restaurantId) {
+        this.ownerId = restaurantId;
+    }
+
+    public List<MenuItemDTO> getMenuItems() {
+        return menuItems;
+    }
+
+    public void setMenuItems(List<MenuItemDTO> menuItems) {
+        this.menuItems = menuItems;
     }
 
     public static class OwnerDetails {

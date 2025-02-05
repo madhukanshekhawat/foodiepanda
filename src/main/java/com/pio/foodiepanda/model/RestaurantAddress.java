@@ -1,5 +1,6 @@
 package com.pio.foodiepanda.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.pio.foodiepanda.enums.DeliveryAddressLabel;
 import jakarta.persistence.*;
 
@@ -28,6 +29,7 @@ public class RestaurantAddress {
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "owner_id", nullable = false)
+    @JsonIgnore
     private RestaurantOwner restaurantOwner;
 
     @OneToOne

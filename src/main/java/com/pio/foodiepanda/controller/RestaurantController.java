@@ -26,20 +26,26 @@ public class RestaurantController {
     }
 
     @GetMapping("/profile")
-    public ResponseEntity<RestaurantDTO> getRestaurantProfile(Principal principal){
+    public ResponseEntity<RestaurantDTO> getRestaurantProfile(Principal principal) {
         RestaurantDTO restaurantProfile = restaurantService.getRestaurantProfile(principal);
         return ResponseEntity.ok(restaurantProfile);
     }
 
     @PutMapping("/change-availability")
-    public ResponseEntity<String> updateRestaurantTiming(@RequestBody RestaurantDTO restaurantDTO, Principal principal){
+    public ResponseEntity<String> updateRestaurantTiming(@RequestBody RestaurantDTO restaurantDTO, Principal principal) {
         restaurantService.updateRestaurantTiming(restaurantDTO, principal);
         return ResponseEntity.ok(MessageConstant.SUCCESSFUL_MESSAGE);
     }
 
     @PutMapping("/availability")
-    public ResponseEntity<String> updateRestaurantAvailability(@RequestBody AvailabilityRequest availabilityRequest, Principal principal){
-       restaurantService.updateRestaurantAvailability(availabilityRequest,principal);
-       return ResponseEntity.ok(MessageConstant.SUCCESSFUL_MESSAGE);
+    public ResponseEntity<String> updateRestaurantAvailability(@RequestBody AvailabilityRequest availabilityRequest, Principal principal) {
+        restaurantService.updateRestaurantAvailability(availabilityRequest, principal);
+        return ResponseEntity.ok(MessageConstant.SUCCESSFUL_MESSAGE);
+    }
+
+    @GetMapping("/detail/{restaurantId}")
+    public ResponseEntity<RestaurantDTO> getRestaurantDetails(@PathVariable Long restaurantId) {
+        RestaurantDTO restaurant = restaurantService.getRestaurantById(restaurantId);
+        return ResponseEntity.ok(restaurant);
     }
 }

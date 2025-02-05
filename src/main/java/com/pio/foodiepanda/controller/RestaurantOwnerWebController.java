@@ -46,7 +46,7 @@ public class RestaurantOwnerWebController {
     }
 
     @GetMapping("/change-availability")
-    public String viewProfile(){
+    public String viewProfile() {
         return ViewConstant.CHANGE_AVAILABILITY;
     }
 }

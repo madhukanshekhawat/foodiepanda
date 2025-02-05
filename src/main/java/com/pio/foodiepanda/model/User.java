@@ -1,7 +1,6 @@
 package com.pio.foodiepanda.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.pio.foodiepanda.enums.UserRole;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;

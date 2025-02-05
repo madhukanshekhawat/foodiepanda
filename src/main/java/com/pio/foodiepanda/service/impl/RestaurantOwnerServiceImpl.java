@@ -24,7 +24,8 @@ public class RestaurantOwnerServiceImpl implements RestaurantOwnerService {
 
     /**
      * Authenticate a restaurant owner using the provided email and password
-     * @param email : the email of the restaurant owner
+     *
+     * @param email    : the email of the restaurant owner
      * @param password : the password of the restaurant owner
      * @return true if authentication is successful, false otherwise
      */
@@ -36,6 +37,7 @@ public class RestaurantOwnerServiceImpl implements RestaurantOwnerService {
 
     /**
      * Retrieves the restaurant ID associated with the given restaurant owner's email
+     *
      * @param email : the email of the restaurant
      * @return the restaurant id if found
      * @throws RuntimeException if the restaurant owner is not found

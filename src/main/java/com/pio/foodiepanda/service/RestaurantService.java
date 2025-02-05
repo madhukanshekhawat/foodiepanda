@@ -18,4 +18,6 @@ public interface RestaurantService {
     void updateRestaurantAvailability(AvailabilityRequest availabilityRequest, Principal principal);
 
     Page<RestaurantDTO> getAllRestaurants(int page, int size);
+
+    RestaurantDTO getRestaurantById(Long restaurantId);
 }

@@ -1,12 +1,13 @@
 package com.pio.foodiepanda.service.impl;
 
 
+import com.pio.foodiepanda.constants.MessageConstant;
 import com.pio.foodiepanda.dto.AvailabilityRequest;
+import com.pio.foodiepanda.dto.MenuItemDTO;
 import com.pio.foodiepanda.dto.RestaurantDTO;
 import com.pio.foodiepanda.exception.ResourceNotFoundException;
 import com.pio.foodiepanda.model.MenuItem;
 import com.pio.foodiepanda.model.Restaurant;
-import com.pio.foodiepanda.model.RestaurantAddress;
 import com.pio.foodiepanda.model.RestaurantOwner;
 import com.pio.foodiepanda.repository.MenuItemRepository;
 import com.pio.foodiepanda.repository.RestaurantRepository;
@@ -18,6 +19,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -25,13 +27,11 @@ import java.util.logging.Logger;
 @Service
 public class RestaurantServiceImpl implements RestaurantService {
 
+    Logger logger = Logger.getLogger(RestaurantServiceImpl.class.getName());
     @Autowired
     private RestaurantRepository restaurantRepository;
-
     @Autowired
     private MenuItemRepository menuItemRepository;
-
-    Logger logger = Logger.getLogger(RestaurantServiceImpl.class.getName());
 
     /*
      * Retrieves a list of all restaurants from db
@@ -59,6 +59,7 @@ public class RestaurantServiceImpl implements RestaurantService {
 
     /**
      * Retrieves the profile of a restaurant based on the principal's email.
+     *
      * @param principal the principal object containing the user's email.
      * @return a RestaurantDTO object representing the restaurant profile.
      */
@@ -83,8 +84,9 @@ public class RestaurantServiceImpl implements RestaurantService {
 
     /**
      * Updates the timing of a restaurant based on the provided RestaurantDTO and principal's email.
+     *
      * @param restaurantDTO the data transfer object containing the new timing details.
-     * @param principal the principal object containing the user's email.
+     * @param principal     the principal object containing the user's email.
      */
     @Override
     public void updateRestaurantTiming(RestaurantDTO restaurantDTO, Principal principal) {
@@ -97,13 +99,14 @@ public class RestaurantServiceImpl implements RestaurantService {
         restaurant.setEndTime(restaurantDTO.getAvailabilityEndTime());
 
         restaurantRepository.save(restaurant);
-        logger.info("Restaurant timing updated successfully for email:"+ email);
+        logger.info("Restaurant timing updated successfully for email:" + email);
     }
 
     /**
      * Updates the availability status of a restaurant based on the provided AvailabilityRequest and principal's email.
+     *
      * @param availabilityRequest the request object containing the new availability status.
-     * @param principal the principal object containing the user's email.
+     * @param principal           the principal object containing the user's email.
      */
     @Override
     public void updateRestaurantAvailability(AvailabilityRequest availabilityRequest, Principal principal) {
@@ -119,19 +122,21 @@ public class RestaurantServiceImpl implements RestaurantService {
 
     /**
      * Retrieves a paginated list of all restaurants.
+     *
      * @param page the page number to retrieve.
      * @param size the number of records per page.
      * @return a paginated list of RestaurantDTO objects.
      */
     @Override
     public Page<RestaurantDTO> getAllRestaurants(int page, int size) {
-        logger.info("Fetching all restaurants with pagination - page:" +page + ", size:"+ size);
+        logger.info("Fetching all restaurants with pagination - page:" + page + ", size:" + size);
         Pageable pageable = PageRequest.of(page, size);
 
         Page<Restaurant> restaurantPage = restaurantRepository.findAllRestaurantByOwnerApproved(pageable);
 
         return restaurantPage.map(restaurant -> {
             RestaurantDTO dto = new RestaurantDTO();
+            dto.setRestaurantId(restaurant.getRestaurantId());
             dto.setName(restaurant.getName());
             dto.setAddress(restaurant.getRestaurantAddress().getCity());
             dto.setAvailable(restaurant.isAvailable());
@@ -142,5 +147,41 @@ public class RestaurantServiceImpl implements RestaurantService {
             }
             return dto;
         });
+    }
+
+    @Override
+    public RestaurantDTO getRestaurantById(Long restaurantId) {
+        Restaurant restaurant = restaurantRepository.findById(restaurantId)
+                .orElseThrow(() -> new ResourceNotFoundException(MessageConstant.RESTAURANT_NOT_FOUND));
+
+        List<MenuItem> menuItems = menuItemRepository.findByRestaurantId(restaurantId);
+
+        List<MenuItemDTO> menuItemDTOs = new ArrayList<>();
+        for (MenuItem item : menuItems) {
+            MenuItemDTO menuItemDTO = new MenuItemDTO();
+            menuItemDTO.setId(item.getMenuItemId());
+            menuItemDTO.setImage(item.getImage());
+            menuItemDTO.setDescription(item.getDescription());
+            menuItemDTO.setVeg(item.isVeg());
+            menuItemDTO.setCategoryName(item.getCategories().getName());
+            menuItemDTO.setName(item.getName());
+            menuItemDTO.setPrice(item.getPrice());
+            menuItemDTO.setAvailable(item.isAvailable());
+            menuItemDTOs.add(menuItemDTO);
+        }
+
+        // Create and populate RestaurantDTO
+        RestaurantDTO restaurantDTO = new RestaurantDTO();
+        restaurantDTO.setRestaurantId(restaurant.getRestaurantId());
+        restaurantDTO.setName(restaurant.getName());
+        restaurantDTO.setAddress(restaurant.getRestaurantAddress().getCity());
+        restaurantDTO.setOwnerId(restaurant.getRestaurantOwner().getOwnerID());
+        restaurantDTO.setAvailabilityStartTime(restaurant.getStartTime());
+        restaurantDTO.setAvailabilityEndTime(restaurant.getEndTime());
+        restaurantDTO.setAvailable(restaurant.isAvailable());
+        restaurantDTO.getPhoneNumber(restaurant.getRestaurantOwner().getPhoneNumber());
+        restaurantDTO.setMenuItems(menuItemDTOs); // Set menu items
+
+        return restaurantDTO;
     }
 }
