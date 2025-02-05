@@ -4,19 +4,29 @@ import java.math.BigDecimal;
 
 public class MenuItemResponse {
     private Long id;
+    private Long restaurantId;
     private String name;
     private BigDecimal price;
     private String restaurantName;
     private boolean restaurantAvailable;
     private String itemImage;
 
-    public MenuItemResponse(Long id, String name, BigDecimal price, String restaurantName, boolean restaurantAvailable, String itemImage) {
+    public MenuItemResponse(Long restaurantId ,Long id, String name, BigDecimal price, String restaurantName, boolean restaurantAvailable, String itemImage) {
+        this.restaurantId = restaurantId;
         this.id = id;
         this.name = name;
         this.price = price;
         this.restaurantName = restaurantName;
         this.restaurantAvailable = restaurantAvailable;
         this.itemImage = itemImage;
+    }
+
+    public Long getRestaurantId() {
+        return restaurantId;
+    }
+
+    public void setRestaurantId(Long restaurantId) {
+        this.restaurantId = restaurantId;
     }
 
     public String getItemImage() {

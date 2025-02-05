@@ -62,4 +62,5 @@ public class MenuItemController {
     public List<MenuItemResponse> getAvailableMenuItem(@PathVariable int page, @PathVariable int size){
        return menuItemService.getAvailableMenuItems(page,size);
     }
+
 }

@@ -13,7 +13,6 @@ import com.pio.foodiepanda.repository.RestaurantRepository;
 import com.pio.foodiepanda.service.MenuItemService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -192,12 +191,13 @@ public class MenuItemServiceImpl implements MenuItemService {
     public List<MenuItemResponse> getAvailableMenuItems(int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
 
-        List<MenuItem> menuItems = menuItemRepository.findIsAvailableMenuItems(pageable);
+        List<MenuItem> menuItems= menuItemRepository.findIsAvailableMenuItems(pageable);
         List<MenuItemResponse> responseList = new ArrayList<>();
 
         for(MenuItem item : menuItems){
             if(item.isAvailable() && item.getRestaurant().isAvailable()){
                 responseList.add(new MenuItemResponse(
+                        item.getRestaurant().getRestaurantId(),
                         item.getMenuItemId(),
                         item.getName(),
                         item.getPrice(),
@@ -208,6 +208,12 @@ public class MenuItemServiceImpl implements MenuItemService {
             }
         }
         return responseList;
+    }
+
+    @Override
+    public List<String> searchAvailablemenuItem(String query) {
+        List<MenuItem> menuItems = menuItemRepository.findByNameContainingIgnoreCaseTrueAndIsAvailableTrueAndRestaurantIsAvailableTrue(query);
+        return menuItems.stream().map(MenuItem::getName).collect(Collectors.toList());
     }
 
     private MenuItemDTO convertToDTO(MenuItem menuItem){

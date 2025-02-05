@@ -1,37 +1,55 @@
 let currentPage = 0;
 const pageSize = 6;
+let searchQuery = "";
+let restaurantData = null; // Declare restaurantData in the global scope
 
-// Function to load menu items
 function loadMenuItems(page) {
     $.ajax({
         url: "/menu/available/" + page + "/size/" + pageSize,
         type: "GET",
+        data: { name: searchQuery },
         success: function (data) {
-             $("#menuItemsContainer").empty();
+            $("#menuItemsContainer").empty();
 
-                data.forEach(item => {
-                    let cardClass = item.restaurantAvailable ? 'menu-card' : 'menu-card gray';
-                    const card = `
-                        <div class="${cardClass}" data-id="${item.id}">
-                            <img src="data:image/jpeg;base64,${item.itemImage}" alt="${item.name}" style="width: 350px; height: 250px;"/>
-                            <h5>${item.name}</h5>
-                            <p>Price: ₹${item.price}</p>
-                            <p class = "restro-name">${item.restaurantName}</p>
-                        </div>
-                    `;
-                    $("#menuItemsContainer").append(card);
-                });
+            data.forEach(item => {
+                let cardClass = item.restaurantAvailable ? 'menu-card' : 'menu-card gray';
+                const card = `
+                    <div class="${cardClass}" data-id="${item.id}" data-restaurant-id="${item.restaurantId}">
+                        <img src="data:image/jpeg;base64,${item.itemImage}" alt="${item.name}" style="width: 100%; height: 250px;"/>
+                        <h5>${item.name}</h5>
+                        <p>Price: ₹${item.price}</p>
+                        <p>${item.category}</p>
+                        <p class="restro-name">${item.restaurantName}</p>
+                    </div>
+                `;
+                $("#menuItemsContainer").append(card);
+            });
 
-                // Update pagination buttons
-                $("#currentPage").text(page + 1);
-                $("#prev").prop("disabled", page === 0);
-                $("#nex").prop("disabled", data.last);
+            // Update pagination buttons
+            $("#currentPage").text(page + 1);
+            $("#prev").prop("disabled", page === 0);
+            $("#nex").prop("disabled", data.last);
         }
     });
 }
 
+function fetchRestaurantDetails(restaurantId) {
+    $.ajax({
+        url: "/api/restaurant/detail/" + restaurantId,
+        method: "GET",
+        success: function(data) {
+            // Store restaurant data in local storage
+            localStorage.setItem("restaurantData", JSON.stringify(data));
+            // Redirect to the restaurant detail page
+            window.location.href = "/api/customer/restaurant-detail";
+        },
+        error: function(xhr, status, error) {
+            console.error("Error loading restaurant details:", status, error);
+            alert("Error loading restaurant details.");
+        }
+    });
+}
 
-// Function to fetch restaurants
 function fetchRestaurants(page) {
     $.ajax({
         url: "/api/customer/restaurant/page/" + page + "/size/" + pageSize,
@@ -41,8 +59,8 @@ function fetchRestaurants(page) {
 
             response.content.forEach(restaurant => {
                 let cardClass = restaurant.available ? 'restaurant-card' : 'restaurant-card gray';
-                let card = `<div class='${cardClass}' ${restaurant.available ? 'onclick="window.location.href=\'/restaurant/main-page\'"' : ''}>
-                                <img src="data:image/jpeg;base64,${restaurant.image}" alt="${restaurant.name}" style="width: 350px; height: 250px;"/>
+                let card = `<div class='${cardClass}' data-id="${restaurant.restaurantId}">
+                                <img src="data:image/jpeg;base64,${restaurant.image}" alt="${restaurant.name}" style="width: 100%; height: 250px;"/>
                                 <p class="restaurant-name">${restaurant.name}</p>
                                 <p class="restaurant-address">${restaurant.address}</p>
                                 <p class="availability-status">${restaurant.available ? 'Available' : 'Not Available'}</p>
@@ -88,4 +106,143 @@ $("#nextPage").click(function () {
 $(document).ready(function () {
     loadMenuItems(currentPage);
     fetchRestaurants(currentPage);
+
+    $(document).on("input", "#searchInput", function(){
+        searchQuery = $(this).val().trim();
+        loadMenuItems(0);
+    });
+
+    $(document).on("click", ".restaurant-card", function() {
+        const restaurantId = $(this).data("id");
+        fetchRestaurantDetails(restaurantId);
+    });
+
+    // On the restaurant detail page
+    const storedRestaurantData = localStorage.getItem("restaurantData");
+    if (storedRestaurantData) {
+        restaurantData = JSON.parse(storedRestaurantData);
+
+        $("#restaurantName").text(restaurantData.name);
+        $("#restaurantAddress").text(restaurantData.address);
+        $("#availability").text(restaurantData.available ? "Open" : "Closed");
+        $("#startTime").text(restaurantData.availabilityStartTime);
+        $("#endTime").text(restaurantData.availabilityEndTime);
+
+        // Optionally, you can also display the menu items if they are part of the restaurant data
+        if (restaurantData.menuItems) {
+            restaurantData.menuItems.forEach(item => {
+                const card = `
+                    <div class="menu-card" data-id="${item.id}" data-restaurant-id="${restaurantData.restaurantId}">
+                        <img src="data:image/jpeg;base64,${item.image}" alt="${item.name}" style="width: 100%; height: 250px;"/>
+                        <h5>${item.name}</h5>
+                        <p>Price: ₹${item.price}</p>
+                        <p>${item.categoryName}</p>
+                    </div>
+                `;
+                $("#menuItems").append(card);
+            });
+        }
+    } else {
+        alert("No restaurant data found.");
+    }
+
+    // Modal popup functionality
+    $(document).on("click", ".menu-card", function() {
+        const itemId = $(this).data("id");
+        const restaurantId = $(this).data("restaurant-id");
+        const item = restaurantData.menuItems.find(item => item.id === itemId);
+
+        if (item) {
+            $("#modalImage").attr("src", "data:image/jpeg;base64," + item.image);
+            $("#modalName").text(item.name);
+            $("#modalDescription").text(item.description);
+            $("#modalPrice").text("Price: ₹" + item.price);
+            $("#quantity").val(1);
+
+            // Set data attributes for the Add to Cart button
+            $(".addToCart").data("id", item.id);
+            $(".addToCart").data("name", item.name);
+            $(".addToCart").data("price", item.price);
+            $(".addToCart").data("image", item.image);
+            $(".addToCart").data("restaurant-id",restaurantId);
+
+            $("#menuItemModal").show();
+        }
+    });
+
+    // Close the modal
+    $(".close").click(function() {
+        $("#menuItemModal").hide();
+    });
+
+    // Increase quantity
+    $("#increaseQuantity").click(function() {
+        let quantity = parseInt($("#quantity").val());
+        $("#quantity").val(quantity + 1);
+    });
+
+    // Decrease quantity
+    $("#decreaseQuantity").click(function() {
+        let quantity = parseInt($("#quantity").val());
+        if (quantity > 1) {
+            $("#quantity").val(quantity - 1);
+        }
+    });
+
+    $(document).on("click", ".addToCart", function () {
+        const menuItemId = $(this).data("id");
+        const name = $(this).data("name");
+        const price = $(this).data("price");
+        const image = $(this).data("image");
+        const quantity = parseInt($("#quantity").val());
+
+        const restaurantId = $(this).data("restaurant-id");
+
+        console.log("Menu Item ID:", menuItemId);
+        console.log("Name:", name);
+        console.log("Price:", price);
+        console.log("Image:", image);
+        console.log("Restaurant ID:", restaurantId); // Check if the restaurant ID is correctly logged
+
+        let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+        // Check if the cart contains items from a different restaurant
+        const differentRestaurant = cart.some(item => item.restaurantId !== restaurantId);
+
+        if (differentRestaurant) {
+            if (confirm("Your cart contains items from a different restaurant. Do you want to replace them?")) {
+                // Replace the cart with the new item
+                cart = [{ menuItemId, name, price, image, quantity, restaurantId }];
+                alert("Cart items replaced with items from the new restaurant.");
+            } else {
+                // Do not add the new item to the cart
+                alert("Action cancelled. The item was not added to the cart.");
+                return;
+            }
+        } else {
+            // Check if the item already exists in the cart
+            let existingItem = cart.find(item => item.menuItemId === menuItemId);
+
+            if (existingItem) {
+                existingItem.quantity += quantity;
+                alert("Item quantity updated in the cart.");
+            } else {
+                cart.push({ menuItemId, name, price, image, quantity, restaurantId });
+                alert("Item added to the cart.");
+            }
+        }
+
+        localStorage.setItem("cart", JSON.stringify(cart));
+        updateCartIcon();
+
+        alert("Added to cart: " + quantity + " items");
+        $("#menuItemModal").hide();
+    });
+
+    // Define the updateCartIcon function
+    function updateCartIcon() {
+        let cart = JSON.parse(localStorage.getItem("cart")) || [];
+        let totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+        $("#cartIcon").text(totalItems);
+    }
 });
