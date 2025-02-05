@@ -11,7 +11,7 @@ public class MenuItemResponse {
     private boolean restaurantAvailable;
     private String itemImage;
 
-    public MenuItemResponse(Long restaurantId ,Long id, String name, BigDecimal price, String restaurantName, boolean restaurantAvailable, String itemImage) {
+    public MenuItemResponse(Long restaurantId, Long id, String name, BigDecimal price, String restaurantName, boolean restaurantAvailable, String itemImage) {
         this.restaurantId = restaurantId;
         this.id = id;
         this.name = name;

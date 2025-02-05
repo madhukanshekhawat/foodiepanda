@@ -2,7 +2,6 @@ package com.pio.foodiepanda.service;
 
 import com.pio.foodiepanda.dto.MenuItemDTO;
 import com.pio.foodiepanda.dto.MenuItemResponse;
-import com.pio.foodiepanda.model.MenuItem;
 
 import java.security.Principal;
 import java.util.List;

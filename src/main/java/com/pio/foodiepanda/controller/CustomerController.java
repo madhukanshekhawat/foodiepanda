@@ -8,7 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -29,8 +32,8 @@ public class CustomerController {
     }
 
     @GetMapping("/restaurant/page/{page}/size/{size}")
-    public ResponseEntity<Page<RestaurantDTO>> getAllRestaurants(@PathVariable int page, @PathVariable int size){
-        Page<RestaurantDTO> restaurantDTOS = restaurantService.getAllRestaurants(page,size);
+    public ResponseEntity<Page<RestaurantDTO>> getAllRestaurants(@PathVariable int page, @PathVariable int size) {
+        Page<RestaurantDTO> restaurantDTOS = restaurantService.getAllRestaurants(page, size);
         return ResponseEntity.ok(restaurantDTOS);
     }
 }

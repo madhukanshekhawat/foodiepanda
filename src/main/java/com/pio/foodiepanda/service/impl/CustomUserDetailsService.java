@@ -12,22 +12,23 @@ import java.util.logging.Logger;
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
 
-     Logger logger = Logger.getLogger(CustomUserDetailsService.class.getName());
+    Logger logger = Logger.getLogger(CustomUserDetailsService.class.getName());
 
     @Autowired
     private UserRepository userRepository;
 
     /**
      * Loads the user details for authentication based on the provided username(email)
+     *
      * @param username: the email of the user to be loaded
      * @return an instance of user details contains user info
-     * @throws User  not found
+     * @throws User not found
      */
     @Override
     public UserDetails loadUserByUsername(String username) {
         User user = userRepository.findByEmail(username);
         if (user == null) {
-          logger.info("User not found");
+            logger.info("User not found");
         }
         return new CustomUserDetails(user);
     }

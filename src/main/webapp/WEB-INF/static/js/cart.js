@@ -76,14 +76,16 @@ $(document).ready(function() {
                    const header = `<h3>Select Address</h3>`;
                    addressContainer.append(header);
 
+                   // Create the dropdown
+                   const dropdown = $('<select id="addressDropdown" class="form-select"></select>');
+                   dropdown.append('<option value="">Select an address</option>');
+
                    addresses.forEach(address => {
-                       const radioOption = `
-                           <div>
-                               <input type="radio" name="address" value="${address.id}" id="address-${address.id}">
-                               <label for="address-${address.id}">${address.label} - ${address.addressLine}, ${address.city}, ${address.state}, ${address.postalCode}</label>
-                           </div>`;
-                       addressContainer.append(radioOption);
+                       const option = `<option value="${address.addressId}">${address.label} - ${address.addressLine}, ${address.city}, ${address.state}, ${address.postalCode}</option>`;
+                       dropdown.append(option);
                    });
+
+                   addressContainer.append(dropdown);
                }
            },
            error: function(xhr, status, error) {
@@ -140,8 +142,8 @@ $(document).ready(function() {
             success: function(response) {
                 const radioOption = `
                     <div class="address-labels">
-                        <input type="radio" name="address" value="${response.id}" id="address-${response.id}">
-                        <label for="address-${response.id}">${response.label} - ${response.addressLine}, ${response.city}, ${response.state}, ${response.postalCode}</label>
+                        <input type="radio" name="address" value="${response.id}" id="address-${response.addressId}">
+                        <label for="address-${response.addressId}">${response.label} - ${response.addressLine}, ${response.city}, ${response.state}, ${response.postalCode}</label>
                     </div>`;
                 $("#addressContainer").append(radioOption);
                 $("#newAddressForm").hide();
@@ -194,26 +196,96 @@ $(document).ready(function() {
     });
 
     // Function to add new item to cart
-    function addItemToCart(newItem) {
-        let cart = JSON.parse(localStorage.getItem("cart")) || [];
-        if (cart.length > 0 && cart[0].restaurantId !== newItem.restaurantId) {
-            if (confirm("Your cart contains items from a different restaurant. Do you want to replace them?")) {
-                cart = [newItem];
+        function addItemToCart(newItem) {
+            let cart = JSON.parse(localStorage.getItem("cart")) || [];
+            if (cart.length > 0 && cart[0].restaurantId !== newItem.restaurantId) {
+                if (confirm("Your cart contains items from a different restaurant. Do you want to replace them?")) {
+                    cart = [newItem];
+                } else {
+                    return;
+                }
             } else {
-                return;
+                // Check if the item already exists in the cart
+                const existingItemIndex = cart.findIndex(item => item.id === newItem.id);
+                if (existingItemIndex !== -1) {
+                    // Update the quantity of the existing item
+                    cart[existingItemIndex].quantity += newItem.quantity;
+                } else {
+                    // Add the new item to the cart
+                    cart.push(newItem);
+                }
             }
-        } else {
-            // Check if the item already exists in the cart
-            const existingItemIndex = cart.findIndex(item => item.id === newItem.id);
-            if (existingItemIndex !== -1) {
-                // Update the quantity of the existing item
-                cart[existingItemIndex].quantity += newItem.quantity;
-            } else {
-                // Add the new item to the cart
-                cart.push(newItem);
-            }
+            localStorage.setItem("cart", JSON.stringify(cart));
+            console.log(localStorage.getItem("cart"));
+            loadCartItems();
         }
-        localStorage.setItem("cart", JSON.stringify(cart));
-        loadCartItems();
+    });
+
+    function proceedToCheckout() {
+        var selectedAddressId = $('#addressDropdown').val();
+        console.log("Selected Address ID:", selectedAddressId);
+
+        if (!selectedAddressId) {
+            alert("Please select an address before proceeding.");
+            console.log("Error: No Address Selected");
+            return;
+        }
+
+        let cartData = localStorage.getItem("cart");
+        console.log("cartData", cartData);
+
+        // Get Cart Data
+        let cartItems = cartData ? JSON.parse(localStorage.getItem("cart")) : [];
+
+        // Debugging - Check if Cart is Empty
+        if (cartItems.length === 0) {
+            alert("Your cart is empty.");
+            console.log("Error: Cart is Empty");
+            return;
+        }
+
+        // Assuming the restaurantId is stored in the cart items
+        let restaurantId = cartItems.length > 0 ? cartItems[0].restaurantId : null;
+
+        if (!restaurantId) {
+            alert("Restaurant ID is missing.");
+            console.log("Error: Restaurant ID is missing");
+            return;
+        }
+
+        // Transform cart items to match backend format
+        let formattedCartItems = cartItems.map(item => ({
+            menuItemId: item.menuItemId,
+            quantity: item.quantity,
+            price: item.price
+        }));
+
+        // Debugging - Log final request payload
+        console.log("Final Order Payload:", {
+            addressId: selectedAddressId,
+            restaurantId: restaurantId,
+            items: formattedCartItems
+        });
+
+        // Send Order Data to Backend
+        $.ajax({
+            url: "/order/place-order",  // Ensure correct endpoint
+            type: "POST",
+            contentType: "application/json",
+            data: JSON.stringify({
+                addressId: selectedAddressId,
+                restaurantId: restaurantId,
+                items: formattedCartItems
+            }),
+            success: function (response) {
+                console.log("Order Placed Successfully:", response);
+                localStorage.setItem("orderId", response.orderId);
+                localStorage.removeItem("cart"); // Clear cart after order
+                window.location.href = "/api/customer/order-status";
+            },
+            error: function (xhr, status, error) {
+                console.error("Error Placing Order:", status, error);
+                alert("Error placing order. Please try again.");
+            }
+        });
     }
-});

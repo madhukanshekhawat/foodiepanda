@@ -44,8 +44,9 @@ public class MenuItemServiceImpl implements MenuItemService {
 
     /**
      * Adds a new menu item to the restaurant's menu.
+     *
      * @param menuItemDTO the data transfer object containing menu item details.
-     * @param principal the principal object containing the user's email.
+     * @param principal   the principal object containing the user's email.
      */
     @Override
     public void addMenuItem(MenuItemDTO menuItemDTO, Principal principal) {
@@ -54,7 +55,7 @@ public class MenuItemServiceImpl implements MenuItemService {
         Optional<Restaurant> restaurantOptional = restaurantRepository.findByOwnerEmail(email);
 
         if (restaurantOptional.isEmpty()) {
-            logger.info("Restaurant not found with the username:"+  email);
+            logger.info("Restaurant not found with the username:" + email);
             throw new ResourceNotFoundException(MessageConstant.RESTAURANT_NOT_FOUND_WITH_USERNAME + email);
         }
 
@@ -77,6 +78,7 @@ public class MenuItemServiceImpl implements MenuItemService {
 
     /**
      * Retrieves a list of menu items for a specific restaurant owner.
+     *
      * @param ownerEmail the email of the restaurant owner.
      * @return a list of MenuItemDTO objects representing the menu items.
      */
@@ -104,14 +106,15 @@ public class MenuItemServiceImpl implements MenuItemService {
 
     /**
      * Updates the availability status of a menu item.
-     * @param id the ID of the menu item to be updated.
-     * @param available the new availability status.
+     *
+     * @param id         the ID of the menu item to be updated.
+     * @param available  the new availability status.
      * @param ownerEmail the email of the restaurant owner.
      * @return the updated MenuItemDTO object.
      */
     @Override
     public MenuItemDTO updateMenuItemAvailability(Long id, boolean available, String ownerEmail) {
-        logger.info("Updating availability for menu item ID:" +id + "for owner email:"+ownerEmail);
+        logger.info("Updating availability for menu item ID:" + id + "for owner email:" + ownerEmail);
         MenuItem menuItem = menuItemRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(MessageConstant.NO_MENU_ITEM_FOUND));
 
@@ -138,8 +141,9 @@ public class MenuItemServiceImpl implements MenuItemService {
 
     /**
      * Deletes a menu item by marking it as deleted.
+     *
      * @param menuItemId the ID of the menu item to be deleted.
-     * @param principal the principal object containing the user's email.
+     * @param principal  the principal object containing the user's email.
      */
     @Override
     public void deleteMenuItem(Long menuItemId, Principal principal) {
@@ -165,14 +169,14 @@ public class MenuItemServiceImpl implements MenuItemService {
     @Override
     public MenuItemDTO getMenuItemById(Long id) {
         MenuItem menuItem = menuItemRepository.findById(id)
-                .orElseThrow(()-> new ResourceNotFoundException(MessageConstant.NO_MENU_ITEM_FOUND));
+                .orElseThrow(() -> new ResourceNotFoundException(MessageConstant.NO_MENU_ITEM_FOUND));
         return convertToDTO(menuItem);
     }
 
     @Override
     public String updateMenuItem(Long id, MenuItemDTO menuItemDTO) {
         Optional<MenuItem> optionalMenuItem = menuItemRepository.findById(id);
-        if(optionalMenuItem.isPresent()){
+        if (optionalMenuItem.isPresent()) {
             MenuItem menuItem = optionalMenuItem.get();
 
             menuItem.setName(menuItemDTO.getName());
@@ -181,8 +185,7 @@ public class MenuItemServiceImpl implements MenuItemService {
 
             menuItemRepository.save(menuItem);
             return MessageConstant.SUCCESSFUL_MESSAGE;
-        }
-        else {
+        } else {
             throw new ResourceNotFoundException(MessageConstant.NO_MENU_ITEM_FOUND);
         }
     }
@@ -191,11 +194,11 @@ public class MenuItemServiceImpl implements MenuItemService {
     public List<MenuItemResponse> getAvailableMenuItems(int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
 
-        List<MenuItem> menuItems= menuItemRepository.findIsAvailableMenuItems(pageable);
+        List<MenuItem> menuItems = menuItemRepository.findIsAvailableMenuItems(pageable);
         List<MenuItemResponse> responseList = new ArrayList<>();
 
-        for(MenuItem item : menuItems){
-            if(item.isAvailable() && item.getRestaurant().isAvailable()){
+        for (MenuItem item : menuItems) {
+            if (item.isAvailable() && item.getRestaurant().isAvailable()) {
                 responseList.add(new MenuItemResponse(
                         item.getRestaurant().getRestaurantId(),
                         item.getMenuItemId(),
@@ -216,7 +219,7 @@ public class MenuItemServiceImpl implements MenuItemService {
         return menuItems.stream().map(MenuItem::getName).collect(Collectors.toList());
     }
 
-    private MenuItemDTO convertToDTO(MenuItem menuItem){
+    private MenuItemDTO convertToDTO(MenuItem menuItem) {
         MenuItemDTO dto = new MenuItemDTO();
         dto.setId(menuItem.getMenuItemId());
         dto.setName(menuItem.getName());
