@@ -29,7 +29,7 @@ public class MessageConstant {
 
     public static String COUPON_NOT_FOUND = "No coupon's not found";
 
-    public static String  UNAUTHORIZED = "Unauthorized";
+    public static String UNAUTHORIZED = "Unauthorized";
 
     public static String NO_RESTAURANT_OWNER_FOUND = "No Restaurant owner found";
 

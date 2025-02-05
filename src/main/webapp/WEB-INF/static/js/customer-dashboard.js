@@ -12,7 +12,7 @@ function loadMenuItems(page) {
             $("#menuItemsContainer").empty();
 
             data.forEach(item => {
-                let cardClass = item.restaurantAvailable ? 'menu-card' : 'menu-card gray';
+                let cardClass = item.restaurantAvailable ? 'menu-cardss' : 'menu-cardss gray';
                 const card = `
                     <div class="${cardClass}" data-id="${item.id}" data-restaurant-id="${item.restaurantId}">
                         <img src="data:image/jpeg;base64,${item.itemImage}" alt="${item.name}" style="width: 100%; height: 250px;"/>

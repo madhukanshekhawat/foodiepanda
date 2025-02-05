@@ -1,78 +1,146 @@
-/* Navbar Styling */
-.navbar {
-    background-color: #F5EFFF; /* Light background for navbar */
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-    padding: 10px 20px;
+.fp-navbar {
+    background-color: #F5EFFF;
+    border-bottom: 1px solid #CDC1FF;
+    padding: 1rem;
 }
 
-/* Text Logo */
-.navbar-brand {
-    font-size: 24px; /* Larger font for the logo */
-    font-weight: bold; /* Bold text for emphasis */
-    color: #A294F9; /* Primary theme color */
-    text-decoration: none; /* Remove underline */
-    transition: color 0.3s ease; /* Smooth hover effect */
+.fp-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
-.navbar-brand:hover {
-    color: #7C68E8; /* Slightly darker purple on hover */
+.fp-navbar-brand {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #A294F9;
+    text-decoration: none;
 }
 
-/* Search Bar */
-.search-bar {
-    width: 300px; /* Default width */
-    border-radius: 20px; /* Rounded corners */
-    border: 1px solid #E5D9F2; /* Subtle border matching theme */
-    padding: 8px 15px;
-    background-color: #ffffff; /* White background for input */
-    transition: width 0.3s ease, box-shadow 0.3s ease; /* Smooth expansion */
+.fp-navbar-content {
+    display: flex;
+    align-items: center;
+    gap:60px;
 }
 
-.search-bar:focus {
-    width: 400px; /* Expand on focus */
-    outline: none;
-    box-shadow: 0 0 6px rgba(162, 148, 249, 0.5); /* Purple glow on focus */
+.fp-navform {
+    display: flex;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
 }
 
-/* Search Button */
-.btn-outline-success {
-    border-radius: 20px; /* Rounded corners */
-    color: #A294F9; /* Primary theme color */
-    border-color: #A294F9;
-    transition: background-color 0.3s ease, color 0.3s ease;
+.fp-search-bar {
+    padding: 0.5rem;
+    border: 1px solid #E5D9F2;
+    border-radius: 0.25rem;
+    width: 350px;
+    margin-right: 0.5rem;
 }
 
-.btn-outline-success:hover {
-    background-color: #A294F9; /* Purple fill on hover */
-    color: #ffffff; /* White text on hover */
+.fp-success {
+    background-color: transparent;
+    border: 1px solid #A294F9;
+    color: #A294F9;
+    padding: 0.5rem 1rem;
+    border-radius: 0.25rem;
+    cursor: pointer;
 }
 
-/* Login and Signup Buttons */
-.btn-outline-primary {
-    border-radius: 20px; /* Rounded corners */
-    color: #CDC1FF; /* Secondary theme color */
+.fp-success:hover {
+    background-color: #A294F9;
+    color: #fff;
+}
+
+.fp-d-flex {
+    display: flex;
+}
+
+.fp-login, .fp-signup {
+    padding: 0.5rem 1rem;
+    border-radius: 0.25rem;
+    text-decoration: none;
+    text-align: center;
+    cursor: pointer;
+}
+
+.fp-login {
+    background-color: transparent;
+    border: 1px solid #A294F9;
+    color: #A294F9;
+    margin-right: 0.5rem;
+}
+
+.fp-login:hover {
+    background-color: #A294F9;
+    color: #fff;
+}
+
+.fp-signup {
+    background-color: #A294F9;
+    border: 1px solid #A294F9;
+    color: #fff;
+}
+
+.fp-signup:hover {
+    background-color: #CDC1FF;
     border-color: #CDC1FF;
-    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-.btn-outline-primary:hover {
-    background-color: #CDC1FF; /* Purple fill on hover */
-    color: #ffffff; /* White text on hover */
+.fp-logout-bttn {
+    background-color: #A294F9;
+    border: 1px solid #A294F9;
+    color: #fff;
+    padding: 0.5rem 1rem;
+    border-radius: 0.25rem;
+    cursor: pointer;
 }
 
-.btn-primary {
-    border-radius: 20px; /* Rounded corners */
-    background-color: #A294F9; /* Primary theme color */
-    border-color: #A294F9;
-    color: #ffffff; /* White text */
-    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+.fp-logout-bttn:hover {
+    background-color: #CDC1FF;
+    border-color: #CDC1FF;
 }
 
-.btn-primary:hover {
-    background-color: #7C68E8; /* Slightly darker purple on hover */
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+.fp-align-items-center {
+    align-items: center;
 }
 
+.fp-cart {
+    text-decoration:none;
+    background-color: transparent;
+    border: 1px solid #A294F9;
+    color: #A294F9;
+    padding: 0.5rem 1rem;
+    border-radius: 0.25rem;
+    position: relative;
+    cursor: pointer;
+}
+
+.search {
+  align-item:center;
+}
+
+.fp-cart:hover {
+    background-color: #A294F9;
+    color: #fff;
+}
+.fp-order-summary{
+    text-decoration:none;
+    background-color: transparent;
+    border: 1px solid #A294F9;
+    color: #A294F9;
+    padding: 0.5rem 1rem;
+    border-radius: 0.25rem;
+    position: relative;
+    cursor: pointer;
+    gap:10px;
+    margin-right:20px;
+}
+
+.fp-search-results {
+    display: none;
+}
 /* Restaurants Section */
 .container h3 {
     margin: 20px;
@@ -220,6 +288,42 @@
     margin-bottom: 10px;
 }
 
+.menu-cardss {
+    background-color: #FBFBFB; /* Light background for cards */
+    border: 1px solid #E5D9F2; /* Subtle border */
+    border-radius: 10px; /* Rounded corners */
+    padding: 10px;
+    margin-bottom: 20px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth hover effect */
+    width: 30%;
+}
+
+.menu-cardss:hover {
+    transform: translateY(-5px); /* Slight lift on hover */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+
+.menu-cardss img {
+    width: 100%; /* Full width for images */
+    height: auto; /* Maintain aspect ratio */
+    border-radius: 10px; /* Rounded corners for images */
+    margin-bottom: 10px; /* Space below image */
+}
+
+/* Menu Item Name */
+.menu-cardss h5 {
+    font-size: 20px; /* Larger font for name */
+    font-weight: bold; /* Bold text */
+    color: #7C68E8; /* Slightly darker purple */
+    margin-bottom: 10px;
+}
+
+/* Menu Item Price and Restaurant */
+.menu-cardss p {
+    font-size: 16px; /* Standard font size */
+    color: #6C757D; /* Gray color */
+    margin-bottom: 10px;
+}
 /* Pagination Button for Menu Items */
 .text-center button {
     border-radius: 20px; /* Rounded corners */
@@ -291,4 +395,19 @@
 
 .navbar-toggler-icon {
     background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba%280, 0, 0, 0.5%29' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+}
+
+.footer p {
+    margin: 5px 0;
+}
+
+.footer a {
+    text-decoration: none;
+    color: #333;
+}
+
+.footer {
+    background-color: #f8f8f8;
+    padding: 10px;
+    text-align: center;
 }

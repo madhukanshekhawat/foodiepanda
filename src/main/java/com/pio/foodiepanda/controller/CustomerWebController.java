@@ -28,4 +28,9 @@ public class CustomerWebController {
     public String checkout() {
         return "customer/checkout";
     }
+
+    @GetMapping("/order-summary")
+    public String orderSummary() {
+        return "customer/order-summary";
+    }
 }
