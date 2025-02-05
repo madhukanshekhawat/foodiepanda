@@ -3,9 +3,7 @@ package com.pio.foodiepanda.model;
 import com.pio.foodiepanda.enums.OrderStatus;
 import jakarta.persistence.*;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Entity
 public class Orders extends BaseEntity {
@@ -15,7 +13,7 @@ public class Orders extends BaseEntity {
     private Long orderId;
 
     private LocalDateTime scheduledTime;
-    private BigDecimal totalAmount;
+    private double totalAmount;
 
     @Enumerated(EnumType.STRING)
     private OrderStatus status;
@@ -56,11 +54,11 @@ public class Orders extends BaseEntity {
         this.scheduledTime = scheduledTime;
     }
 
-    public BigDecimal getTotalAmount() {
+    public double getTotalAmount() {
         return totalAmount;
     }
 
-    public void setTotalAmount(BigDecimal totalAmount) {
+    public void setTotalAmount(double totalAmount) {
         this.totalAmount = totalAmount;
     }
 

@@ -2,8 +2,6 @@ package com.pio.foodiepanda.model;
 
 import jakarta.persistence.*;
 
-import java.math.BigDecimal;
-
 @Entity
 public class OrderDetail extends BaseEntity {
 
@@ -11,9 +9,9 @@ public class OrderDetail extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long orderDetailId;
 
-    private int quantity;
+    private double quantity;
 
-    private BigDecimal price;
+    private double price;
 
     @ManyToOne
     @JoinColumn(name = "order_id")
@@ -31,19 +29,19 @@ public class OrderDetail extends BaseEntity {
         this.orderDetailId = orderDetailId;
     }
 
-    public int getQuantity() {
+    public double getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(int quantity) {
+    public void setQuantity(double quantity) {
         this.quantity = quantity;
     }
 
-    public BigDecimal getPrice() {
+    public double getPrice() {
         return price;
     }
 
-    public void setPrice(BigDecimal price) {
+    public void setPrice(double price) {
         this.price = price;
     }
 

@@ -1,17 +1,15 @@
 package com.pio.foodiepanda.dto;
 
-import com.pio.foodiepanda.enums.OrderStatus;
-
-import java.math.BigDecimal;
-
 public class OrderDetailDTO extends BaseDTO {
 
     private Long orderDetailId;
+    private Long orderId;
     private String menuItem;
     private String description;
-    private int quantity;
-    private BigDecimal price;
+    private double quantity;
+    private double price;
     private String image;
+    private Long menuItemId;
 
     public String getMenuItem() {
         return menuItem;
@@ -21,19 +19,19 @@ public class OrderDetailDTO extends BaseDTO {
         this.menuItem = menuItem;
     }
 
-    public int getQuantity() {
+    public double getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(int quantity) {
+    public void setQuantity(double quantity) {
         this.quantity = quantity;
     }
 
-    public BigDecimal getPrice() {
+    public double getPrice() {
         return price;
     }
 
-    public void setPrice(BigDecimal price) {
+    public void setPrice(double price) {
         this.price = price;
     }
 
@@ -59,5 +57,21 @@ public class OrderDetailDTO extends BaseDTO {
 
     public void setOrderDetailId(Long orderDetailId) {
         this.orderDetailId = orderDetailId;
+    }
+
+    public Long getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(Long orderId) {
+        this.orderId = orderId;
+    }
+
+    public Long getMenuItemId() {
+        return menuItemId;
+    }
+
+    public void setMenuItemId(Long menuItemId) {
+        this.menuItemId = menuItemId;
     }
 }

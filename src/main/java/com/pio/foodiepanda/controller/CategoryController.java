@@ -45,7 +45,7 @@ public class CategoryController {
     }
 
     @GetMapping("/allCategory")
-    public ResponseEntity<List<CategoriesDTO>> getCategoriesForRestaurant(Principal principal){
+    public ResponseEntity<List<CategoriesDTO>> getCategoriesForRestaurant(Principal principal) {
         List<CategoriesDTO> categoriesDTOS = categoriesService.getCategoriesForRestaurant(principal);
         return ResponseEntity.ok(categoriesDTOS);
     }
