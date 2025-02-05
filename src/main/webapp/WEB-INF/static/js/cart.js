@@ -140,12 +140,8 @@ $(document).ready(function() {
             contentType: "application/json",
             data: JSON.stringify(newAddress),
             success: function(response) {
-                const radioOption = `
-                    <div class="address-labels">
-                        <input type="radio" name="address" value="${response.id}" id="address-${response.addressId}">
-                        <label for="address-${response.addressId}">${response.label} - ${response.addressLine}, ${response.city}, ${response.state}, ${response.postalCode}</label>
-                    </div>`;
-                $("#addressContainer").append(radioOption);
+                const newOption = `<option value="${response.addressId}">${response.label} - ${response.addressLine}, ${response.city}, ${response.state}, ${response.postalCode}</option>`;
+                $("#addressDropdown").append(newOption);
                 $("#newAddressForm").hide();
                 $("input[name='addressLabel']").prop('checked', false);
                 $("#newAddressLine").val("");

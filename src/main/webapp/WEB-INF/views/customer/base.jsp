@@ -34,6 +34,23 @@
             </div>
         </div>
 
+        <!-- Modal Popup HTML -->
+                    <div id="menuItemModal" class="modal">
+                        <div class="modal-content">
+                            <span class="close">&times;</span>
+                            <img id="modalImage" src="" alt="Menu Item" style="width: 100%; height: 250px;"/>
+                            <h4 id="modalName"></h4>
+                            <p id="modalDescription"></p>
+                            <p id="modalPrice"></p>
+                            <div>
+                                <button id="decreaseQuantity">-</button>
+                                <input type="number" id="quantity" value="1" min="1" readonly>
+                                <button id="increaseQuantity">+</button>
+                            </div>
+                            <button class="addToCart">Add to Cart</button>
+                        </div>
+                    </div>
+                    <%@ include file="/WEB-INF/views/footer.jsp" %>
        <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="/static/js/customer-dashboard.js"></script>
