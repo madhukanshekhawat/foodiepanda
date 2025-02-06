@@ -1,6 +1,8 @@
 package com.pio.foodiepanda.constants;
 
 public class MessageConstant {
+    public static final String ADDRESS_NOT_FOUND = "Address not found";
+
     public static String APPROVE = "approve";
 
     public static String OWNER_NOT_FOUND = "Owner Not found with ID: ";

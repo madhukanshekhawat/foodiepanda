@@ -5,15 +5,18 @@ document.addEventListener('DOMContentLoaded', function() {
             var authButtons = document.getElementById('authButtons');
             var logoutForm = document.getElementById('logoutForm');
             var orderSummaryLink = document.getElementById('orderSummaryLink');
+            var showAddressLink = document.getElementById('showAddressLink');
 
             if (isLoggedIn) {
                 authButtons.style.display = 'none';
                 logoutForm.style.display = 'inline';
                 orderSummaryLink.style.display = 'inline';
+                showAddressLink.style.display= 'inline';
             } else {
                 authButtons.style.display = 'flex';
                 logoutForm.style.display = 'none';
                 orderSummaryLink.style.display = 'none';
+                showAddressLink.style.display= 'none';
             }
 
             // Handle logout without redirect

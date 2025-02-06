@@ -1,5 +1,6 @@
 package com.pio.foodiepanda.controller;
 
+import com.pio.foodiepanda.constants.MessageConstant;
 import com.pio.foodiepanda.dto.AddressDTO;
 import com.pio.foodiepanda.service.AddressService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.logging.LogManager;
 
 @RestController
 @RequestMapping("/api/user")
@@ -28,6 +30,13 @@ public class AddressController {
         String username = principal.getName();
         AddressDTO savedAddress = addressService.addNewAddress(username, addressDTO);
         return ResponseEntity.ok(savedAddress);
+    }
+
+    @PutMapping("/customer/address/{addressId}")
+    public ResponseEntity<String> updateAddress(@PathVariable Long addressId, @RequestBody AddressDTO addressDTO, Principal principal){
+        String email = principal.getName();
+      addressService.updateAddress(addressId, addressDTO,email);
+      return ResponseEntity.ok(MessageConstant.SUCCESSFUL_MESSAGE);
     }
 
 

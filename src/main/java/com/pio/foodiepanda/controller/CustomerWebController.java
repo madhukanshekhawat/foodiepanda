@@ -33,4 +33,10 @@ public class CustomerWebController {
     public String orderSummary() {
         return "customer/order-summary";
     }
+
+    @GetMapping("/show-address")
+    public String showAddress() {
+        return "customer/show-address";
+    }
+
 }

@@ -35,6 +35,7 @@
 
                 <div class="fp-d-flex fp-align-items-center">
                     <a href="/api/customer/order-summary" class="fp-order-summary" id="orderSummaryLink" style="display: none;">Order Summary</a>
+                    <a href="/api/customer/show-address" class="fp-order-summary" id="showAddressLink" style="display: none;" >Show Addresses</a>
                     <a href="/api/customer/cart" class="fp-cart">Cart</a>
                 </div>
             </div>

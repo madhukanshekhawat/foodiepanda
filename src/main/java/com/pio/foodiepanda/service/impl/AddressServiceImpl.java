@@ -63,6 +63,27 @@ public class AddressServiceImpl implements AddressService {
 
     }
 
+    @Override
+    public void updateAddress(Long addressId, AddressDTO addressDTO, String email) {
+        User user = userRepository.findByEmail(email);
+        if(user == null || user.getCustomer() == null){
+            throw new ResourceNotFoundException(MessageConstant.USER_NOT_FOUND);
+        }
+        Address address = addressRepository.findById(addressId)
+                .orElseThrow(()-> new ResourceNotFoundException(MessageConstant.ADDRESS_NOT_FOUND));
+
+        if(!address.getUser().getId().equals(user.getId())){
+            throw new ResourceNotFoundException(MessageConstant.UNAUTHORIZED);
+        }
+
+        address.setAddressLine(addressDTO.getAddressLine());
+        address.setCity(addressDTO.getCity());
+        address.setState(addressDTO.getState());
+        address.setPostalCode(addressDTO.getPostalCode());
+        address.setAddressLabel(addressDTO.getLabel());
+        addressRepository.save(address);
+    }
+
     private AddressDTO convertToDTO(Address address) {
         AddressDTO addressDTO = new AddressDTO();
         addressDTO.setAddressId(address.getAddressId());

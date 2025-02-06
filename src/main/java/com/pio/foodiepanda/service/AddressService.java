@@ -9,4 +9,6 @@ public interface AddressService {
     public List<AddressDTO> getAddressByUsername(String username);
 
     AddressDTO addNewAddress(String username, AddressDTO addressDTO);
+
+    void updateAddress(Long addressId, AddressDTO addressDTO, String email);
 }
