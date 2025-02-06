@@ -6,13 +6,19 @@ import com.pio.foodiepanda.dto.OrderStatusDTO;
 import com.pio.foodiepanda.dto.OrderStatusResponse;
 import com.pio.foodiepanda.dto.OrdersDTO;
 import com.pio.foodiepanda.enums.OrderStatus;
-import com.pio.foodiepanda.model.Orders;
 import com.pio.foodiepanda.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.security.Principal;
 import java.util.List;
 
@@ -23,6 +29,34 @@ public class OrderController {
     @Autowired
     private OrderService orderService;
 
+    @Autowired
+    private InvoiceGenerator invoiceGenerator;
+
+    @GetMapping("/generate-invoice/{orderId}")
+    public ResponseEntity<InputStreamResource> generateInvoice(@PathVariable Long orderId) {
+        OrdersDTO order = orderService.getOrderById(orderId);
+        try {
+            String filePath = invoiceGenerator.generateInvoice(order);
+            File file = new File(filePath);
+            InputStreamResource resource = new InputStreamResource(new FileInputStream(file));
+
+            HttpHeaders headers = new HttpHeaders();
+            headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + file.getName());
+
+            return ResponseEntity.ok()
+                    .headers(headers)
+                    .contentLength(file.length())
+                    .contentType(MediaType.APPLICATION_PDF)
+                    .body(resource);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
     @GetMapping("/all")
     public ResponseEntity<List<OrdersDTO>> getOrder(Principal principal) {
         String email = principal.getName();
@@ -31,14 +65,14 @@ public class OrderController {
     }
 
     @GetMapping("/customer/all")
-    public ResponseEntity<List<OrdersDTO>> getOrderForCustomer(Principal principal){
+    public ResponseEntity<List<OrdersDTO>> getOrderForCustomer(Principal principal) {
         String email = principal.getName();
         List<OrdersDTO> ordersDTOS = orderService.getOrdersForCustomer(email);
         return ResponseEntity.ok(ordersDTOS);
     }
 
     @PutMapping("/{orderId}/status")
-    public ResponseEntity<String> updateOrderStatus(@PathVariable Long orderId,  @RequestBody OrderStatusDTO orderStatusDTO) {
+    public ResponseEntity<String> updateOrderStatus(@PathVariable Long orderId, @RequestBody OrderStatusDTO orderStatusDTO) {
         orderService.updateOrderStatus(orderId, OrderStatus.valueOf(orderStatusDTO.getStatus()));
         return ResponseEntity.ok(MessageConstant.SUCCESSFUL_MESSAGE);
     }

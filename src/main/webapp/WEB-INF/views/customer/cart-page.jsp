@@ -147,8 +147,14 @@
       </div>
       <div id="totalAmount"></div>
       <button id="proceedButton" onclick="proceedToCheckout()">Place Order</button>
+      <button id="proceedButton" onclick="goBack()">Back</button>
   </div>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="/static/js/cart.js"></script>
+    <script>
+            function goBack() {
+                window.history.back();
+            }
+        </script>
 </body>
 </html>

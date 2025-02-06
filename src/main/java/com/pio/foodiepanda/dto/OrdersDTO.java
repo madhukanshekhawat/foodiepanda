@@ -16,6 +16,10 @@ public class OrdersDTO extends BaseDTO {
     private String userName;
     private String restaurantName;
     private List<OrderDetailDTO> orderDetails;
+    private LocalDateTime createdAt;
+    private String customerFirstName; // Add this field
+    private String customerLastName;  // Add this field
+
 
     public OrdersDTO() {
     }
@@ -24,13 +28,29 @@ public class OrdersDTO extends BaseDTO {
         this.orderId = orderId;
     }
 
-    public OrdersDTO(Long orderId, double totalAmount, String status, LocalDateTime scheduledTime,String deliveryAddress,String restaurantName) {
+    public OrdersDTO(Long orderId, double totalAmount, String status, LocalDateTime scheduledTime, String deliveryAddress, String restaurantName, LocalDateTime createdAt) {
         this.orderId = orderId;
         this.totalAmount = totalAmount;
         this.status = status;
         this.scheduledTime = scheduledTime;
         this.deliveryAddress = deliveryAddress;
         this.restaurantName = restaurantName;
+        this.createdAt = createdAt;
+        this.customerFirstName = customerFirstName;
+        this.customerLastName = customerLastName;
+    }
+
+    public OrdersDTO(Long orderId, double totalAmount, String status, LocalDateTime scheduledTime, LocalDateTime createdAt, String deliveryAddress, String restaurantName, List<OrderDetailDTO> orderDetails, String customerFirstName, String customerLastName) {
+        this.orderId = orderId;
+        this.totalAmount = totalAmount;
+        this.status = status;
+        this.scheduledTime = scheduledTime;
+        this.createdAt = createdAt;
+        this.deliveryAddress = deliveryAddress;
+        this.restaurantName = restaurantName;
+        this.orderDetails = orderDetails;
+        this.customerFirstName = customerFirstName;
+        this.customerLastName = customerLastName;
     }
 
     public String getRestaurantName() {
@@ -119,5 +139,31 @@ public class OrdersDTO extends BaseDTO {
 
     public void setOrderStatus(String orderStatus) {
         this.orderStatus = orderStatus;
+    }
+
+    @Override
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    @Override
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public String getCustomerFirstName() {
+        return customerFirstName;
+    }
+
+    public void setCustomerFirstName(String customerFirstName) {
+        this.customerFirstName = customerFirstName;
+    }
+
+    public String getCustomerLastName() {
+        return customerLastName;
+    }
+
+    public void setCustomerLastName(String customerLastName) {
+        this.customerLastName = customerLastName;
     }
 }

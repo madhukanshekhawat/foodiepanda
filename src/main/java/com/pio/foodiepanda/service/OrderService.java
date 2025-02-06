@@ -18,4 +18,6 @@ public interface OrderService {
     OrderStatusResponse getOrderStatus(Long orderId);
 
     List<OrdersDTO> getOrdersForCustomer(String email);
+
+    OrdersDTO getOrderById(Long orderId);
 }

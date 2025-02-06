@@ -97,6 +97,11 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-rest</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>com.itextpdf</groupId>
+			<artifactId>itext7-core</artifactId>
+			<version>7.1.15</version>
+		</dependency>
 		<!--		<dependency>-->
 		<!--			<groupId>org.springframework.security</groupId>-->
 		<!--			<artifactId>spring-security-test</artifactId>-->

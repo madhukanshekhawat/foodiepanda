@@ -11,6 +11,13 @@ public class OrderDetailDTO extends BaseDTO {
     private String image;
     private Long menuItemId;
 
+    public OrderDetailDTO(Long menuItemId, String name, double quantity, double price) {
+        super();
+    }
+
+    public OrderDetailDTO() {
+    }
+
     public String getMenuItem() {
         return menuItem;
     }

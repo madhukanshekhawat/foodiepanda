@@ -9,36 +9,53 @@ $(document).ready(function () {
                 return;
             }
 
-            let table = `<table class="table table-bordered">
-                            <thead>
-                                <tr>
-                                    <th>Total Amount</th>
-                                    <th>Restaurant Name</th>
-                                    <th>Status</th>
-                                    <th>Delivery Address</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>`;
+            // Group orders by date
+            const groupedOrders = orders.reduce((acc, order) => {
+                const date = new Date(order.createdAt).toLocaleDateString(); // Extract only the date
+                if (!acc[date]) {
+                    acc[date] = [];
+                }
+                acc[date].push(order);
+                return acc;
+            }, {});
 
-            orders.forEach(order => {
-                table += `<tr>
-                            <td>₹${order.totalAmount}</td>
-                            <td>${order.restaurantName}</td>
-                            <td>${order.status}</td>
-                            <td>${order.deliveryAddress}</td>
-                            <td>${order.status !== 'DELIVERED' ? `<button class="check-status-btn" data-order-id="${order.orderId}">Check Status</button>` : 'NOT ALLOWED'}</td>
-                          </tr>`;
-            });
+            let content = '';
 
-            table += "</tbody></table>";
-            $("#ordersContainer").html(table);
+            // Iterate over grouped orders and create tables for each date
+            for (const [date, orders] of Object.entries(groupedOrders)) {
+                content += `<h3 class="text-center">${date}</h3>`;
+                content += `<table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Total Amount</th>
+                                        <th>Restaurant Name</th>
+                                        <th>Status</th>
+                                        <th>Delivery Address</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>`;
+
+                orders.forEach(order => {
+                    content += `<tr>
+                                    <td>₹${order.totalAmount}</td>
+                                    <td>${order.restaurantName}</td>
+                                    <td>${order.orderStatus}</td>
+                                    <td>${order.deliveryAddress}</td>
+                                    <td>${order.orderStatus !== 'DELIVERED' ? `<button class="check-status-btn" data-order-id="${order.orderId}">Check Status</button>` : `<button class="generate-invoice-btn" data-order-id="${order.orderId}">Generate Bill</button>`}</td>
+                                </tr>`;
+                });
+
+                content += `</tbody></table>`;
+            }
+
+            $("#ordersContainer").html(content);
 
             // Add event listener for check status buttons
             $(".check-status-btn").on("click", function () {
                 const orderId = $(this).data("order-id");
                 $.ajax({
-                    url:  "/order/order-status/" + orderId,
+                    url: "/order/order-status/" + orderId,
                     type: "GET",
                     dataType: "json",
                     success: function (statusResponse) {
@@ -50,6 +67,32 @@ $(document).ready(function () {
                     },
                     error: function () {
                         alert("Failed to fetch order status.");
+                    }
+                });
+            });
+
+            // Add event listener for generate invoice buttons
+            $(".generate-invoice-btn").on("click", function () {
+                const orderId = $(this).data("order-id");
+                $.ajax({
+                    url: "/order/generate-invoice/" + orderId,
+                    type: "GET",
+                    xhrFields: {
+                        responseType: 'blob'
+                    },
+                    success: function (data) {
+                        const url = window.URL.createObjectURL(new Blob([data]));
+                        const a = document.createElement('a');
+                        a.href = url;
+                        a.download = `invoice_${orderId}.pdf`;
+                        document.body.append(a);
+                        a.click();
+                        a.remove();
+                        window.URL.revokeObjectURL(url);
+                        alert("Invoice generated successfully!");
+                    },
+                    error: function () {
+                        alert("Failed to generate invoice.");
                     }
                 });
             });

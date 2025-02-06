@@ -10,7 +10,9 @@ import com.pio.foodiepanda.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
@@ -106,14 +108,63 @@ public class OrderServiceImpl implements OrderService {
         logger.info("Fetching orders for Customer with owner email:" + email);
         User user = userRepository.findByEmail(email);
         List<Orders> orders = ordersRepository.findByCustomer_CustomerID(user.getCustomer().getCustomerID());
-        return orders.stream().map(order -> new OrdersDTO(
+        return orders.stream().map(order -> {
+            OrdersDTO dto = new OrdersDTO();
+            dto.setOrderId(order.getOrderId());
+            dto.setOrderStatus(order.getStatus().toString());
+            dto.setDeliveryAddress(order.getDeliveryAddress().getAddressLine() + " " + order.getDeliveryAddress().getCity() + " " + order.getDeliveryAddress().getState() + " " + order.getDeliveryAddress().getPostalCode());
+            dto.setUserName(order.getCustomer().getFirstName() + " " + order.getCustomer().getLastName());
+            dto.setScheduledTime(order.getScheduledTime());
+            dto.setTotalAmount(order.getTotalAmount());
+            dto.setCreatedAt(order.getCreatedAt());
+            dto.setRestaurantName(order.getRestaurant().getName());
+
+            // Fetch order details
+            List<OrderDetail> orderDetails = orderDetailRepository.findByOrders_OrderId(order.getOrderId());
+            List<OrderDetailDTO> orderDetailDTOs = orderDetails.stream().map(detail -> {
+                OrderDetailDTO detailDTO = new OrderDetailDTO();
+                detailDTO.setOrderDetailId(detail.getOrderDetailId());
+                detailDTO.setQuantity(detail.getQuantity());
+                detailDTO.setPrice(detail.getPrice());
+                detailDTO.setMenuItem(detail.getMenuItems().getName());
+                return detailDTO;
+            }).collect(Collectors.toList());
+            dto.setOrderDetails(orderDetailDTOs);
+
+            return dto;
+        }).collect(Collectors.toList());
+    }
+
+    @Override
+    public OrdersDTO getOrderById(Long orderId) {
+        Optional<Orders> optionalOrder = ordersRepository.findById(orderId);
+        if (!optionalOrder.isPresent()) {
+            throw new ResourceNotFoundException("Order not found");
+        }
+
+        Orders order = optionalOrder.get();
+        List<OrderDetail> orderDetails = orderDetailRepository.findByOrders_OrderId(order.getOrderId());
+        List<OrderDetailDTO> orderDetailDTOs = orderDetails.stream().map(detail -> {
+            OrderDetailDTO detailDTO = new OrderDetailDTO();
+            detailDTO.setOrderDetailId(detail.getOrderDetailId());
+            detailDTO.setQuantity(detail.getQuantity());
+            detailDTO.setPrice(detail.getPrice());
+            detailDTO.setMenuItem(detail.getMenuItems().getName());
+            return detailDTO;
+        }).collect(Collectors.toList());
+
+        return new OrdersDTO(
                 order.getOrderId(),
                 order.getTotalAmount(),
                 order.getStatus().toString(),
                 order.getScheduledTime(),
+                order.getCreatedAt(),
                 order.getDeliveryAddress().getCity(),
-                order.getRestaurant().getName()
-        )).collect(Collectors.toList());
+                order.getRestaurant().getName(),
+                orderDetailDTOs,
+                order.getCustomer().getFirstName(),
+                order.getCustomer().getLastName()
+        );
     }
 
     @Override
@@ -138,6 +189,8 @@ public class OrderServiceImpl implements OrderService {
         order.setRestaurant(restaurant); // Set the restaurant entity
         order.setStatus(OrderStatus.PENDING);
         order.setTotalAmount(calculateTotal(orderRequest.getItems()));
+        order.setCreatedAt(LocalDateTime.now());
+        order.setScheduledTime(LocalDateTime.now().plusMinutes(30));
 
         // Save the order
         ordersRepository.save(order);
