@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">    <link rel="stylesheet" href="/static/css/base.css">
+    <title>Document</title>
+</head>
+<body>
+<nav class="navbar">
+  <div class="container-fluid">
+    <a class="logo" href="#"><img src="/static/images/logo.png" alt="logo"/></a>
+    <button class="navbar-toggler" id="navbarToggle"><i class="fa fa-ellipsis-v" aria-hidden="true"></i></button>
+    <ul class="navbar-nav" id="navbarNav">
+      <li class="nav-item">
+        <a class="nav-link" id="homeLink" href="/api/admin/dashboard">Home</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="viewRestaurantLink" href="/api/admin/view-restaurant">View Restaurants</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="viewCustomerLink" href="/api/admin/view-customer">View Customers</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="approveOwnerLink" href="/api/admin/approve-owners">Approve Owner</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="createCouponLink" href="/api/admin/create-coupon">Create Coupon</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="viewOwnerLink" href="/api/admin/approved-owners">View Owners</a>
+      </li>
+       <form id="logoutForm" action="/logout" method="POST" style="display:inline;">
+      <button type="submit" class="logout-btn">Logout</button>
+      <% if(request.getParameter("logout")!=null){%> alert: You have been logged out successfully
+      <%} %>
+      </form>
+    </ul>
+  </div>
+</nav>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="/static/js/base.js"></script>
+</body>
+</html>

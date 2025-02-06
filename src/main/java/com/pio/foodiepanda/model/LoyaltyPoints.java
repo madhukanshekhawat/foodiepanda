@@ -1,12 +1,12 @@
 package com.pio.foodiepanda.model;
 
-import com.pio.foodiepanda.utility.LoyaltyStatus;
+import com.pio.foodiepanda.enums.LoyaltyStatus;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 
 @Entity
-public class LoyaltyPoints extends BaseEntity{
+public class LoyaltyPoints extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,7 +22,7 @@ public class LoyaltyPoints extends BaseEntity{
     private LoyaltyStatus status;
 
     @ManyToOne
-    @JoinColumn(name = "customer_id" , nullable = false)
+    @JoinColumn(name = "customer_id", nullable = false)
     private Customer customer;
 
     public Long getLoyaltyPointsId() {

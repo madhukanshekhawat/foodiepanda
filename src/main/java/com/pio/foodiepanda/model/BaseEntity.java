@@ -1,6 +1,9 @@
 package com.pio.foodiepanda.model;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.MappedSuperclass;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
 
 import java.time.LocalDateTime;
 
@@ -14,14 +17,14 @@ public abstract class BaseEntity {
     private LocalDateTime updatedAt;
 
     @PrePersist
-    protected void prePersist(){
+    protected void prePersist() {
         createdAt = LocalDateTime.now();
         updatedAt = createdAt;
     }
 
     @PreUpdate
-    protected void preUpdate(){
-       updatedAt = LocalDateTime.now();
+    protected void preUpdate() {
+        updatedAt = LocalDateTime.now();
     }
 
     public LocalDateTime getCreatedAt() {

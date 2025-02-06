@@ -1,0 +1,207 @@
+/* General styling */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #F5EFFF; /* Light purple background */
+        }
+
+        /* Navbar styling */
+        .navbar {
+
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 30px;
+            background-color: #A294F9; /* Primary purple color */
+            color: white;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        /* Logo styling */
+        .navbar .logo {
+            cursor:pointer;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: white;
+        }
+
+        /* Navigation links styling */
+        .nav-links {
+            display: flex;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav-links li {
+            margin: 8px 15px;
+            position: relative;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: white;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            text-decoration: none;
+            color: #CDC1FF; /* Light shade of purple */
+        }
+
+        /* Logout button styling */
+        .logout-btn {
+            background-color: #EFD9F2; /* Light pink */
+            color: #A294F9; /* Dark purple */
+            border: none;
+            border-radius: 5px;
+            padding: 8px 15px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .logout-btn:hover {
+            background-color: #CDC1FF;
+            color: white;
+        }
+
+        /* Toggle switch styling */
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 40px; /* Smaller width */
+            height: 20px; /* Smaller height */
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 20px; /* Adjusted for smaller size */
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 14px; /* Adjusted for smaller size */
+            width: 14px; /* Adjusted for smaller size */
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: #CDC1FF;
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(20px); /* Adjusted for smaller size */
+        }
+
+        /* Label and toggle alignment */
+        .form-group {
+            display: flex;
+            align-items: center;
+            gap: 10px; /* Space between label and toggle */
+            margin: 8px 15px; /* Consistent margin with other items */
+        }
+
+        .form-group label {
+            font-size: 1rem;
+            color:white ;
+        }
+
+        .wrapper {
+            display: flex;
+            flex-direction:column;
+        }
+
+        footer {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            height: 100px; /* Adjust based on footer height */
+            background-color: #4A3F8C; /* Primary purple */
+            color: white;
+            text-align: center;
+            }
+
+       .footer-container {
+           bottom: 0px;
+           padding: 20px 0;
+       }
+
+       .footer-content {
+           max-width: 1200px;
+           margin: 0 auto;
+           padding: 0 20px;
+       }
+
+       .footer-content h3 {
+           margin: 0;
+           font-size: 1.5rem;
+       }
+
+       .footer-content p {
+           margin: 10px 0;
+           font-size: 1rem;
+       }
+
+       /* Responsive Design */
+       @media screen and (max-width: 768px) {
+           .footer-content {
+               padding: 0 10px;
+           }
+
+           .footer-content h3 {
+               font-size: 1.2rem;
+           }
+
+           .footer-content p {
+               font-size: 0.9rem;
+           }
+       }
+        /* Responsive design */
+        @media screen and (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .nav-links {
+                flex-direction: column;
+                width: 100%;
+                margin-top: 15px;
+            }
+
+            .nav-links li {
+                margin: 10px 0;
+            }
+
+            .logout-btn {
+                width: 100%;
+                text-align: center;
+            }
+        }

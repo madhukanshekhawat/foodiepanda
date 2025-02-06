@@ -1,6 +1,6 @@
 package com.pio.foodiepanda.dto;
 
-import com.pio.foodiepanda.utility.AddressLabel;
+import com.pio.foodiepanda.enums.DeliveryAddressLabel;
 
 public class AddressDTO extends BaseDTO {
 
@@ -9,13 +9,13 @@ public class AddressDTO extends BaseDTO {
     private String addressLine;
     private String city;
     private String state;
-    private AddressLabel label;
+    private DeliveryAddressLabel label;
     private String postalCode;
 
     public AddressDTO() {
     }
 
-    public AddressDTO(Long addressId, Long userId, String addressLine, String city, String state, AddressLabel label, String postalCode) {
+    public AddressDTO(Long addressId, Long userId, String addressLine, String city, String state, DeliveryAddressLabel label, String postalCode) {
         this.addressId = addressId;
         this.userId = userId;
         this.addressLine = addressLine;
@@ -65,11 +65,11 @@ public class AddressDTO extends BaseDTO {
         this.state = state;
     }
 
-    public AddressLabel getLabel() {
+    public DeliveryAddressLabel getLabel() {
         return label;
     }
 
-    public void setLabel(AddressLabel label) {
+    public void setLabel(DeliveryAddressLabel label) {
         this.label = label;
     }
 

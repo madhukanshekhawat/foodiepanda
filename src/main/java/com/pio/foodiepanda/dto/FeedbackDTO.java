@@ -1,6 +1,6 @@
 package com.pio.foodiepanda.dto;
 
-public class FeedbackDTO extends BaseDTO{
+public class FeedbackDTO extends BaseDTO {
 
     private Long feedbackId;
     private Long orderId;

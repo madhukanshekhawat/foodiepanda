@@ -1,27 +1,27 @@
 package com.pio.foodiepanda.model;
 
-import com.pio.foodiepanda.utility.Role;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.pio.foodiepanda.enums.UserRole;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
 
 @Entity
 @Table(name = "users")
 public class User extends BaseEntity {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
+
+    @Email
     @Column(nullable = false, unique = true)
     private String email;
-    
+
     @Column(nullable = false)
     private String password;
-    
-    @Enumerated(EnumType.STRING)
-    private Role role;
 
-    @OneToOne(mappedBy = "user", fetch = FetchType.EAGER)
-    private RestaurantOwner restaurantOwner;
+    @Enumerated(EnumType.STRING)
+    private UserRole role;
 
     @OneToOne(mappedBy = "user", fetch = FetchType.EAGER)
     private Admin admin;
@@ -29,10 +29,14 @@ public class User extends BaseEntity {
     @OneToOne(mappedBy = "user", fetch = FetchType.EAGER)
     private Customer customer;
 
+    @OneToOne(mappedBy = "user", fetch = FetchType.EAGER)
+    @JsonIgnore
+    private RestaurantOwner restaurantOwner;
+
     public User() {
     }
 
-    public User(Long id, String email, String password, Role role) {
+    public User(Long id, String email, String password, UserRole role) {
         this.id = id;
         this.email = email;
         this.password = password;
@@ -63,12 +67,35 @@ public class User extends BaseEntity {
         this.password = password;
     }
 
-    public Role getRole() {
+    public UserRole getRole() {
         return role;
     }
 
-    public void setRole(Role role) {
+    public void setRole(UserRole role) {
         this.role = role;
     }
 
+    public Admin getAdmin() {
+        return admin;
+    }
+
+    public void setAdmin(Admin admin) {
+        this.admin = admin;
+    }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
+
+    public RestaurantOwner getRestaurantOwner() {
+        return restaurantOwner;
+    }
+
+    public void setRestaurantOwner(RestaurantOwner restaurantOwner) {
+        this.restaurantOwner = restaurantOwner;
+    }
 }

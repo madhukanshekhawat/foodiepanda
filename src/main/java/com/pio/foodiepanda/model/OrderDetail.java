@@ -2,26 +2,24 @@ package com.pio.foodiepanda.model;
 
 import jakarta.persistence.*;
 
-import java.math.BigDecimal;
-
 @Entity
-public class OrderDetail extends BaseEntity{
+public class OrderDetail extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long orderDetailId;
 
-    private int quantity;
+    private double quantity;
 
-    private BigDecimal price;
+    private double price;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "order_id", nullable = false)
-    private Orders order;
+    @ManyToOne
+    @JoinColumn(name = "order_id")
+    private Orders orders;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "menu_item", nullable = false)
-    private MenuItem menuItem;
+    @ManyToOne
+    @JoinColumn(name = "menu_item_id")
+    private MenuItem menuItems;
 
     public Long getOrderDetailId() {
         return orderDetailId;
@@ -31,35 +29,35 @@ public class OrderDetail extends BaseEntity{
         this.orderDetailId = orderDetailId;
     }
 
-    public int getQuantity() {
+    public double getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(int quantity) {
+    public void setQuantity(double quantity) {
         this.quantity = quantity;
     }
 
-    public BigDecimal getPrice() {
+    public double getPrice() {
         return price;
     }
 
-    public void setPrice(BigDecimal price) {
+    public void setPrice(double price) {
         this.price = price;
     }
 
-    public Orders getOrder() {
-        return order;
+    public Orders getOrders() {
+        return orders;
     }
 
-    public void setOrder(Orders order) {
-        this.order = order;
+    public void setOrders(Orders orders) {
+        this.orders = orders;
     }
 
-    public MenuItem getMenuItem() {
-        return menuItem;
+    public MenuItem getMenuItems() {
+        return menuItems;
     }
 
-    public void setMenuItem(MenuItem menuItem) {
-        this.menuItem = menuItem;
+    public void setMenuItems(MenuItem menuItems) {
+        this.menuItems = menuItems;
     }
 }

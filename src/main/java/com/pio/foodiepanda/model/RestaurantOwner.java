@@ -1,12 +1,11 @@
 package com.pio.foodiepanda.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-
-import java.util.List;
 
 @Entity
 @Table(name = "restaurant_owners")
-public class RestaurantOwner extends BaseEntity{
+public class RestaurantOwner extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,12 +20,20 @@ public class RestaurantOwner extends BaseEntity{
     @Column(name = "phone_number")
     private String phoneNumber;
 
+    private boolean rejected = false;
+
     @Column(name = "is_approved")
     private boolean isApproved;
 
-    @OneToOne(fetch = FetchType.EAGER)
+    @OneToOne
     @JoinColumn(name = "user_id")
+    @JsonIgnore
     private User user;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "restaurant_id")
+    @JsonIgnore
+    private Restaurant restaurant;
 
     public Long getOwnerID() {
         return ownerID;
@@ -60,6 +67,14 @@ public class RestaurantOwner extends BaseEntity{
         this.phoneNumber = phoneNumber;
     }
 
+    public boolean isRejected() {
+        return rejected;
+    }
+
+    public void setRejected(boolean rejected) {
+        this.rejected = rejected;
+    }
+
     public boolean isApproved() {
         return isApproved;
     }
@@ -74,5 +89,13 @@ public class RestaurantOwner extends BaseEntity{
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public Restaurant getRestaurant() {
+        return restaurant;
+    }
+
+    public void setRestaurant(Restaurant restaurant) {
+        this.restaurant = restaurant;
     }
 }

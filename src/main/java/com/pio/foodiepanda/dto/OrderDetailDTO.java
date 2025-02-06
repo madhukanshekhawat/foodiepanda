@@ -1,14 +1,62 @@
 package com.pio.foodiepanda.dto;
 
-import java.math.BigDecimal;
-
-public class OrderDetailDTO extends BaseDTO{
+public class OrderDetailDTO extends BaseDTO {
 
     private Long orderDetailId;
     private Long orderId;
+    private String menuItem;
+    private String description;
+    private double quantity;
+    private double price;
+    private String image;
     private Long menuItemId;
-    private int quantity;
-    private BigDecimal price;
+
+    public OrderDetailDTO(Long menuItemId, String name, double quantity, double price) {
+        super();
+    }
+
+    public OrderDetailDTO() {
+    }
+
+    public String getMenuItem() {
+        return menuItem;
+    }
+
+    public void setMenuItem(String menuItem) {
+        this.menuItem = menuItem;
+    }
+
+    public double getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(double quantity) {
+        this.quantity = quantity;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
 
     public Long getOrderDetailId() {
         return orderDetailId;
@@ -32,21 +80,5 @@ public class OrderDetailDTO extends BaseDTO{
 
     public void setMenuItemId(Long menuItemId) {
         this.menuItemId = menuItemId;
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
-
-    public BigDecimal getPrice() {
-        return price;
-    }
-
-    public void setPrice(BigDecimal price) {
-        this.price = price;
     }
 }

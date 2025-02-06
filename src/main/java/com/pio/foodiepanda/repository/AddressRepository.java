@@ -3,7 +3,9 @@ package com.pio.foodiepanda.repository;
 import com.pio.foodiepanda.model.Address;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface AddressRepository extends JpaRepository<Address, Long> {
+import java.util.List;
 
-    Address findByUserId(Long User);
+
+public interface AddressRepository extends JpaRepository<Address, Long> {
+    List<Address> findByUserId(Long userId);
 }

@@ -1,0 +1,47 @@
+
+.content {
+    width: 100%;
+    padding: 20px;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    text-align: center;
+    background-color: #F5EFFF;
+}
+
+.content h1{
+    color: gray;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 70vh;
+    text-align: center;
+}
+
+ 
+@media (max-width: 600px) {
+    .navbar {
+        padding: 10px 15px;
+    }
+    .logo {
+        max-height: 40px;
+    }
+    .main-wrapper {
+        flex-direction: column;
+    }
+    .sidebar {
+        width: 100%;
+        height: auto;
+        text-align: center;
+    }
+    .sidebar-links {
+        display: flex;
+        justify-content: center;
+    }
+    .sidebar-links li {
+        padding: 10px;
+    }
+    .content {
+        width: 100%;
+    }
+}
