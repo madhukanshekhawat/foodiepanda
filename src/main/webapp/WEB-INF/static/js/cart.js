@@ -5,9 +5,11 @@ $(document).ready(function() {
         method: "GET",
         success: function(response) {
             if (response.loggedIn) {
-                loadCartItems();
+                transferLocalCartToServer();
+                loadCartItemsFromServer();
                 loadAddresses();
             } else {
+                loadCartItemsFromLocalStorage();
                 alert("Please log in to view your cart.");
                 window.location.href = "/api/user-login";
             }
@@ -18,8 +20,44 @@ $(document).ready(function() {
         }
     });
 
-    function loadCartItems() {
+    function transferLocalCartToServer() {
+        const localCart = JSON.parse(localStorage.getItem("cart")) || [];
+        if (localCart.length > 0) {
+            $.ajax({
+                url: "/api/cart/transfer",
+                method: "POST",
+                contentType: "application/json",
+                data: JSON.stringify(localCart),
+                success: function() {
+                    localStorage.removeItem("cart");
+                },
+                error: function(xhr, status, error) {
+                    console.error("Error transferring local cart to server:", status, error);
+                }
+            });
+        }
+    }
+
+    function loadCartItemsFromServer() {
+        $.ajax({
+            url: "/api/cart/items",
+            method: "GET",
+            success: function(cart) {
+                renderCartItems(cart);
+            },
+            error: function(xhr, status, error) {
+                console.error("Error loading cart items from server:", status, error);
+                alert("Error loading cart items.");
+            }
+        });
+    }
+
+    function loadCartItemsFromLocalStorage() {
         const cart = JSON.parse(localStorage.getItem("cart")) || [];
+        renderCartItems(cart);
+    }
+
+    function renderCartItems(cart) {
         const cartItemsContainer = $("#cartItems");
         const totalAmountContainer = $("#totalAmount");
 
@@ -61,39 +99,40 @@ $(document).ready(function() {
         }
     }
 
-   function loadAddresses() {
-       $.ajax({
-           url: "/api/user/addresses",
-           method: "GET",
-           success: function(addresses) {
-               const addressContainer = $("#addressContainer");
-               addressContainer.empty();
+    function loadAddresses() {
+        $.ajax({
+            url: "/api/user/addresses",
+            method: "GET",
+            success: function(addresses) {
+                const addressContainer = $("#addressContainer");
+                addressContainer.empty();
 
-               if (addresses.length === 0) {
-                   $("#newAddressForm").show();
-               } else {
-                   // Add the header
-                   const header = `<h3>Select Address</h3>`;
-                   addressContainer.append(header);
+                if (addresses.length === 0) {
+                    $("#newAddressForm").show();
+                } else {
+                    const header = `<h3>Select Address</h3>`;
+                    addressContainer.append(header);
 
-                   // Create the dropdown
-                   const dropdown = $('<select id="addressDropdown" class="form-select"></select>');
-                   dropdown.append('<option value="">Select an address</option>');
+                    const dropdown = $('<select id="addressDropdown" class="form-select"></select>');
+                    dropdown.append('<option value="">Select an address</option>');
 
-                   addresses.forEach(address => {
-                       const option = `<option value="${address.addressId}">${address.label} - ${address.addressLine}, ${address.city}, ${address.state}, ${address.postalCode}</option>`;
-                       dropdown.append(option);
-                   });
+                    addresses.forEach(address => {
+                        const option = `<option value="${address.addressId}">${address.label} - ${address.addressLine}, ${address.city}, ${address.state}, ${address.postalCode}</option>`;
+                        dropdown.append(option);
+                    });
 
-                   addressContainer.append(dropdown);
-               }
-           },
-           error: function(xhr, status, error) {
-               console.error("Error fetching addresses:", status, error);
-               alert("Error fetching addresses.");
-           }
-       });
-   }
+                    addressContainer.append(dropdown);
+                }
+
+                // Store addresses for duplicate check
+                $("#addressContainer").data("addresses", addresses);
+            },
+            error: function(xhr, status, error) {
+                console.error("Error fetching addresses:", status, error);
+                alert("Error fetching addresses.");
+            }
+        });
+    }
 
     $("#addNewAddress").click(function() {
         $("#newAddressForm").toggle();
@@ -108,29 +147,15 @@ $(document).ready(function() {
             state: $("#newAddressState").val().trim()
         };
 
-        // Validation
-        if (!newAddress.label) {
-            alert("Please select an address label.");
+        if (!newAddress.label || !newAddress.addressLine || !newAddress.city || !newAddress.postalCode || !newAddress.state) {
+            alert("Please fill in all the required fields.");
             return;
         }
-        if (!newAddress.addressLine) {
-            alert("Please enter the address line.");
-            return;
-        }
-        if (newAddress.addressLine.length > 50) {
-            alert("Address line should not exceed 50 characters.");
-            return;
-        }
-        if (!newAddress.city) {
-            alert("Please enter the city.");
-            return;
-        }
-        if (!newAddress.postalCode) {
-            alert("Please enter the postal code.");
-            return;
-        }
-        if (!newAddress.state) {
-            alert("Please enter the state.");
+
+        // Check for duplicate address
+        const addresses = $("#addressContainer").data("addresses") || [];
+        if (isDuplicateAddress(newAddress, addresses)) {
+            alert("This address already exists.");
             return;
         }
 
@@ -157,115 +182,65 @@ $(document).ready(function() {
         });
     });
 
-    // Increase quantity
     $(document).on("click", ".increase-quantity", function() {
         const index = $(this).closest(".cart-item").data("index");
         let cart = JSON.parse(localStorage.getItem("cart")) || [];
         cart[index].quantity++;
         localStorage.setItem("cart", JSON.stringify(cart));
-        loadCartItems();
+        renderCartItems(cart);
     });
 
-    // Decrease quantity
     $(document).on("click", ".decrease-quantity", function() {
         const index = $(this).closest(".cart-item").data("index");
         let cart = JSON.parse(localStorage.getItem("cart")) || [];
         if (cart[index].quantity > 1) {
             cart[index].quantity--;
             localStorage.setItem("cart", JSON.stringify(cart));
-            loadCartItems();
+            renderCartItems(cart);
         }
     });
 
-    // Remove item
     $(document).on("click", ".remove-item", function() {
         const index = $(this).closest(".cart-item").data("index");
         let cart = JSON.parse(localStorage.getItem("cart")) || [];
         cart.splice(index, 1);
         localStorage.setItem("cart", JSON.stringify(cart));
-        loadCartItems();
+        renderCartItems(cart);
     });
 
     $("#checkoutButton").click(function() {
-        // Handle checkout process
-        alert("Proceeding to checkout...");
-    });
-
-    // Function to add new item to cart
-        function addItemToCart(newItem) {
-            let cart = JSON.parse(localStorage.getItem("cart")) || [];
-            if (cart.length > 0 && cart[0].restaurantId !== newItem.restaurantId) {
-                if (confirm("Your cart contains items from a different restaurant. Do you want to replace them?")) {
-                    cart = [newItem];
-                } else {
-                    return;
-                }
-            } else {
-                // Check if the item already exists in the cart
-                const existingItemIndex = cart.findIndex(item => item.id === newItem.id);
-                if (existingItemIndex !== -1) {
-                    // Update the quantity of the existing item
-                    cart[existingItemIndex].quantity += newItem.quantity;
-                } else {
-                    // Add the new item to the cart
-                    cart.push(newItem);
-                }
-            }
-            localStorage.setItem("cart", JSON.stringify(cart));
-            console.log(localStorage.getItem("cart"));
-            loadCartItems();
-        }
+        proceedToCheckout();
     });
 
     function proceedToCheckout() {
-        var selectedAddressId = $('#addressDropdown').val();
-        console.log("Selected Address ID:", selectedAddressId);
-
+        const selectedAddressId = $('#addressDropdown').val();
         if (!selectedAddressId) {
             alert("Please select an address before proceeding.");
-            console.log("Error: No Address Selected");
             return;
         }
 
         let cartData = localStorage.getItem("cart");
-        console.log("cartData", cartData);
-
-        // Get Cart Data
         let cartItems = cartData ? JSON.parse(localStorage.getItem("cart")) : [];
 
-        // Debugging - Check if Cart is Empty
         if (cartItems.length === 0) {
             alert("Your cart is empty.");
-            console.log("Error: Cart is Empty");
             return;
         }
 
-        // Assuming the restaurantId is stored in the cart items
         let restaurantId = cartItems.length > 0 ? cartItems[0].restaurantId : null;
-
         if (!restaurantId) {
             alert("Restaurant ID is missing.");
-            console.log("Error: Restaurant ID is missing");
             return;
         }
 
-        // Transform cart items to match backend format
         let formattedCartItems = cartItems.map(item => ({
             menuItemId: item.menuItemId,
             quantity: item.quantity,
             price: item.price
         }));
 
-        // Debugging - Log final request payload
-        console.log("Final Order Payload:", {
-            addressId: selectedAddressId,
-            restaurantId: restaurantId,
-            items: formattedCartItems
-        });
-
-        // Send Order Data to Backend
         $.ajax({
-            url: "/order/place-order",  // Ensure correct endpoint
+            url: "/order/place-order",
             type: "POST",
             contentType: "application/json",
             data: JSON.stringify({
@@ -273,15 +248,104 @@ $(document).ready(function() {
                 restaurantId: restaurantId,
                 items: formattedCartItems
             }),
-            success: function (response) {
+            success: function(response) {
                 console.log("Order Placed Successfully:", response);
                 localStorage.setItem("orderId", response.orderId);
-                localStorage.removeItem("cart"); // Clear cart after order
+                localStorage.removeItem("cart");
                 window.location.href = "/api/customer/order-status";
             },
-            error: function (xhr, status, error) {
+            error: function(xhr, status, error) {
                 console.error("Error Placing Order:", status, error);
                 alert("Error placing order. Please try again.");
             }
         });
     }
+     function isDuplicateAddress(address, addresses) {
+            return addresses.some(function(existingAddress) {
+                return existingAddress.addressLine.toLowerCase() === address.addressLine.toLowerCase() &&
+                       existingAddress.city.toLowerCase() === address.city.toLowerCase() &&
+                       existingAddress.state.toLowerCase() === address.state.toLowerCase() &&
+                       existingAddress.postalCode === address.postalCode &&
+                       existingAddress.label.toLowerCase() === address.label.toLowerCase();
+            });
+        }
+
+        $(document).on("click", ".increase-quantity", function() {
+            const index = $(this).closest(".cart-item").data("index");
+            let cart = JSON.parse(localStorage.getItem("cart")) || [];
+            cart[index].quantity++;
+            localStorage.setItem("cart", JSON.stringify(cart));
+            renderCartItems(cart);
+        });
+
+        $(document).on("click", ".decrease-quantity", function() {
+            const index = $(this).closest(".cart-item").data("index");
+            let cart = JSON.parse(localStorage.getItem("cart")) || [];
+            if (cart[index].quantity > 1) {
+                cart[index].quantity--;
+                localStorage.setItem("cart", JSON.stringify(cart));
+                renderCartItems(cart);
+            }
+        });
+
+        $(document).on("click", ".remove-item", function() {
+            const index = $(this).closest(".cart-item").data("index");
+            let cart = JSON.parse(localStorage.getItem("cart")) || [];
+            cart.splice(index, 1);
+            localStorage.setItem("cart", JSON.stringify(cart));
+            renderCartItems(cart);
+        });
+
+        $("#checkoutButton").click(function() {
+            proceedToCheckout();
+        });
+
+        function proceedToCheckout() {
+            const selectedAddressId = $('#addressDropdown').val();
+            if (!selectedAddressId) {
+                alert("Please select an address before proceeding.");
+                return;
+            }
+
+            let cartData = localStorage.getItem("cart");
+            let cartItems = cartData ? JSON.parse(localStorage.getItem("cart")) : [];
+
+            if (cartItems.length === 0) {
+                alert("Your cart is empty.");
+                return;
+            }
+
+            let restaurantId = cartItems.length > 0 ? cartItems[0].restaurantId : null;
+            if (!restaurantId) {
+                alert("Restaurant ID is missing.");
+                return;
+            }
+
+            let formattedCartItems = cartItems.map(item => ({
+                menuItemId: item.menuItemId,
+                quantity: item.quantity,
+                price: item.price
+            }));
+
+            $.ajax({
+                url: "/order/place-order",
+                type: "POST",
+                contentType: "application/json",
+                data: JSON.stringify({
+                    addressId: selectedAddressId,
+                    restaurantId: restaurantId,
+                    items: formattedCartItems
+                }),
+                success: function(response) {
+                    console.log("Order Placed Successfully:", response);
+                    localStorage.setItem("orderId", response.orderId);
+                    localStorage.removeItem("cart");
+                    window.location.href = "/api/customer/order-status";
+                },
+                error: function(xhr, status, error) {
+                    console.error("Error Placing Order:", status, error);
+                    alert("Error placing order. Please try again.");
+                }
+            });
+        }
+    });

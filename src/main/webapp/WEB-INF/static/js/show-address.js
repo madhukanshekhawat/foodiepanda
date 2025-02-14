@@ -5,15 +5,21 @@ $(document).ready(function () {
     $("#addAddressForm").submit(function (event) {
         event.preventDefault();
         let newAddress = {
-            addressLine: $("#street").val(),
-            city: $("#city").val(),
-            state: $("#state").val(),
-            postalCode: $("#zipCode").val(),
+            addressLine: $("#street").val().trim(),
+            city: $("#city").val().trim(),
+            state: $("#state").val().trim(),
+            postalCode: $("#zipCode").val().trim(),
             label: $("input[name='addressType']:checked").val()
         };
 
         if (!newAddress.label) {
             alert("Please select an address type.");
+            return;
+        }
+
+        // Check for duplicate address
+        if (isDuplicateAddress(newAddress)) {
+            alert("This address already exists.");
             return;
         }
 
@@ -37,16 +43,22 @@ $(document).ready(function () {
     $("#editAddressForm").submit(function (event) {
         event.preventDefault();
         let updatedAddress = {
-            addressLine: $("#editStreet").val(),
-            city: $("#editCity").val(),
-            state: $("#editState").val(),
-            postalCode: $("#editZipCode").val(),
+            addressLine: $("#editStreet").val().trim(),
+            city: $("#editCity").val().trim(),
+            state: $("#editState").val().trim(),
+            postalCode: $("#editZipCode").val().trim(),
             label: $("input[name='editAddressType']:checked").val()
         };
         let addressId = $("#editAddressId").val();
 
         if (!updatedAddress.label) {
             alert("Please select an address type.");
+            return;
+        }
+
+        // Check for duplicate address
+        if (isDuplicateAddress(updatedAddress, addressId)) {
+            alert("This address already exists.");
             return;
         }
 
@@ -64,6 +76,11 @@ $(document).ready(function () {
                 alert("Error updating address");
             }
         });
+    });
+
+    // Disable confirm button if no changes are made
+    $("#editAddressForm input").on("input change", function () {
+        checkForChanges();
     });
 });
 
@@ -111,6 +128,9 @@ function loadAddresses() {
 
             table.append(thead).append(tbody);
             container.append(table);
+
+            // Store addresses for duplicate check
+            $("#addressContainer").data("addresses", addresses);
         },
         error: function () {
             alert("Error fetching addresses");
@@ -126,7 +146,48 @@ function editAddress(id, addressLine, city, state, postalCode, label) {
     $("#editZipCode").val(postalCode);
     $("input[name='editAddressType'][value='" + label + "']").prop("checked", true);
 
+    // Store original values
+    $("#editAddressForm").data("original", {
+        addressLine: addressLine,
+        city: city,
+        state: state,
+        postalCode: postalCode,
+        label: label
+    });
+
+    checkForChanges();
     $("#editAddressModal").show();
+}
+
+function checkForChanges() {
+    let original = $("#editAddressForm").data("original");
+    let current = {
+        addressLine: $("#editStreet").val().trim(),
+        city: $("#editCity").val().trim(),
+        state: $("#editState").val().trim(),
+        postalCode: $("#editZipCode").val().trim(),
+        label: $("input[name='editAddressType']:checked").val()
+    };
+
+    let isChanged = original.addressLine !== current.addressLine ||
+                    original.city !== current.city ||
+                    original.state !== current.state ||
+                    original.postalCode !== current.postalCode ||
+                    original.label !== current.label;
+
+    $("#editAddressForm button[type='submit']").prop("disabled", !isChanged);
+}
+
+function isDuplicateAddress(address, excludeId) {
+    let addresses = $("#addressContainer").data("addresses") || [];
+    return addresses.some(function (existingAddress) {
+        return existingAddress.addressLine.toLowerCase() === address.addressLine.toLowerCase() &&
+               existingAddress.city.toLowerCase() === address.city.toLowerCase() &&
+               existingAddress.state.toLowerCase() === address.state.toLowerCase() &&
+               existingAddress.postalCode === address.postalCode &&
+               existingAddress.label.toLowerCase() === address.label.toLowerCase() &&
+               existingAddress.addressId !== excludeId;
+    });
 }
 
 function closeModal() {

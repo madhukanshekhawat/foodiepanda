@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface AddressService {
 
-    public List<AddressDTO> getAddressByUsername(String username);
+    List<AddressDTO> getAddressByUsername(String username);
 
     AddressDTO addNewAddress(String username, AddressDTO addressDTO);
 
