@@ -20,13 +20,13 @@ import java.util.List;
 public class InvoiceGenerator {
 
     public String generateInvoice(OrdersDTO order) throws FileNotFoundException {
-        String dest = "bill_" + order.getOrderId() + ".pdf";
+        String dest = "invoice_" + order.getOrderId() + ".pdf";
         PdfWriter writer = new PdfWriter(dest);
         PdfDocument pdfDoc = new PdfDocument(writer);
         Document document = new Document(pdfDoc, PageSize.A4);
 
         // Add title
-        Paragraph title = new Paragraph("Order Bill")
+        Paragraph title = new Paragraph("Order Invoice")
                 .setFontSize(20)
                 .setBold()
                 .setTextAlignment(TextAlignment.CENTER);

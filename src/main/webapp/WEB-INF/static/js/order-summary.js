@@ -27,7 +27,7 @@ $(document).ready(function () {
                 content += `<table class="table table-bordered">
                                 <thead>
                                     <tr>
-                                        <th>Total Amount</th>
+                                        <th>Total Amount ₹</th>
                                         <th>Restaurant Name</th>
                                         <th>Status</th>
                                         <th>Delivery Address</th>
@@ -38,11 +38,11 @@ $(document).ready(function () {
 
                 orders.forEach(order => {
                     content += `<tr>
-                                    <td>₹${order.totalAmount}</td>
+                                    <td>${order.totalAmount}</td>
                                     <td>${order.restaurantName}</td>
                                     <td>${order.orderStatus}</td>
                                     <td>${order.deliveryAddress}</td>
-                                    <td>${order.orderStatus !== 'DELIVERED' ? `<button class="check-status-btn" data-order-id="${order.orderId}">Check Status</button>` : `<button class="generate-invoice-btn" data-order-id="${order.orderId}">Generate Bill</button>`}</td>
+                                    <td>${order.orderStatus !== 'DELIVERED' ? `<button class="check-status-btn" data-order-id="${order.orderId}">Check Status</button>` : `<button class="generate-invoice-btn" data-order-id="${order.orderId}">Generate Invoice</button>`}</td>
                                 </tr>`;
                 });
 
