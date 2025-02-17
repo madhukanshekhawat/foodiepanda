@@ -5,9 +5,9 @@ $(document).ready(function() {
         method: "GET",
         success: function(response) {
             if (response.loggedIn) {
-                transferLocalCartToServer();
-                loadCartItemsFromServer();
+                loadCartItemsFromAPI();
                 loadAddresses();
+                transferLocalStorageToCart();
             } else {
                 loadCartItemsFromLocalStorage();
                 alert("Please log in to view your cart.");
@@ -20,34 +20,16 @@ $(document).ready(function() {
         }
     });
 
-    function transferLocalCartToServer() {
-        const localCart = JSON.parse(localStorage.getItem("cart")) || [];
-        if (localCart.length > 0) {
-            $.ajax({
-                url: "/api/cart/transfer",
-                method: "POST",
-                contentType: "application/json",
-                data: JSON.stringify(localCart),
-                success: function() {
-                    localStorage.removeItem("cart");
-                },
-                error: function(xhr, status, error) {
-                    console.error("Error transferring local cart to server:", status, error);
-                }
-            });
-        }
-    }
-
-    function loadCartItemsFromServer() {
+    function loadCartItemsFromAPI() {
         $.ajax({
             url: "/api/cart/items",
             method: "GET",
-            success: function(cart) {
-                renderCartItems(cart);
+            success: function(cartItems) {
+                syncCartItems(cartItems);
             },
             error: function(xhr, status, error) {
-                console.error("Error loading cart items from server:", status, error);
-                alert("Error loading cart items.");
+                console.error("Error fetching cart items:", status, error);
+                alert("Error fetching cart items.");
             }
         });
     }
@@ -55,6 +37,24 @@ $(document).ready(function() {
     function loadCartItemsFromLocalStorage() {
         const cart = JSON.parse(localStorage.getItem("cart")) || [];
         renderCartItems(cart);
+    }
+
+    function syncCartItems(apiCartItems) {
+        const localCart = JSON.parse(localStorage.getItem("cart")) || [];
+        if (localCart.length === 0) {
+            renderCartItems(apiCartItems);
+        } else {
+            const restaurantId = localCart[0].restaurantId;
+            const sameRestaurant = apiCartItems.every(item => item.restaurantId === restaurantId);
+            if (sameRestaurant) {
+                const mergedCart = [...apiCartItems, ...localCart];
+                localStorage.setItem("cart", JSON.stringify(mergedCart));
+                renderCartItems(mergedCart);
+            } else {
+                localStorage.setItem("cart", JSON.stringify(localCart));
+                renderCartItems(localCart);
+            }
+        }
     }
 
     function renderCartItems(cart) {
@@ -123,9 +123,6 @@ $(document).ready(function() {
 
                     addressContainer.append(dropdown);
                 }
-
-                // Store addresses for duplicate check
-                $("#addressContainer").data("addresses", addresses);
             },
             error: function(xhr, status, error) {
                 console.error("Error fetching addresses:", status, error);
@@ -149,13 +146,6 @@ $(document).ready(function() {
 
         if (!newAddress.label || !newAddress.addressLine || !newAddress.city || !newAddress.postalCode || !newAddress.state) {
             alert("Please fill in all the required fields.");
-            return;
-        }
-
-        // Check for duplicate address
-        const addresses = $("#addressContainer").data("addresses") || [];
-        if (isDuplicateAddress(newAddress, addresses)) {
-            alert("This address already exists.");
             return;
         }
 
@@ -260,92 +250,31 @@ $(document).ready(function() {
             }
         });
     }
-     function isDuplicateAddress(address, addresses) {
-            return addresses.some(function(existingAddress) {
-                return existingAddress.addressLine.toLowerCase() === address.addressLine.toLowerCase() &&
-                       existingAddress.city.toLowerCase() === address.city.toLowerCase() &&
-                       existingAddress.state.toLowerCase() === address.state.toLowerCase() &&
-                       existingAddress.postalCode === address.postalCode &&
-                       existingAddress.label.toLowerCase() === address.label.toLowerCase();
-            });
+    function transferLocalStorageToCart() {
+            const localCart = JSON.parse(localStorage.getItem("cart")) || [];
+            if (localCart.length > 0) {
+                let itemsProcessed = 0;
+                localCart.forEach(item => {
+                    $.ajax({
+                        url: "/api/cart/sync",
+                        method: "POST",
+                        contentType: "application/json",
+                        data: JSON.stringify(localCart),
+                        success: function(response) {
+                            console.log("Local storage cart item transferred to server:", response);
+                            itemsProcessed++;
+                            if (itemsProcessed === localCart.length) {
+                                localStorage.removeItem("cart");
+                                loadCartItemsFromAPI();
+                            }
+                        },
+                        error: function(xhr, status, error) {
+                            console.error("Error transferring local storage cart item:", status, error);
+                            alert("Error transferring local storage cart item.");
+                        }
+                    });
+                });
+            }
         }
 
-        $(document).on("click", ".increase-quantity", function() {
-            const index = $(this).closest(".cart-item").data("index");
-            let cart = JSON.parse(localStorage.getItem("cart")) || [];
-            cart[index].quantity++;
-            localStorage.setItem("cart", JSON.stringify(cart));
-            renderCartItems(cart);
-        });
-
-        $(document).on("click", ".decrease-quantity", function() {
-            const index = $(this).closest(".cart-item").data("index");
-            let cart = JSON.parse(localStorage.getItem("cart")) || [];
-            if (cart[index].quantity > 1) {
-                cart[index].quantity--;
-                localStorage.setItem("cart", JSON.stringify(cart));
-                renderCartItems(cart);
-            }
-        });
-
-        $(document).on("click", ".remove-item", function() {
-            const index = $(this).closest(".cart-item").data("index");
-            let cart = JSON.parse(localStorage.getItem("cart")) || [];
-            cart.splice(index, 1);
-            localStorage.setItem("cart", JSON.stringify(cart));
-            renderCartItems(cart);
-        });
-
-        $("#checkoutButton").click(function() {
-            proceedToCheckout();
-        });
-
-        function proceedToCheckout() {
-            const selectedAddressId = $('#addressDropdown').val();
-            if (!selectedAddressId) {
-                alert("Please select an address before proceeding.");
-                return;
-            }
-
-            let cartData = localStorage.getItem("cart");
-            let cartItems = cartData ? JSON.parse(localStorage.getItem("cart")) : [];
-
-            if (cartItems.length === 0) {
-                alert("Your cart is empty.");
-                return;
-            }
-
-            let restaurantId = cartItems.length > 0 ? cartItems[0].restaurantId : null;
-            if (!restaurantId) {
-                alert("Restaurant ID is missing.");
-                return;
-            }
-
-            let formattedCartItems = cartItems.map(item => ({
-                menuItemId: item.menuItemId,
-                quantity: item.quantity,
-                price: item.price
-            }));
-
-            $.ajax({
-                url: "/order/place-order",
-                type: "POST",
-                contentType: "application/json",
-                data: JSON.stringify({
-                    addressId: selectedAddressId,
-                    restaurantId: restaurantId,
-                    items: formattedCartItems
-                }),
-                success: function(response) {
-                    console.log("Order Placed Successfully:", response);
-                    localStorage.setItem("orderId", response.orderId);
-                    localStorage.removeItem("cart");
-                    window.location.href = "/api/customer/order-status";
-                },
-                error: function(xhr, status, error) {
-                    console.error("Error Placing Order:", status, error);
-                    alert("Error placing order. Please try again.");
-                }
-            });
-        }
     });

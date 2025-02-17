@@ -24,6 +24,9 @@ public class Customer extends BaseEntity {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "customer")
     private List<Orders> ordersList;
 
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Cart> carts;
+
     @OneToOne
     @JoinColumn(name = "user_id")
     private User user;
@@ -66,6 +69,22 @@ public class Customer extends BaseEntity {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public List<Orders> getOrdersList() {
+        return ordersList;
+    }
+
+    public void setOrdersList(List<Orders> ordersList) {
+        this.ordersList = ordersList;
+    }
+
+    public List<Cart> getCarts() {
+        return carts;
+    }
+
+    public void setCarts(List<Cart> carts) {
+        this.carts = carts;
     }
 }
 

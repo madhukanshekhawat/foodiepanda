@@ -5,9 +5,9 @@ public enum UserRole {
     CUSTOMER("Customer"),
     RESTAURANT_OWNER("Restaurant_owner");
 
-    private String type;
+    private final String type;
 
-    private UserRole(String type) {
+    UserRole(String type) {
         this.type = type;
     }
 

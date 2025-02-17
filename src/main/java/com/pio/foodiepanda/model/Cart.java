@@ -12,17 +12,17 @@ public class Cart extends BaseEntity {
     private Long cartId;
 
     private int quantity;
-    private BigDecimal price;
+    private double price;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "customer_id", nullable = false)
     private Customer customer;
 
-    @OneToOne(
-            cascade = CascadeType.ALL,
-            orphanRemoval = true)
-    @JoinColumn(name = "cart_id")
-    private MenuItem menuItems;
+    private Long menuItemId;
+
+    @ManyToOne
+    @JoinColumn(name = "restaurant_id", nullable = false)
+    private Restaurant restaurant;
 
     public Long getCartId() {
         return cartId;
@@ -40,11 +40,11 @@ public class Cart extends BaseEntity {
         this.quantity = quantity;
     }
 
-    public BigDecimal getPrice() {
+    public double getPrice() {
         return price;
     }
 
-    public void setPrice(BigDecimal price) {
+    public void setPrice(double price) {
         this.price = price;
     }
 
@@ -56,12 +56,21 @@ public class Cart extends BaseEntity {
         this.customer = customer;
     }
 
-    public MenuItem getMenuItems() {
-        return menuItems;
+    public Long getMenuItemId() {
+        return menuItemId;
     }
 
-    public void setMenuItems(MenuItem menuItems) {
-        this.menuItems = menuItems;
+    public void setMenuItemId(Long menuItemId) {
+        this.menuItemId = menuItemId;
     }
+
+    public Restaurant getRestaurant() {
+        return restaurant;
+    }
+
+    public void setRestaurant(Restaurant restaurant) {
+        this.restaurant = restaurant;
+    }
+
 }
 

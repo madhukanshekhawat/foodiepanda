@@ -9,51 +9,50 @@
     <link rel="stylesheet" href="/static/css/customer-dashboard.css">
 </head>
 <body>
-       <!-- Restaurants Section -->
-       <div class="container">
-           <h3>Restaurants</h3>
-           <div class="row" id="restaurant-cards"></div>
+    <!-- Normal Dashboard -->
+    <div id="normalDashboard">
+        <!-- Restaurants Section -->
+               <div class="container">
+                   <h3>Restaurants</h3>
+                   <div class="row" id="restaurant-cards"></div>
 
-           <!-- Pagination -->
-           <div class="text-center">
-               <button id="prevPage" class="btn btn-primary">Previous</button>
-               <span id="currentPage">Page 1</span>
-               <button id="nextPage" class="btn btn-primary">Next</button>
-           </div>
-       </div>
+            <!-- Pagination -->
+            <div class="text-center">
+                <button id="prevPage" class="btn btn-primary">Previous</button>
+                <span id="currentPage">Page 1</span>
+                <button id="nextPage" class="btn btn-primary">Next</button>
+            </div>
+        </div>
 
-       <div class = "menu-container">
-          <h3>Quick Picks To Explore</h3>
-          <div id="menuItemsContainer" class="menu-container"></div>
+        <!-- Menu Items Section -->
+        <div class="menu-container">
+            <h3>Quick Picks To Explore</h3>
+            <div id="menuItemsContainer" class="menu-container"></div>
 
-          <!-- Pagination -->
+            <!-- Pagination -->
             <div class="text-center">
                 <button id="prev" class="btn btn-primary">Previous</button>
                 <span id="currentPage">Page 1</span>
                 <button id="nex" class="btn btn-primary">Next</button>
             </div>
         </div>
+    </div>
 
-        <!-- Modal Popup HTML -->
-                    <div id="menuItemModal" class="modal">
-                        <div class="modal-content">
-                            <span class="close">&times;</span>
-                            <img id="modalImage" src="" alt="Menu Item" style="width: 100%; height: 250px;"/>
-                            <h4 id="modalName"></h4>
-                            <p id="modalDescription"></p>
-                            <p id="modalPrice"></p>
-                            <div>
-                                <button id="decreaseQuantity">-</button>
-                                <input type="number" id="quantity" value="1" min="1" readonly>
-                                <button id="increaseQuantity">+</button>
-                            </div>
-                            <button class="addToCart">Add to Cart</button>
-                        </div>
-                    </div>
-                    <%@ include file="/WEB-INF/views/footer.jsp" %>
-       <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-       <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Search Results -->
+    <div id="searchResults" style="display: none;">
+        <div class="container">
+            <h3>Search Results</h3>
+            <div class="row" id="restaurantCardsContainer"></div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div id="footer">
+        <%@ include file="/WEB-INF/views/footer.jsp" %>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="/static/js/customer-dashboard.js"></script>
-   </body>
-   </html>
-
+</body>
+</html>

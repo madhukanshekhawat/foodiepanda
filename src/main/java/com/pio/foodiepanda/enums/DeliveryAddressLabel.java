@@ -6,9 +6,9 @@ public enum DeliveryAddressLabel {
     OTHER("Other"),
     RESTAURANT("Restaurant");
 
-    private String type;
+    private final String type;
 
-    private DeliveryAddressLabel(String type) {
+    DeliveryAddressLabel(String type) {
         this.type = type;
     }
 

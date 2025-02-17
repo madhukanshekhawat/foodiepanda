@@ -7,7 +7,7 @@ public class CartDTO extends BaseDTO {
     private Long customerId;
     private Long menuItemId;
     private int quantity;
-    private BigDecimal price;
+    private double price;
 
     public Long getCartId() {
         return cartId;
@@ -41,11 +41,11 @@ public class CartDTO extends BaseDTO {
         this.quantity = quantity;
     }
 
-    public BigDecimal getPrice() {
+    public double getPrice() {
         return price;
     }
 
-    public void setPrice(BigDecimal price) {
+    public void setPrice(double price) {
         this.price = price;
     }
 }
