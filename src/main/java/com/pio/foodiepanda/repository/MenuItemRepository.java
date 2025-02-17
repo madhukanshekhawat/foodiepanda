@@ -29,4 +29,9 @@ public interface MenuItemRepository extends JpaRepository<MenuItem, Long> {
 
     @Query(value = "SELECT * FROM menu_item WHERE restaurant_id = :restaurantId", nativeQuery = true)
     List<MenuItem> findByRestaurantId(Long restaurantId);
+
+    @Query("SELECT m FROM MenuItem m WHERE LOWER(m.name) LIKE LOWER(CONCAT('%', :query, '%'))")
+    List<MenuItem> findByNameContainingIgnoreCase(String query);
+
+    List<MenuItem> findByRestaurant(Restaurant restaurant);
 }

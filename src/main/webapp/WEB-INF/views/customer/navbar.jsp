@@ -11,14 +11,12 @@
     <nav class="fp-navbar">
         <div class="fp-container">
             <!-- Logo -->
-            <a class="fp-navbar-brand" href="/api/customer/dashboard">
-                Foodie Panda
-            </a>
+           <a class="fp-navbar-brand" href="/api/customer/dashboard"> Foodie Panda </a>
 
             <!-- Navbar content -->
             <div class="fp-navbar-content">
                 <div class="search">
-                    <form class="fp-navform">
+                    <form class="fp-navform" id="searchForm">
                         <!-- Search Bar -->
                         <input id="searchInput" class="fp-search-bar" type="search" placeholder="Search" aria-label="Search">
                         <button id="nav-searchBtn" class="fp-success" type="submit">Search</button>
@@ -43,52 +41,27 @@
             <div id="searchResults" class="fp-search-results"></div>
         </div>
     </nav>
+
+    <!-- Message Container -->
+        <div id="messageContainer" class="fp-container" style="display: none;">
+            <p>Oops! No such restaurant found!</p>
+        </div>
+
+    <!-- Restaurant Cards Container -->
+    <div id="restaurantCardsContainer" class="fp-container"></div>
+
+    <!-- Restaurant Card Template -->
+    <template id="restaurantCardTemplate">
+    <div class="restaurant-card">
+        <img class="restaurant-image" src="" alt="Restaurant Image" style="width: 100%; height: 250px;"/>
+        <h3 class="restaurant-name"></h3>
+        <p class="restaurant-menu"></p>
+        <p class="restaurant-address"></p>
+        <p class="availability-status"></p>
+    </div>
+</template>
+
     <script src="/static/js/navbar.js"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Check login state by verifying JWT token in cookies
-            let token = getCookie('JWT-TOKEN');
-            let isLoggedIn = token !== null;
-
-            // Function to update UI based on login state
-            function updateUI() {
-                if (isLoggedIn) {
-                    document.getElementById('authButtons').style.display = 'none';
-                    document.getElementById('logoutForm').style.display = 'block';
-                    document.getElementById('orderSummaryLink').style.display = 'block';
-                    document.getElementById('showAddressLink').style.display = 'block';
-                } else {
-                    document.getElementById('authButtons').style.display = 'flex';
-                    document.getElementById('logoutForm').style.display = 'none';
-                    document.getElementById('orderSummaryLink').style.display = 'none';
-                    document.getElementById('showAddressLink').style.display = 'none';
-                }
-            }
-
-            // Function to get cookie by name
-            function getCookie(name) {
-                let cookieArr = document.cookie.split(";");
-                for (let i = 0; i < cookieArr.length; i++) {
-                    let cookiePair = cookieArr[i].split("=");
-                    if (name === cookiePair[0].trim()) {
-                        return decodeURIComponent(cookiePair[1]);
-                    }
-                }
-                return null;
-            }
-
-            // Call updateUI on page load
-            updateUI();
-
-            // Handle logout
-            document.getElementById('logoutForm').addEventListener('submit', function(event) {
-                event.preventDefault();
-                document.cookie = 'JWT-TOKEN=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
-                isLoggedIn = false;
-                updateUI();
-            });
-        });
-    </script>
 </body>
 </html>

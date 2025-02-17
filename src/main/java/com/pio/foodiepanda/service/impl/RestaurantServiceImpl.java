@@ -22,6 +22,7 @@ import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -183,5 +184,29 @@ public class RestaurantServiceImpl implements RestaurantService {
         restaurantDTO.setMenuItems(menuItemDTOs); // Set menu items
 
         return restaurantDTO;
+    }
+
+    @Override
+    public List<Restaurant> searchRestaurants(String query) {
+        List<Restaurant> restaurantsByName = restaurantRepository.findByNameContainingIgnoreCase(query);
+        List<MenuItem> menuItemsByName = menuItemRepository.findByNameContainingIgnoreCase(query);
+
+        List<Restaurant> restaurantsByMenuItem = menuItemsByName.stream()
+                .map(MenuItem::getRestaurant)
+                .distinct()
+                .collect(Collectors.toList());
+
+        restaurantsByName.addAll(restaurantsByMenuItem);
+        List<Restaurant> distinctRestaurants = restaurantsByName.stream().distinct().collect(Collectors.toList());
+
+        // Add the first menu item image to each restaurant
+        distinctRestaurants.forEach(restaurant -> {
+            List<MenuItem> menuItems = menuItemRepository.findByRestaurant(restaurant);
+            if (!menuItems.isEmpty()) {
+                restaurant.setFirstMenuItemImage(menuItems.get(0).getImage());
+            }
+        });
+
+        return distinctRestaurants;
     }
 }

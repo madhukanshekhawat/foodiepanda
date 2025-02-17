@@ -45,7 +45,6 @@ function fetchRestaurantDetails(restaurantId) {
         },
         error: function(xhr, status, error) {
             console.error("Error loading restaurant details:", status, error);
-            alert("Error loading restaurant details.");
         }
     });
 }

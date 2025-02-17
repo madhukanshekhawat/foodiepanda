@@ -3,6 +3,7 @@ package com.pio.foodiepanda.controller;
 import com.pio.foodiepanda.constants.MessageConstant;
 import com.pio.foodiepanda.dto.AvailabilityRequest;
 import com.pio.foodiepanda.dto.RestaurantDTO;
+import com.pio.foodiepanda.model.Restaurant;
 import com.pio.foodiepanda.service.RestaurantService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -47,5 +48,10 @@ public class RestaurantController {
     public ResponseEntity<RestaurantDTO> getRestaurantDetails(@PathVariable Long restaurantId) {
         RestaurantDTO restaurant = restaurantService.getRestaurantById(restaurantId);
         return ResponseEntity.ok(restaurant);
+    }
+
+    @GetMapping("/search-restaurants")
+    public List<Restaurant> searchRestaurants(@RequestParam String query) {
+        return restaurantService.searchRestaurants(query);
     }
 }

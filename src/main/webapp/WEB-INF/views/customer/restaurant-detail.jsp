@@ -214,6 +214,7 @@
             <button class="addToCart">Add to Cart</button>
         </div>
     </div>
+    <div id="categoryContainer"></div>
     <script src="/static/js/customer-dashboard.js"></script>
 </body>
 </html>

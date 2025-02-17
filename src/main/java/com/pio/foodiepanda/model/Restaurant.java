@@ -22,17 +22,26 @@ public class Restaurant extends BaseEntity {
 
     private boolean isAvailable;
     private String phoneNumber;
+
     @OneToOne
     @JoinColumn(name = "address_id", nullable = false)
     @JsonIgnore
     private RestaurantAddress restaurantAddress;
+
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "owner_id", referencedColumnName = "ownerId")
     @JsonIgnore
     private RestaurantOwner restaurantOwner;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "restaurant")
     @JsonIgnore
     private List<Orders> ordersList;
+
+    @OneToMany(mappedBy = "restaurant")
+    private List<MenuItem> menuItems;
+
+    @Transient
+    private String firstMenuItemImage;
 
     @PrePersist
     public void setDefaultTiming() {
@@ -116,4 +125,19 @@ public class Restaurant extends BaseEntity {
         this.ordersList = ordersList;
     }
 
+    public List<MenuItem> getMenuItems() {
+        return menuItems;
+    }
+
+    public void setMenuItems(List<MenuItem> menuItems) {
+        this.menuItems = menuItems;
+    }
+
+    public String getFirstMenuItemImage() {
+        return firstMenuItemImage;
+    }
+
+    public void setFirstMenuItemImage(String firstMenuItemImage) {
+        this.firstMenuItemImage = firstMenuItemImage;
+    }
 }

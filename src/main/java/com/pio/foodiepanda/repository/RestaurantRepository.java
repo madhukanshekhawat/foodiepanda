@@ -27,4 +27,7 @@ public interface RestaurantRepository extends JpaRepository<Restaurant, Long> {
 
     @Query("SELECT r FROM Restaurant r WHERE r.restaurantOwner.isApproved = true")
     Page<Restaurant> findAllRestaurantByOwnerApproved(Pageable pageable);
+
+    @Query("SELECT r FROM Restaurant r WHERE LOWER(r.name) LIKE LOWER(CONCAT('%', :query, '%'))")
+    List<Restaurant> findByNameContainingIgnoreCase(String query);
 }

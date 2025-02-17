@@ -411,3 +411,26 @@
     padding: 10px;
     text-align: center;
 }
+
+#restaurantCardsContainer {
+    margin-top:30px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+}
+
+.restaurant-card {
+    flex: 0 1 calc(33.333% - 16px); /* 3 cards per row with spacing */
+    box-sizing: border-box;
+    margin-bottom: 16px; /* Space between rows */
+    border: 1px solid #ccc;
+    padding: 16px;
+    border-radius: 8px;
+    transition: background-color 0.3s, opacity 0.3s;
+}
+
+.restaurant-card.unavailable {
+    background-color: #E0E0E0; /* Gray background for unavailable cards */
+        pointer-events: none; /* Disable click events */
+        filter: grayscale(100%); /* Apply grayscale filter */
+}
