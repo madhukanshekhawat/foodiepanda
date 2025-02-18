@@ -11,4 +11,6 @@ public interface CartService {
     List<CartItemDTO> getCartItemForUser(String email);
 
     void saveCartItems(List<CartItemDTO> cartItemDTO, Principal principal);
+
+    boolean removeItemFromCart(Principal principal, Long menuItemId);
 }

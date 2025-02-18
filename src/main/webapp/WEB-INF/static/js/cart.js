@@ -79,11 +79,11 @@ $(document).ready(function() {
                             <div class="cart-item-controls">
                                 <p>Price: ₹${item.price}</p>
                                 <p>Quantity:
-                                    <button class="decrease-quantity">-</button>
+                                    <button class="decrease">-</button>
                                     <span>${item.quantity}</span>
-                                    <button class="increase-quantity">+</button>
+                                    <button class="increase">+</button>
                                 </p>
-                                <button class="remove-item">Remove</button>
+                                <button class="remove">Remove</button>
                             </div>
                         </div>
                     </div>`;
@@ -172,31 +172,48 @@ $(document).ready(function() {
         });
     });
 
-    $(document).on("click", ".increase-quantity", function() {
-        const index = $(this).closest(".cart-item").data("index");
-        let cart = JSON.parse(localStorage.getItem("cart")) || [];
-        cart[index].quantity++;
-        localStorage.setItem("cart", JSON.stringify(cart));
-        renderCartItems(cart);
-    });
+    $(document).on("click", ".increase", function() {
+                const index = $(this).closest(".cart-item").data("index");
+                let cart = JSON.parse(localStorage.getItem("cart")) || [];
+                cart[index].quantity++;
+                localStorage.setItem("cart", JSON.stringify(cart));
+                renderCartItems(cart);
+                transferLocalStorageToCart(cart);
+            });
 
-    $(document).on("click", ".decrease-quantity", function() {
-        const index = $(this).closest(".cart-item").data("index");
-        let cart = JSON.parse(localStorage.getItem("cart")) || [];
-        if (cart[index].quantity > 1) {
-            cart[index].quantity--;
+            $(document).on("click", ".decrease", function() {
+                const index = $(this).closest(".cart-item").data("index");
+                let cart = JSON.parse(localStorage.getItem("cart")) || [];
+                if (cart[index].quantity > 1) {
+                    cart[index].quantity--;
+                    localStorage.setItem("cart", JSON.stringify(cart));
+                    renderCartItems(cart);
+                    transferLocalStorageToCart(cart);
+                }
+            });
+$(document).on("click", ".remove", function() {
+    const index = $(this).closest(".cart-item").data("index");
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+    const menuItemId = cart[index].menuItemId; // Get the menuItemId of the item to be removed
+
+    // Call the API to remove the item from the server
+    $.ajax({
+        url: "/api/cart/remove-item",
+        method: "DELETE",
+        data:{menuItemId:menuItemId},
+        success: function(response) {
+            console.log("Item removed from server:", response);
+            cart.splice(index, 1);
             localStorage.setItem("cart", JSON.stringify(cart));
             renderCartItems(cart);
+        },
+        error: function(xhr, status, error) {
+            console.error("Error removing item from server:", status, error);
+            alert("Error removing item from server.");
         }
     });
+});
 
-    $(document).on("click", ".remove-item", function() {
-        const index = $(this).closest(".cart-item").data("index");
-        let cart = JSON.parse(localStorage.getItem("cart")) || [];
-        cart.splice(index, 1);
-        localStorage.setItem("cart", JSON.stringify(cart));
-        renderCartItems(cart);
-    });
 
     $("#checkoutButton").click(function() {
         proceedToCheckout();
@@ -252,7 +269,6 @@ $(document).ready(function() {
     }
     function transferLocalStorageToCart() {
             const localCart = JSON.parse(localStorage.getItem("cart")) || [];
-            if (localCart.length > 0) {
                 let itemsProcessed = 0;
                 localCart.forEach(item => {
                     $.ajax({
@@ -264,7 +280,6 @@ $(document).ready(function() {
                             console.log("Local storage cart item transferred to server:", response);
                             itemsProcessed++;
                             if (itemsProcessed === localCart.length) {
-                                localStorage.removeItem("cart");
                                 loadCartItemsFromAPI();
                             }
                         },
@@ -275,6 +290,5 @@ $(document).ready(function() {
                     });
                 });
             }
-        }
 
     });

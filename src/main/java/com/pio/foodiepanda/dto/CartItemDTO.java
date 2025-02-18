@@ -5,17 +5,18 @@ import com.pio.foodiepanda.model.Restaurant;
 public class CartItemDTO {
     private Long cartId;
     private Long menuItemId;
-    private String itemName;
+    private String name;
     private int quantity;
     private double price;
     private Long customerId;
     private Long restaurantId;
 
-    public CartItemDTO(Long cartId, Long menuItemId, int quantity, double price) {
+    public CartItemDTO(Long cartId, Long menuItemId, int quantity, double price, String name) {
         this.cartId = cartId;
         this.menuItemId = menuItemId;
         this.quantity = quantity;
         this.price = price;
+        this.name = name;
     }
 
     public CartItemDTO() {
@@ -55,15 +56,7 @@ public class CartItemDTO {
     }
 
     public String getItemName() {
-        return itemName;
-    }
-
-    public void setItemName(String itemName) {
-        this.itemName = itemName;
-    }
-
-    public Long getCustomerId(Long customerID) {
-        return customerId;
+        return name;
     }
 
     public void setCustomerId(Long customerId) {
@@ -81,4 +74,13 @@ public class CartItemDTO {
     public void setRestaurantId(Long restaurantId) {
         this.restaurantId = restaurantId;
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
 }

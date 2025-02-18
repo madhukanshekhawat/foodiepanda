@@ -5,6 +5,10 @@ public class MessageConstant {
 
     public static final String CUSTOMER_NOT_FOUND = "Customer Not Found";
 
+    public static final String CART_ITEM_NOT_FOUND = "Cart Item not found" ;
+
+    public static final String LOCAL_CART_IS_EMPTY = "Local Cart is empty";
+
     public static String APPROVE = "approve";
 
     public static String OWNER_NOT_FOUND = "Owner Not found with ID: ";
