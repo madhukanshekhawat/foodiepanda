@@ -1,7 +1,8 @@
 let currentPage = 0;
 const pageSize = 6;
 let searchQuery = "";
-let restaurantData = null; // Declare restaurantData in the global scope
+let restaurantData = null;
+
 
 function loadMenuItems(page) {
     $.ajax({
@@ -190,28 +191,19 @@ $(document).ready(function () {
 
     $(document).on("click", ".addToCart", function () {
         const menuItemId = $(this).data("id");
-        const name = $(this).data("name");
-        const price = $(this).data("price");
-        const image = $(this).data("image");
         const quantity = parseInt($("#quantity").val());
-
         const restaurantId = $(this).data("restaurant-id");
 
-        console.log("Menu Item ID:", menuItemId);
-        console.log("Name:", name);
-        console.log("Price:", price);
-        console.log("Image:", image);
-        console.log("Restaurant ID:", restaurantId); // Check if the restaurant ID is correctly logged
+        let cart = JSON.parse(localStorage.getItem("cart")) || {};
+        let cartRestaurantId = localStorage.getItem("cartRestaurantId");
 
-        let cart = JSON.parse(localStorage.getItem("cart")) || [];
-
-        // Check if the cart contains items from a different restaurant
-        const differentRestaurant = cart.some(item => item.restaurantId !== restaurantId);
-
-        if (differentRestaurant) {
+        if (cartRestaurantId && cartRestaurantId !== restaurantId.toString()) {
             if (confirm("Your cart contains items from a different restaurant. Do you want to replace them?")) {
                 // Replace the cart with the new item
-                cart = [{ menuItemId, name, price, image, quantity, restaurantId }];
+                cart = {};
+                cart[menuItemId] = quantity;
+                localStorage.setItem("cart", JSON.stringify(cart));
+                localStorage.setItem("cartRestaurantId", restaurantId);
                 alert("Cart items replaced with items from the new restaurant.");
             } else {
                 // Do not add the new item to the cart
@@ -219,28 +211,24 @@ $(document).ready(function () {
                 return;
             }
         } else {
-            // Check if the item already exists in the cart
-            let existingItem = cart.find(item => item.menuItemId === menuItemId);
-
-            if (existingItem) {
-                existingItem.quantity += quantity;
-                alert("Item quantity updated in the cart.");
+            if (cart[menuItemId]) {
+                cart[menuItemId] += quantity;
             } else {
-                cart.push({ menuItemId, name, price, image, quantity, restaurantId });
-                alert("Item added to the cart.");
+                cart[menuItemId] = quantity;
             }
+            localStorage.setItem("cart", JSON.stringify(cart));
+            localStorage.setItem("cartRestaurantId", restaurantId);
         }
-
-        localStorage.setItem("cart", JSON.stringify(cart));
-        updateCartIcon();
 
         alert("Added to cart: " + quantity + " items");
         $("#menuItemModal").hide();
+        updateCartIcon();
+
     });
 
     // Define the updateCartIcon function
     function updateCartIcon() {
-        let cart = JSON.parse(localStorage.getItem("cart")) || [];
+        let cart = JSON.parse(localStorage.getItem("cart")) || {};
         let totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
         $("#cartIcon").text(totalItems);
     }

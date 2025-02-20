@@ -2,16 +2,28 @@ package com.pio.foodiepanda.dto;
 
 import com.pio.foodiepanda.model.Restaurant;
 
+import java.math.BigDecimal;
+
 public class CartItemDTO {
     private Long cartId;
     private Long menuItemId;
     private String name;
     private int quantity;
-    private double price;
+    private BigDecimal price;
     private Long customerId;
     private Long restaurantId;
 
-    public CartItemDTO(Long cartId, Long menuItemId, int quantity, double price, String name) {
+    public CartItemDTO(Long cartId, Long menuItemId, int quantity, BigDecimal price, String name, Long customerId, Long restaurantId) {
+        this.cartId = cartId;
+        this.menuItemId = menuItemId;
+        this.quantity = quantity;
+        this.price = price;
+        this.name = name;
+        this.customerId = customerId;
+        this.restaurantId = restaurantId;
+    }
+
+    public CartItemDTO(Long cartId, Long menuItemId, int quantity, BigDecimal price, String name) {
         this.cartId = cartId;
         this.menuItemId = menuItemId;
         this.quantity = quantity;
@@ -39,11 +51,11 @@ public class CartItemDTO {
         this.quantity = quantity;
     }
 
-    public double getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
 
@@ -82,5 +94,4 @@ public class CartItemDTO {
     public void setName(String name) {
         this.name = name;
     }
-
 }

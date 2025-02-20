@@ -6,7 +6,7 @@
     <style>
     /* General Styles */
     body {
-        background-color: #F5EFFF;
+        background-color: #F7F7F7;
         font-family: Arial, sans-serif;
         color: #333;
         margin: 0;
@@ -119,7 +119,7 @@
         padding: 20px;
         border: 1px solid #888;
         width: 80%;
-        max-width: 350px;
+        max-width: 500px;
         border-radius: 10px;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         animation: fadeIn 0.5s ease-in-out;
@@ -145,24 +145,63 @@
     }
 
     .quantity-controls {
-        display: flex;
         align-items: center;
-        gap: 10px;
         margin: 10px 0;
     }
 
     .quantity-controls button {
+          display: inline-block;
+          border: 1px solid #ddd;
+          margin: 0px;
+          width: 40px;
+          height: 40px;
+          text-align: center;
+          vertical-align: middle;
+          padding: 11px 0;
+          background: #eee;
+          -webkit-touch-callout: none;
+          -webkit-user-select: none;
+          -khtml-user-select: none;
+          -moz-user-select: none;
+          -ms-user-select: none;
+          user-select: none;
+    }
+
+    .addToCart{
         background-color: #A594F9;
         border: none;
         color: #FFF;
         padding: 10px;
         cursor: pointer;
         border-radius: 5px;
+        width: 120px;
+    }
+
+    #decreaseQuantity{
+      margin-right: -4px;
+      border-radius: 8px 0 0 8px;
+    }
+
+    #increaseQuantity{
+      margin-left: -4px;
+      border-radius: 0 8px 8px 0;
     }
 
     .quantity-controls input {
-        width: 50px;
-        text-align: center;
+      text-align: center;
+      border: none;
+      border-top: 1px solid #ddd;
+      border-bottom: 1px solid #ddd;
+      margin: 0px;
+      width: 40px;
+      height: 37px;
+    }
+
+
+    input[type=number]::-webkit-inner-spin-button,
+    input[type=number]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
     }
 
     /* Animation */
@@ -208,7 +247,7 @@
             <p id="modalPrice"></p>
             <div class="quantity-controls">
                 <button id="decreaseQuantity">-</button>
-                <input type="number" id="quantity" value="1" min="1"/>
+                <input class="quantity-input" type="number" id="quantity" value="1" min="1" readonly/>
                 <button id="increaseQuantity">+</button>
             </div>
             <button class="addToCart">Add to Cart</button>
@@ -216,6 +255,13 @@
     </div>
     <div id="categoryContainer"></div>
     <script src="/static/js/customer-dashboard.js"></script>
+    <script>
+            $(document).ready(function() {
+                // Hide the search input and button
+                $("#searchInput").hide();
+                $("#nav-searchBtn").hide();
+            });
+    </script>
 </body>
 </html>
 

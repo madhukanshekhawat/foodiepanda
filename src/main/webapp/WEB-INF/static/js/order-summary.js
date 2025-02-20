@@ -1,3 +1,9 @@
+$(document).ready(function() {
+         // Hide the search input and button
+         $("#searchInput").hide();
+         $("#nav-searchBtn").hide();
+     });
+
 $(document).ready(function () {
     $.ajax({
         url: "/order/customer/all",
@@ -54,6 +60,7 @@ $(document).ready(function () {
             // Add event listener for check status buttons
             $(".check-status-btn").on("click", function () {
                 const orderId = $(this).data("order-id");
+
                 $.ajax({
                     url: "/order/order-status/" + orderId,
                     type: "GET",

@@ -3,13 +3,11 @@
         // Get orderId from local storage
         var orderId = localStorage.getItem("orderId");
 
-        // If orderId exists in local storage
         if (orderId) {
             $.ajax({
-                url: "/order/order-status/" + orderId, // Fetch order status using orderId
+                url: "/order/order-status/" + orderId,
                 method: "GET",
                 success: function(response) {
-                    // Display the order status
                     if (response.status) {
                         $("#orderStatus").html(`
                             <h4>Whoo! Order Placed Successfully </h4>
@@ -20,7 +18,6 @@
                     }
                 },
                 error: function(xhr, status, error) {
-                    // Error fetching order status
                     $("#orderStatus").html("<p>Error fetching order status. Please try again later.</p>");
                 }
             });

@@ -10,10 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.security.Principal;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -46,59 +44,45 @@ public class CartServiceImpl implements CartService {
             throw new RuntimeException(MessageConstant.CUSTOMER_NOT_FOUND);
         }
 
-        List<Cart> cartItems = cartRepository.findByCustomer(customer);
+        List<Cart> cartItems = cartRepository.findByCustomerId(customer.getCustomerID());
         return cartItems.stream()
                 .map(cart -> {
                     MenuItem menuItem = menuItemRepository.findById(cart.getMenuItemId())
                             .orElseThrow(() -> new RuntimeException("Menu item not found"));
-                    return new CartItemDTO(cart.getCartId(), cart.getMenuItemId(), cart.getQuantity(), cart.getPrice(),  menuItem.getName());
+                    return new CartItemDTO(cart.getCartId(), cart.getMenuItemId(), cart.getQuantity(), cart.getPrice(),  menuItem.getName(),customer.getCustomerID(),cart.getRestaurant().getRestaurantId());
                 })
                 .collect(Collectors.toList());
     }
 
     @Override
-    public void saveCartItems(List<CartItemDTO> localCart, Principal principal) {
-        // Get customer from authenticated user
+    public void saveCartItems(Map<Long, Integer> localCart, Principal principal) {
         String email = principal.getName();
         Customer customer = customerRepository.findByEmail(email);
         if (customer == null) {
             throw new RuntimeException("Customer not found for email: " + email);
         }
 
-        // Fetch existing cart items from the database for this customer
         List<Cart> existingCart = cartRepository.findByCustomerId(customer.getCustomerID());
 
-        // Convert local cart items to a map for quick lookup
-        Map<Long, Integer> localCartMap = localCart.stream()
-                .collect(Collectors.toMap(CartItemDTO::getMenuItemId, CartItemDTO::getQuantity));
-
-        // Remove items from DB that are NOT present in local storage
+        // Remove items from the database that are not in the local cart
         existingCart.forEach(existingItem -> {
             Long menuItemId = existingItem.getMenuItemId();
-            if (!localCartMap.containsKey(menuItemId)) {
+            if (!localCart.containsKey(menuItemId)) {
                 cartRepository.delete(existingItem);
             }
         });
 
-        // Update quantities for items that exist in both local storage and DB
-        existingCart.forEach(existingItem -> {
-            Long menuItemId = existingItem.getMenuItemId();
-            if (localCartMap.containsKey(menuItemId)) {
-                existingItem.setQuantity(localCartMap.get(menuItemId));
+        // Update quantities for existing items and add new items
+        localCart.forEach((menuItemId, quantity) -> {
+            Cart existingItem = existingCart.stream()
+                    .filter(item -> item.getMenuItemId().equals(menuItemId))
+                    .findFirst()
+                    .orElse(null);
+
+            if (existingItem != null) {
+                existingItem.setQuantity(quantity);
                 cartRepository.save(existingItem);
-            }
-        });
-
-        // Add new items from local storage that are not in the database
-        for (CartItemDTO localItem : localCart) {
-            Long menuItemId = localItem.getMenuItemId();
-            Integer quantity = localItem.getQuantity();
-            Double price = localItem.getPrice();
-
-            boolean itemExists = existingCart.stream()
-                    .anyMatch(item -> item.getMenuItemId().equals(menuItemId));
-
-            if (!itemExists) {
+            } else {
                 MenuItem menuItem = menuItemRepository.findById(menuItemId)
                         .orElseThrow(() -> new RuntimeException("MenuItem not found"));
 
@@ -106,11 +90,11 @@ public class CartServiceImpl implements CartService {
                 newCartItem.setCustomer(customer);
                 newCartItem.setMenuItemId(menuItemId);
                 newCartItem.setQuantity(quantity);
-                newCartItem.setPrice(price); // Set price based on menu item
-                newCartItem.setRestaurant(menuItem.getRestaurant()); // Set restaurant
+                newCartItem.setPrice(menuItem.getPrice());
+                newCartItem.setRestaurant(menuItem.getRestaurant());
                 cartRepository.save(newCartItem);
             }
-        }
+        });
     }
 
     @Override
@@ -125,6 +109,17 @@ public class CartServiceImpl implements CartService {
             e.printStackTrace();
             return false;
         }
+    }
+
+    @Override
+    public void clearCartForUser(Principal principal) {
+        String email = principal.getName();
+
+        Customer customer = customerRepository.findByEmail(email);
+        if(customer == null){
+            throw new ResourceNotFoundException(MessageConstant.USER_NOT_FOUND);
+        }
+        cartRepository.deleteByCustomerId(customer.getCustomerID());
     }
 
     private Cart convertToEntity(CartItemDTO dto, Customer customer) {

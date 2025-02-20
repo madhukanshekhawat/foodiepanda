@@ -193,3 +193,8 @@ function isDuplicateAddress(address, excludeId) {
 function closeModal() {
     $("#editAddressModal").hide();
 }
+$(document).ready(function() {
+         // Hide the search input and button
+         $("#searchInput").hide();
+         $("#nav-searchBtn").hide();
+     });

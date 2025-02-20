@@ -43,6 +43,7 @@
        }
 
        .cart-item-controls p {
+           text-align: start;
            margin: 5px 0;
            font-size: 16px;
            color: #555;
@@ -82,7 +83,7 @@
        #newAddressForm {
            margin: 20px 0;
            padding: 20px;
-           background-color: #A294F9;
+           background-color: #F7F7F7;
            border-radius: 8px;
        }
 
@@ -146,7 +147,7 @@
           <button id="saveNewAddress">Save Address</button>
       </div>
       <div id="totalAmount"></div>
-      <button id="proceedButton" onclick="proceedToCheckout()">Place Order</button>
+      <button id="proceedButton">Place Order</button>
       <button id="proceedButton" onclick="goBack()">Back</button>
   </div>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

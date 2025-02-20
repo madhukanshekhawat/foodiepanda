@@ -12,7 +12,7 @@ public class Cart extends BaseEntity {
     private Long cartId;
 
     private int quantity;
-    private double price;
+    private BigDecimal price;
 
     @ManyToOne
     @JoinColumn(name = "customer_id", nullable = false)
@@ -40,11 +40,11 @@ public class Cart extends BaseEntity {
         this.quantity = quantity;
     }
 
-    public double getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
 

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/cart")
@@ -27,21 +28,37 @@ public class CartController {
     }
 
     @PostMapping("/sync")
-    public ResponseEntity<String> syncLocalCartToDB(@RequestBody List<CartItemDTO> localCart, Principal principal){
-        try{
-             cartService.saveCartItems(localCart,principal);
-            return ResponseEntity.ok(MessageConstant.SUCCESSFUL_MESSAGE);
-        } catch (RuntimeException e ){
-           return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null);
+    public ResponseEntity<String> syncLocalCartToDB(@RequestBody Map<Long, Integer> localCart, Principal principal) {
+        try {
+            cartService.saveCartItems(localCart, principal);
+            return ResponseEntity.ok("Cart synchronized successfully");
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Error synchronizing cart");
         }
     }
 
     @DeleteMapping("/remove-item")
     public ResponseEntity<String> deleteCartItem(@RequestParam("menuItemId") Long menuItemId, Principal principal) {
-        boolean isRemoved = cartService.removeItemFromCart(principal, menuItemId);
-        if (!isRemoved) {
+        try {
+            boolean isRemoved = cartService.removeItemFromCart(principal, menuItemId);
+            if (!isRemoved) {
+                return ResponseEntity.status(500).body("Error removing item from cart");
+            }
+            return ResponseEntity.ok("Item removed from cart successfully");
+        } catch (Exception e) {
+            e.printStackTrace();
             return ResponseEntity.status(500).body("Error removing item from cart");
         }
-        return ResponseEntity.ok("Item removed from cart successfully");
+    }
+
+
+    @DeleteMapping("/clear")
+    public ResponseEntity<String> clearCart(Principal principal){
+        try{
+            cartService.clearCartForUser(principal);
+            return ResponseEntity.ok(MessageConstant.SUCCESSFUL_MESSAGE);
+        } catch (Exception e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(MessageConstant.UNEXPECTED_ERROR);
+        }
     }
 }
