@@ -1,5 +1,9 @@
 package com.pio.foodiepanda.dto;
 
+import com.pio.foodiepanda.model.OrderDetail;
+
+import java.util.List;
+
 public class OrderDetailDTO extends BaseDTO {
 
     private Long orderDetailId;
@@ -10,12 +14,53 @@ public class OrderDetailDTO extends BaseDTO {
     private double price;
     private String image;
     private Long menuItemId;
+    private String status;
+    private Double totalAmount;
+    private Long customerId;
+    private Long addressId;
+    private Long restaurantId;
+
+    private String customerFullName;
+    private String restaurantName;
+    private String address;
+    private List<OrderDetail> orderDetail;
+
+    public OrderDetailDTO(Long orderId, String status, double totalAmount, Long customerId, String customerFullName, Long addressId, String address, Long restaurantId, String restaurantName, List<OrderDetail> orderDetail, double quantity) {
+        this.orderId = orderId;
+        this.status = status;
+        this.totalAmount = totalAmount;
+        this.customerId = customerId;
+        this.customerFullName = customerFullName;
+        this.addressId = addressId;
+        this.address = address;
+        this.restaurantId = restaurantId;
+        this.restaurantName = restaurantName;
+        this.orderDetail = orderDetail;
+        this.quantity = quantity;
+    }
+
+
 
     public OrderDetailDTO(Long menuItemId, String name, double quantity, double price) {
         super();
     }
 
     public OrderDetailDTO() {
+    }
+
+    public OrderDetailDTO(OrderDetail orderDetail) {
+    }
+
+    public OrderDetailDTO(Long orderId, String status, double totalAmount, Long customerId, Long addressId, Long restaurantId, Long menuItemId, double quantity, double price) {
+        this.orderId = orderId;
+        this.status = status;
+        this.totalAmount = totalAmount;
+        this.customerId = customerId;
+        this.addressId = addressId;
+        this.restaurantId = restaurantId;
+        this.menuItemId = menuItemId;
+        this.quantity = quantity;
+        this.price = price;
     }
 
     public String getMenuItem() {
@@ -80,5 +125,77 @@ public class OrderDetailDTO extends BaseDTO {
 
     public void setMenuItemId(Long menuItemId) {
         this.menuItemId = menuItemId;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public Double getTotalAmount() {
+        return totalAmount;
+    }
+
+    public void setTotalAmount(Double totalAmount) {
+        this.totalAmount = totalAmount;
+    }
+
+    public Long getCustomerId() {
+        return customerId;
+    }
+
+    public void setCustomerId(Long customerId) {
+        this.customerId = customerId;
+    }
+
+    public Long getAddressId() {
+        return addressId;
+    }
+
+    public void setAddressId(Long addressId) {
+        this.addressId = addressId;
+    }
+
+    public Long getRestaurantId() {
+        return restaurantId;
+    }
+
+    public void setRestaurantId(Long restaurantId) {
+        this.restaurantId = restaurantId;
+    }
+
+    public String getCustomerFullName() {
+        return customerFullName;
+    }
+
+    public void setCustomerFullName(String customerFullName) {
+        this.customerFullName = customerFullName;
+    }
+
+    public String getRestaurantName() {
+        return restaurantName;
+    }
+
+    public void setRestaurantName(String restaurantName) {
+        this.restaurantName = restaurantName;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public List<OrderDetail> getOrderDetail() {
+        return orderDetail;
+    }
+
+    public void setOrderDetail(List<OrderDetail> orderDetail) {
+        this.orderDetail = orderDetail;
     }
 }

@@ -232,6 +232,17 @@ $(document).ready(function() {
             return;
         }
 
+        const existingAddresses = $("#addressDropdown option").map(function() {
+            return $(this).text().toLowerCase();
+        }).get();
+
+        const newAddressString = `${newAddress.label} - ${newAddress.addressLine}, ${newAddress.city}, ${newAddress.state}, ${newAddress.postalCode}`.toLowerCase();
+
+        if (existingAddresses.includes(newAddressString)) {
+            alert("This address already exists.");
+            return;
+        }
+
         $.ajax({
             url: "/api/user/address/add",
             method: "POST",

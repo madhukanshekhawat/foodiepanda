@@ -1,5 +1,6 @@
 package com.pio.foodiepanda.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -22,9 +23,11 @@ public class Customer extends BaseEntity {
     private String phoneNumber;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "customer")
+    @JsonManagedReference
     private List<Orders> ordersList;
 
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private List<Cart> carts;
 
     @OneToOne

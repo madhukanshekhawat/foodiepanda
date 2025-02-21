@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -153,6 +154,8 @@ public class OrderServiceImpl implements OrderService {
             return detailDTO;
         }).collect(Collectors.toList());
 
+        RestaurantAddress restaurantAddress = order.getRestaurant().getRestaurantAddress();
+
         return new OrdersDTO(
                 order.getOrderId(),
                 order.getTotalAmount(),
@@ -163,8 +166,40 @@ public class OrderServiceImpl implements OrderService {
                 order.getRestaurant().getName(),
                 orderDetailDTOs,
                 order.getCustomer().getFirstName(),
-                order.getCustomer().getLastName()
+                order.getCustomer().getLastName(),
+                order.getRestaurant().getRestaurantAddress().getCity()
         );
+    }
+
+    @Override
+    public List<OrderDetailDTO> getOrderWithDetail(Long orderId) {
+        List<OrderDetail> orderDetails = orderDetailRepository.findByOrders_OrderId(orderId);
+
+        // Group order details by orderId
+        Map<Long, List<OrderDetail>> groupedOrderDetails = orderDetails.stream()
+                .collect(Collectors.groupingBy(od -> od.getOrders().getOrderId()));
+
+        // Create OrderDetailDTO for each orderId
+        return groupedOrderDetails.entrySet().stream().map(entry -> {
+            List<OrderDetail> details = entry.getValue();
+
+            // Get common order information from the first detail
+            OrderDetail firstDetail = details.get(0);
+
+            return new OrderDetailDTO(
+                    firstDetail.getOrders().getOrderId(),
+                    firstDetail.getOrders().getStatus().toString(),
+                    firstDetail.getOrders().getTotalAmount(),
+                    firstDetail.getOrders().getCustomer().getCustomerID(),
+                    firstDetail.getOrders().getCustomer().getFirstName() + " " + firstDetail.getOrders().getCustomer().getLastName(),
+                    firstDetail.getOrders().getDeliveryAddress().getAddressId(),
+                    firstDetail.getOrders().getDeliveryAddress().getAddressLine() + ", " + firstDetail.getOrders().getDeliveryAddress().getCity(),
+                    firstDetail.getOrders().getRestaurant().getRestaurantId(),
+                    firstDetail.getOrders().getRestaurant().getName(),
+                    details,
+                    firstDetail.getQuantity()
+            );
+        }).collect(Collectors.toList());
     }
 
     @Override

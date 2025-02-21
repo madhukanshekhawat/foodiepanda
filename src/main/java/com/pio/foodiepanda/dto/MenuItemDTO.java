@@ -15,6 +15,13 @@ public class MenuItemDTO extends BaseDTO {
     private String image;
     private String categoryName;
 
+    public MenuItemDTO(String name, double quantity, double price) {
+        super();
+    }
+
+    public MenuItemDTO() {
+    }
+
     public Long getRestaurantId() {
         return restaurantId;
     }

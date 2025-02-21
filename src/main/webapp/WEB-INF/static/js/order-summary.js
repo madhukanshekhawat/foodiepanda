@@ -15,9 +15,13 @@ $(document).ready(function () {
                 return;
             }
 
-            // Group orders by date
             const groupedOrders = orders.reduce((acc, order) => {
-                const date = new Date(order.createdAt).toLocaleDateString(); // Extract only the date
+                const date = new Date(order.createdAt).toLocaleDateString('en-GB', {
+                    day: '2-digit',
+                    month: 'short',
+                    year: 'numeric'
+                }).replace(/ /g, ' '); // Ensure single space between day, month, and year
+
                 if (!acc[date]) {
                     acc[date] = [];
                 }
@@ -60,6 +64,7 @@ $(document).ready(function () {
             // Add event listener for check status buttons
             $(".check-status-btn").on("click", function () {
                 const orderId = $(this).data("order-id");
+                localStorage.setItem("orderId", orderId);
 
                 $.ajax({
                     url: "/order/order-status/" + orderId,
@@ -81,6 +86,7 @@ $(document).ready(function () {
             // Add event listener for generate invoice buttons
             $(".generate-invoice-btn").on("click", function () {
                 const orderId = $(this).data("order-id");
+                localStorage.setItem("orderId", orderId);
                 $.ajax({
                     url: "/order/generate-invoice/" + orderId,
                     type: "GET",

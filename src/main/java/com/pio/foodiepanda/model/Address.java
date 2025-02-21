@@ -1,5 +1,6 @@
 package com.pio.foodiepanda.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.pio.foodiepanda.enums.DeliveryAddressLabel;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
@@ -31,6 +32,7 @@ public class Address extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
+    @JsonBackReference
     private User user;
 
     public Address() {

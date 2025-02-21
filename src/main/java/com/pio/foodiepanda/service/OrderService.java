@@ -1,9 +1,11 @@
 package com.pio.foodiepanda.service;
 
+import com.pio.foodiepanda.dto.OrderDetailDTO;
 import com.pio.foodiepanda.dto.OrderRequest;
 import com.pio.foodiepanda.dto.OrderStatusResponse;
 import com.pio.foodiepanda.dto.OrdersDTO;
 import com.pio.foodiepanda.enums.OrderStatus;
+import com.pio.foodiepanda.model.OrderDetail;
 
 import java.util.List;
 
@@ -20,4 +22,6 @@ public interface OrderService {
     List<OrdersDTO> getOrdersForCustomer(String email);
 
     OrdersDTO getOrderById(Long orderId);
+
+    List<OrderDetailDTO> getOrderWithDetail(Long orderId);
 }

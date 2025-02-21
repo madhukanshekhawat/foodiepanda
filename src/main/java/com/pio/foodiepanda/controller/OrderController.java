@@ -1,11 +1,10 @@
 package com.pio.foodiepanda.controller;
 
 import com.pio.foodiepanda.constants.MessageConstant;
-import com.pio.foodiepanda.dto.OrderRequest;
-import com.pio.foodiepanda.dto.OrderStatusDTO;
-import com.pio.foodiepanda.dto.OrderStatusResponse;
-import com.pio.foodiepanda.dto.OrdersDTO;
+import com.pio.foodiepanda.dto.*;
 import com.pio.foodiepanda.enums.OrderStatus;
+import com.pio.foodiepanda.model.OrderDetail;
+import com.pio.foodiepanda.model.Orders;
 import com.pio.foodiepanda.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
@@ -92,5 +91,10 @@ public class OrderController {
         String username = principal.getName();
         Long orders = orderService.createOrder(orderRequest, username);
         return ResponseEntity.ok(new OrdersDTO(orders));
+    }
+
+    @GetMapping("/get")
+    public ResponseEntity<List<OrderDetailDTO>> getOrderByOrderId(@RequestParam("orderId") Long orderId){
+        return ResponseEntity.ok((List<OrderDetailDTO>) orderService.getOrderWithDetail(orderId));
     }
 }

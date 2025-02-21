@@ -1,5 +1,7 @@
 package com.pio.foodiepanda.dto;
 
+import com.pio.foodiepanda.model.Orders;
+
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -17,9 +19,9 @@ public class OrdersDTO extends BaseDTO {
     private String restaurantName;
     private List<OrderDetailDTO> orderDetails;
     private LocalDateTime createdAt;
-    private String customerFirstName; // Add this field
-    private String customerLastName;  // Add this field
-
+    private String customerFirstName;
+    private String customerLastName;
+    private String restaurantAddress;
 
     public OrdersDTO() {
     }
@@ -40,7 +42,7 @@ public class OrdersDTO extends BaseDTO {
         this.customerLastName = customerLastName;
     }
 
-    public OrdersDTO(Long orderId, double totalAmount, String status, LocalDateTime scheduledTime, LocalDateTime createdAt, String deliveryAddress, String restaurantName, List<OrderDetailDTO> orderDetails, String customerFirstName, String customerLastName) {
+    public OrdersDTO(Long orderId, double totalAmount, String status, LocalDateTime scheduledTime, LocalDateTime createdAt, String deliveryAddress, String restaurantName, List<OrderDetailDTO> orderDetails, String customerFirstName, String customerLastName, String restaurantAddress) {
         this.orderId = orderId;
         this.totalAmount = totalAmount;
         this.status = status;
@@ -51,6 +53,15 @@ public class OrdersDTO extends BaseDTO {
         this.orderDetails = orderDetails;
         this.customerFirstName = customerFirstName;
         this.customerLastName = customerLastName;
+        this.restaurantAddress = restaurantAddress;
+    }
+
+    public OrdersDTO(Orders orders, List<OrderDetailDTO> orderDetail) {
+        super();
+    }
+
+    public OrdersDTO(Long orderId, double totalAmount, String string, LocalDateTime scheduledTime, LocalDateTime createdAt, String city, String name, List<OrderDetailDTO> orderDetailDTOs, String firstName, String lastName, Object o, String city1) {
+        super();
     }
 
     public String getRestaurantName() {
@@ -166,4 +177,13 @@ public class OrdersDTO extends BaseDTO {
     public void setCustomerLastName(String customerLastName) {
         this.customerLastName = customerLastName;
     }
+
+    public String getRestaurantAddress() {
+        return restaurantAddress;
+    }
+
+    public void setRestaurantAddress(String restaurantAddress) {
+        this.restaurantAddress = restaurantAddress;
+    }
+
 }

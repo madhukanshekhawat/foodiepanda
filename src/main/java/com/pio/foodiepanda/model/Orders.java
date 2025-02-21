@@ -1,5 +1,6 @@
 package com.pio.foodiepanda.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.pio.foodiepanda.enums.OrderStatus;
 import jakarta.persistence.*;
 
@@ -20,14 +21,17 @@ public class Orders extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "customer_id", nullable = false)
+    @JsonBackReference
     private Customer customer;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "restaurant_id", nullable = false)
+    @JsonBackReference
     private Restaurant restaurant;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "addressId")
+    @JsonBackReference
     private Address deliveryAddress;
 
     public Long getOrderId() {

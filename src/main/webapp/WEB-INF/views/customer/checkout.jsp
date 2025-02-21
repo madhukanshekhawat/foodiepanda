@@ -45,6 +45,9 @@
         <div id="orderStatus" class="order-status">
             <p>Loading your order status...</p>
         </div>
+         <div id="order-data" class="order-status">
+           <p>Loading your data...</p>
+         </div>
     </div>
     <script src="/static/js/orderStatus.js"></script>
 </body>
