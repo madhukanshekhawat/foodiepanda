@@ -3,6 +3,11 @@ const pageSize = 6;
 let searchQuery = "";
 let restaurantData = null;
 
+     $(document).ready(function() {
+         // Hide the search input and button
+         $("#searchInput").hide();
+         $("#nav-searchBtn").hide();
+     });
 
 function loadMenuItems(page) {
     $.ajax({
@@ -222,14 +227,6 @@ $(document).ready(function () {
 
         alert("Added to cart: " + quantity + " items");
         $("#menuItemModal").hide();
-        updateCartIcon();
 
     });
-
-    // Define the updateCartIcon function
-    function updateCartIcon() {
-        let cart = JSON.parse(localStorage.getItem("cart")) || {};
-        let totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
-        $("#cartIcon").text(totalItems);
-    }
 });

@@ -345,6 +345,8 @@ function proceedToCheckout() {
                             success: function() {
                                 console.log("Cart Cleared Successfully");
                                 localStorage.removeItem("cart");
+                                localStorage.removeItem("cartSynced");
+                                localStorage.removeItem("cartRestaurantId");
                                 window.location.href = "/api/customer/order-status";
                             },
                             error: function(xhr, status, error) {

@@ -34,6 +34,7 @@ public class CartServiceImpl implements CartService {
 
     @Override
     public List<CartItemDTO> getCartItemForUser(String email) {
+
         User user = userRepository.findByEmail(email);
         if (user == null) {
             throw new RuntimeException(MessageConstant.USER_NOT_FOUND);

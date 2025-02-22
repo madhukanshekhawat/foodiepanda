@@ -72,9 +72,15 @@ h2 {
 </head>
 <body>
     <div class="container mt-5">
+         <button id="proceedButton" onclick="goBack()">Back</button>
         <h2>Your Orders</h2>
         <div id="ordersContainer" class="mt-3"></div>
     </div>
 <script src="/static/js/order-summary.js"></script>
+    <script>
+       function goBack() {
+          window.history.back();
+       }
+    </script>
 </body>
 </html>

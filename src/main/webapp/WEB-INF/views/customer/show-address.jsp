@@ -7,6 +7,7 @@
 </head>
 <body>
     <div class="container mt-4">
+        <button id="proceedButton" onclick="goBack()">Back</button>
         <h2 class="text-center">Manage Your Addresses</h2>
 
         <!-- Address List -->
@@ -75,6 +76,11 @@
         </div>
     </div>
   <script src = "/static/js/show-address.js"></script>
+      <script>
+         function goBack() {
+            window.history.back();
+         }
+      </script>
 </body>
 </html>
 

@@ -88,6 +88,9 @@ public class OrderController {
 
     @PostMapping("/place-order")
     public ResponseEntity<OrdersDTO> placeOrder(@RequestBody OrderRequest orderRequest, Principal principal) {
+        if (orderRequest.getRestaurantId() == null) {
+            return (ResponseEntity<OrdersDTO>) ResponseEntity.badRequest();
+        }
         String username = principal.getName();
         Long orders = orderService.createOrder(orderRequest, username);
         return ResponseEntity.ok(new OrdersDTO(orders));

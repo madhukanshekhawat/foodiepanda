@@ -18,7 +18,7 @@
                 <div class="search">
                     <form class="fp-navform" id="searchForm">
                         <!-- Search Bar -->
-                        <input id="searchInput" class="fp-search-bar" type="search" placeholder="Search" aria-label="Search">
+                        <input id="searchInput" class="fp-search-bar" type="search" placeholder="Search for Restaurant's or Menu-item" aria-label="Search">
                         <button id="nav-searchBtn" class="fp-success" type="submit">Search</button>
                     </form>
                 </div>

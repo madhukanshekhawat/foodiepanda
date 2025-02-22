@@ -167,8 +167,11 @@ public class OrderServiceImpl implements OrderService {
                 orderDetailDTOs,
                 order.getCustomer().getFirstName(),
                 order.getCustomer().getLastName(),
-                order.getRestaurant().getRestaurantAddress().getCity()
+                order.getRestaurant().getRestaurantAddress().getCity(),
+                order.getRestaurant().getPhoneNumber(),
+                order.getCustomer().getPhoneNumber()
         );
+
     }
 
     @Override

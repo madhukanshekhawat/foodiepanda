@@ -4,25 +4,6 @@ import com.itextpdf.kernel.geom.PageSize;
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.layout.Document;
-import com.itextpdf.layout.element.*;
-import com.itextpdf.layout.property.TextAlignment;
-import com.itextpdf.layout.property.UnitValue;
-import com.pio.foodiepanda.dto.OrderDetailDTO;
-import com.pio.foodiepanda.dto.OrdersDTO;
-import org.springframework.stereotype.Component;
-
-import java.io.FileNotFoundException;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.List;
-
-
-
-import com.itextpdf.kernel.geom.PageSize;
-import com.itextpdf.kernel.pdf.PdfDocument;
-import com.itextpdf.kernel.pdf.PdfWriter;
-import com.itextpdf.layout.Document;
 import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.element.Table;
 import com.itextpdf.layout.property.TextAlignment;
@@ -32,8 +13,6 @@ import com.pio.foodiepanda.dto.OrdersDTO;
 import org.springframework.stereotype.Component;
 
 import java.io.FileNotFoundException;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Component
@@ -45,9 +24,6 @@ public class InvoiceGenerator {
         PdfDocument pdfDoc = new PdfDocument(writer);
         Document document = new Document(pdfDoc, PageSize.A4);
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        String invoiceDate = LocalDate.now().format(formatter);
-
         // Add Invoice Title
         Paragraph title = new Paragraph("Order Invoice")
                 .setFontSize(20)
@@ -55,13 +31,14 @@ public class InvoiceGenerator {
                 .setTextAlignment(TextAlignment.CENTER);
         document.add(title);
 
-        // Invoice Date (Placed Just Below Invoice Title)
-        Paragraph invoiceDateParagraph = new Paragraph("Invoice Date: " + invoiceDate)
+        // Order ID (Placed Just Below Invoice Title)
+        Paragraph orderIdParagraph = new Paragraph("Order ID: " + order.getOrderId())
+                .setFontSize(14)
+                .setBold()
                 .setTextAlignment(TextAlignment.CENTER);
-        document.add(invoiceDateParagraph);
+        document.add(orderIdParagraph);
 
-        // Line Break
-        document.add(new Paragraph("\n"));
+        document.add(new Paragraph("\n")); // Space between sections
 
         // Customer Name & Order Date Table
         float[] infoColumnWidths = {5, 5};
@@ -72,35 +49,37 @@ public class InvoiceGenerator {
         infoTable.addHeaderCell("Order Date");
 
         infoTable.addCell(order.getCustomerFirstName() != null ? order.getCustomerFirstName() : "N/A");
-        infoTable.addCell(order.getCreatedAt() != null ? order.getCreatedAt().format(formatter) : "N/A");
+        infoTable.addCell(order.getCreatedAt() != null ? order.getCreatedAt().toString() : "N/A");
 
         document.add(infoTable);
         document.add(new Paragraph("\n")); // Space between tables
 
         // Restaurant Details Table
-        float[] restColumnWidths = {3, 7};
+        float[] restColumnWidths = {3, 4, 3};
         Table restaurantTable = new Table(restColumnWidths);
         restaurantTable.setWidth(UnitValue.createPercentValue(100));
 
         restaurantTable.addHeaderCell("Restaurant Name");
         restaurantTable.addHeaderCell("Restaurant Address");
+        restaurantTable.addHeaderCell("Restaurant Contact");
 
         restaurantTable.addCell(order.getRestaurantName() != null ? order.getRestaurantName() : "N/A");
-        restaurantTable.addCell((order.getRestaurantAddress() != null ? order.getRestaurantAddress() : "N/A"));
+        restaurantTable.addCell(order.getRestaurantAddress() != null ? order.getRestaurantAddress() : "N/A");
+        restaurantTable.addCell(order.getRestaurantContactNumber() != null ? order.getRestaurantContactNumber() : "N/A");
 
         document.add(restaurantTable);
         document.add(new Paragraph("\n")); // Space between tables
 
-        // Delivery Address Table with Order ID
-        float[] addressColumnWidths = {3, 7};
+        // Delivery Address Table with Customer Contact
+        float[] addressColumnWidths = {5, 5};
         Table addressTable = new Table(addressColumnWidths);
         addressTable.setWidth(UnitValue.createPercentValue(100));
 
-        addressTable.addHeaderCell("Order ID");
         addressTable.addHeaderCell("Delivery Address");
+        addressTable.addHeaderCell("Customer Contact");
 
-        addressTable.addCell(String.valueOf(order.getOrderId()));
         addressTable.addCell(order.getDeliveryAddress() != null ? order.getDeliveryAddress() : "N/A");
+        addressTable.addCell(order.getCustomerContactNumber() != null ? order.getCustomerContactNumber() : "N/A");
 
         document.add(addressTable);
         document.add(new Paragraph("\n")); // Space between tables

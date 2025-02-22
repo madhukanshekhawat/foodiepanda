@@ -22,6 +22,8 @@ public class OrdersDTO extends BaseDTO {
     private String customerFirstName;
     private String customerLastName;
     private String restaurantAddress;
+    private String customerContactNumber;
+    private String restaurantContactNumber;
 
     public OrdersDTO() {
     }
@@ -30,19 +32,7 @@ public class OrdersDTO extends BaseDTO {
         this.orderId = orderId;
     }
 
-    public OrdersDTO(Long orderId, double totalAmount, String status, LocalDateTime scheduledTime, String deliveryAddress, String restaurantName, LocalDateTime createdAt) {
-        this.orderId = orderId;
-        this.totalAmount = totalAmount;
-        this.status = status;
-        this.scheduledTime = scheduledTime;
-        this.deliveryAddress = deliveryAddress;
-        this.restaurantName = restaurantName;
-        this.createdAt = createdAt;
-        this.customerFirstName = customerFirstName;
-        this.customerLastName = customerLastName;
-    }
-
-    public OrdersDTO(Long orderId, double totalAmount, String status, LocalDateTime scheduledTime, LocalDateTime createdAt, String deliveryAddress, String restaurantName, List<OrderDetailDTO> orderDetails, String customerFirstName, String customerLastName, String restaurantAddress) {
+    public OrdersDTO(Long orderId, double totalAmount, String status, LocalDateTime scheduledTime, LocalDateTime createdAt, String deliveryAddress, String restaurantName, List<OrderDetailDTO> orderDetails, String customerFirstName, String customerLastName, String restaurantAddress, String restaurantContactNumber, String customerContactNumber) {
         this.orderId = orderId;
         this.totalAmount = totalAmount;
         this.status = status;
@@ -54,6 +44,28 @@ public class OrdersDTO extends BaseDTO {
         this.customerFirstName = customerFirstName;
         this.customerLastName = customerLastName;
         this.restaurantAddress = restaurantAddress;
+        this.restaurantContactNumber = restaurantContactNumber;
+        this.customerContactNumber = customerContactNumber;
+    }
+
+    public OrdersDTO(Long orderId, Long customerId, Long addressId, String status, String orderStatus, LocalDateTime scheduledTime, double totalAmount, String deliveryAddress, String userName, String restaurantName, List<OrderDetailDTO> orderDetails, LocalDateTime createdAt, String customerFirstName, String customerLastName, String restaurantAddress, String customerContactNumber, String restaurantContactNumber) {
+        this.orderId = orderId;
+        this.customerId = customerId;
+        this.addressId = addressId;
+        this.status = status;
+        this.orderStatus = orderStatus;
+        this.scheduledTime = scheduledTime;
+        this.totalAmount = totalAmount;
+        this.deliveryAddress = deliveryAddress;
+        this.userName = userName;
+        this.restaurantName = restaurantName;
+        this.orderDetails = orderDetails;
+        this.createdAt = createdAt;
+        this.customerFirstName = customerFirstName;
+        this.customerLastName = customerLastName;
+        this.restaurantAddress = restaurantAddress;
+        this.customerContactNumber = customerContactNumber;
+        this.restaurantContactNumber = restaurantContactNumber;
     }
 
     public OrdersDTO(Orders orders, List<OrderDetailDTO> orderDetail) {
@@ -186,4 +198,19 @@ public class OrdersDTO extends BaseDTO {
         this.restaurantAddress = restaurantAddress;
     }
 
+    public String getCustomerContactNumber() {
+        return customerContactNumber;
+    }
+
+    public void setCustomerContactNumber(String customerContactNumber) {
+        this.customerContactNumber = customerContactNumber;
+    }
+
+    public String getRestaurantContactNumber() {
+        return restaurantContactNumber;
+    }
+
+    public void setRestaurantContactNumber(String restaurantContactNumber) {
+        this.restaurantContactNumber = restaurantContactNumber;
+    }
 }

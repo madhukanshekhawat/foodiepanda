@@ -48,7 +48,14 @@
          <div id="order-data" class="order-status">
            <p>Loading your data...</p>
          </div>
+
+         <button id="proceedButton" onclick="goBack()">Back</button>
     </div>
     <script src="/static/js/orderStatus.js"></script>
+    <script>
+       function goBack() {
+          window.history.back();
+       }
+    </script>
 </body>
 </html>

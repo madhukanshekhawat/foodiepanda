@@ -228,6 +228,7 @@
 </head>
 <body>
     <div class="restaurant-info">
+    <button id="proceedButton" onclick="goBack()">Back</button>
         <h2 id="restaurantName"></h2>
         <p><strong>Address:</strong> <span id="restaurantAddress"></span></p>
         <p><strong>Availability:</strong> <span id="availability"></span></p>
@@ -261,6 +262,10 @@
                 $("#searchInput").hide();
                 $("#nav-searchBtn").hide();
             });
+
+            function goBack() {
+               window.history.back();
+            }
     </script>
 </body>
 </html>

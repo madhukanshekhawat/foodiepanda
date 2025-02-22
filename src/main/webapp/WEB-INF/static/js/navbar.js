@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('logoutForm').style.display = 'block';
             document.getElementById('orderSummaryLink').style.display = 'block';
             document.getElementById('showAddressLink').style.display = 'block';
+            fetchCartItems();
         } else {
             document.getElementById('authButtons').style.display = 'flex';
             document.getElementById('logoutForm').style.display = 'none';
@@ -25,6 +26,58 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
         return null;
+    }
+
+    function fetchCartItems() {
+        $.ajax({
+            url: '/api/cart/items',
+            method: 'GET',
+            success: function(data) {
+                let newCart = {};
+                let newCartRestaurantId = null;
+
+                data.forEach(item => {
+                    newCart[item.menuItemId] = item.quantity;
+                    newCartRestaurantId = item.restaurantId;
+                });
+
+                let existingCart = JSON.parse(localStorage.getItem("cart"));
+                let existingCartRestaurantId = localStorage.getItem("cartRestaurantId");
+
+                if (existingCart && existingCartRestaurantId) {
+                    if (existingCartRestaurantId === newCartRestaurantId) {
+                        // Add quantities if menu item ID matches
+                        for (let menuItemId in newCart) {
+                            if (existingCart[menuItemId]) {
+                                existingCart[menuItemId] += newCart[menuItemId];
+                            } else {
+                                existingCart[menuItemId] = newCart[menuItemId];
+                            }
+                        }
+                        localStorage.setItem("cart", JSON.stringify(existingCart));
+                    } else {
+                        // Different restaurant ID, delete incoming data from DB
+                        $.ajax({
+                            url: '/api/cart/delete',
+                            method: 'POST',
+                            success: function() {
+                                console.log('Cart items from different restaurant deleted.');
+                            },
+                            error: function(xhr, status, error) {
+                                console.error('Error deleting cart items:', error);
+                            }
+                        });
+                    }
+                } else {
+                    // No existing cart, store new data
+                    localStorage.setItem("cart", JSON.stringify(newCart));
+                    localStorage.setItem("cartRestaurantId", newCartRestaurantId);
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error('Error fetching cart items:', error);
+            }
+        });
     }
 
     updateUI();
@@ -169,41 +222,4 @@ function getRestaurantIdFromLocalStorage() {
 
     loadMenuItems(currentPage);
     fetchRestaurants(currentPage);
-//
-//// Click event to fetch restaurant details
-//$(document).on("click", ".restaurant-card", function () {
-//    const restaurantId = $(this).data("restaurantId");
-//    console.log("Clicked restaurant ID:", restaurantId); // Log the restaurant ID
-//
-//    if (restaurantId === undefined) {
-//        console.error("Restaurant ID is undefined!");
-//        alert("Failed to load restaurant details. Please try again.");
-//        return;
-//    }
-//
-//    // Store restaurantId in local storage
-//    localStorage.setItem("selectedRestaurantId", restaurantId);
-//
-//    $.ajax({
-//        url: "/api/restaurant/detail/" + restaurantId,
-//        method: "GET",
-//        success: function (data) {
-//            if (data.available) {
-//                // Store restaurant data in local storage
-//                localStorage.setItem("restaurantData", JSON.stringify(data));
-//                // Redirect to the restaurant detail page
-//                window.location.href = "/api/customer/restaurant-detail";
-//            } else {
-//                alert("This restaurant is currently unavailable.");
-//            }
-//        },
-//        error: function (xhr, status, error) {
-//            console.error("Error fetching restaurant details:", error);
-//
-//        }
-//    });
-//});
-
 });
-
-
