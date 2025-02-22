@@ -154,7 +154,7 @@ public class OrderServiceImpl implements OrderService {
             return detailDTO;
         }).collect(Collectors.toList());
 
-        RestaurantAddress restaurantAddress = order.getRestaurant().getRestaurantAddress();
+        String restaurantAddress = order.getRestaurant().getRestaurantAddress().getAddressLine() + order.getRestaurant().getRestaurantAddress().getCity() + order.getRestaurant().getRestaurantAddress().getState();
 
         return new OrdersDTO(
                 order.getOrderId(),
@@ -162,12 +162,12 @@ public class OrderServiceImpl implements OrderService {
                 order.getStatus().toString(),
                 order.getScheduledTime(),
                 order.getCreatedAt(),
-                order.getDeliveryAddress().getCity(),
+                order.getDeliveryAddress().getAddressLine() + "," + order.getDeliveryAddress().getCity() + "," + order.getDeliveryAddress().getState() + "," + order.getDeliveryAddress().getPostalCode(),
                 order.getRestaurant().getName(),
                 orderDetailDTOs,
                 order.getCustomer().getFirstName(),
                 order.getCustomer().getLastName(),
-                order.getRestaurant().getRestaurantAddress().getCity(),
+                order.getRestaurant().getRestaurantAddress().getAddressLine() + "," + order.getRestaurant().getRestaurantAddress().getCity() + "," +order.getRestaurant().getRestaurantAddress().getState() + "," +order.getRestaurant().getRestaurantAddress().getPostalCode(),
                 order.getRestaurant().getPhoneNumber(),
                 order.getCustomer().getPhoneNumber()
         );

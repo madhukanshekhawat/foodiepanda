@@ -93,15 +93,15 @@ public class InvoiceGenerator {
         table.addHeaderCell("S.No");
         table.addHeaderCell("Item");
         table.addHeaderCell("Quantity");
-        table.addHeaderCell("Unit Price");
-        table.addHeaderCell("Total Price");
+        table.addHeaderCell("Unit Price (RS.)");
+        table.addHeaderCell("Total Price (RS.)");
 
         List<OrderDetailDTO> orderDetailsList = order.getOrderDetails();
         for (int i = 0; i < orderDetailsList.size(); i++) {
             OrderDetailDTO detail = orderDetailsList.get(i);
             table.addCell(String.valueOf(i + 1));
             table.addCell(detail.getMenuItem() != null ? detail.getMenuItem() : "N/A");
-            table.addCell(String.valueOf(detail.getQuantity()));
+            table.addCell(String.valueOf((int) detail.getQuantity()));
             table.addCell("₹" + detail.getPrice());
             table.addCell("₹" + (detail.getPrice() * detail.getQuantity()));
         }
