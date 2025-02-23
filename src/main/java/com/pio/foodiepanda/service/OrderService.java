@@ -24,4 +24,8 @@ public interface OrderService {
     OrdersDTO getOrderById(Long orderId);
 
     List<OrderDetailDTO> getOrderWithDetail(Long orderId);
+
+    void cancelOrder(Long orderId);
+
+    void autoOrderCancel(Long orderId, OrderStatus orderStatus);
 }

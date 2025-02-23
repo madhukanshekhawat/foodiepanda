@@ -11,7 +11,7 @@
     <nav class="fp-navbar">
         <div class="fp-container">
             <!-- Logo -->
-           <a class="fp-navbar-brand" href="/api/customer/dashboard"> Foodie Panda </a>
+            <a class="fp-navbar-brand" href="/api/customer/dashboard">Foodie Panda</a>
 
             <!-- Navbar content -->
             <div class="fp-navbar-content">
@@ -32,11 +32,12 @@
                 </form>
 
                 <div class="fp-d-flex fp-align-items-center">
-                    <a href="/api/customer/order-summary" class="fp-order-summary" id="orderSummaryLink" style="display: none;">Order Summary</a>
-                    <a href="/api/customer/show-address" class="fp-order-summary" id="showAddressLink" style="display: none;">Show Addresses</a>
+                    <a href="/api/customer/order-summary" class="fp-order-summary" id="orderSummaryLink" style="display: none;">Summary</a>
+                    <a href="/api/customer/show-address" class="fp-order-summary" id="showAddressLink" style="display: none;">Addresses</a>
                     <a href="/api/customer/cart" class="fp-cart">Cart</a>
                 </div>
             </div>
+        </div>
 
             <div id="searchResults" class="fp-search-results"></div>
         </div>

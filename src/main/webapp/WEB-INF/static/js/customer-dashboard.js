@@ -3,12 +3,6 @@ const pageSize = 6;
 let searchQuery = "";
 let restaurantData = null;
 
-     $(document).ready(function() {
-         // Hide the search input and button
-         $("#searchInput").hide();
-         $("#nav-searchBtn").hide();
-     });
-
 function loadMenuItems(page) {
     $.ajax({
         url: "/menu/available/" + page + "/size/" + pageSize,

@@ -40,8 +40,6 @@
 </head>
 <body>
     <div class="order-container">
-        <h2 class="order-header">Order Status</h2>
-
         <div id="orderStatus" class="order-status">
             <p>Loading your order status...</p>
         </div>

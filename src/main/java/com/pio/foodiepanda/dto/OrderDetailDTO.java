@@ -2,6 +2,7 @@ package com.pio.foodiepanda.dto;
 
 import com.pio.foodiepanda.model.OrderDetail;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class OrderDetailDTO extends BaseDTO {
@@ -19,13 +20,13 @@ public class OrderDetailDTO extends BaseDTO {
     private Long customerId;
     private Long addressId;
     private Long restaurantId;
-
+    private LocalDateTime createdAt;
     private String customerFullName;
     private String restaurantName;
     private String address;
     private List<OrderDetail> orderDetail;
 
-    public OrderDetailDTO(Long orderId, String status, double totalAmount, Long customerId, String customerFullName, Long addressId, String address, Long restaurantId, String restaurantName, List<OrderDetail> orderDetail, double quantity) {
+    public OrderDetailDTO(Long orderId, String status, double totalAmount, Long customerId, String customerFullName, Long addressId, String address, Long restaurantId, String restaurantName, List<OrderDetail> orderDetail, double quantity, LocalDateTime createdAt) {
         this.orderId = orderId;
         this.status = status;
         this.totalAmount = totalAmount;
@@ -37,6 +38,7 @@ public class OrderDetailDTO extends BaseDTO {
         this.restaurantName = restaurantName;
         this.orderDetail = orderDetail;
         this.quantity = quantity;
+        this.createdAt = createdAt;
     }
 
 

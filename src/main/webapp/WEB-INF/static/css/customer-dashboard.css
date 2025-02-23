@@ -16,6 +16,27 @@
     font-weight: bold;
     color: #A294F9;
     text-decoration: none;
+    flex : 1;
+}
+
+.fp-navbar-content {
+    display: flex;
+    flex: 2;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.search {
+    flex: 2;
+    display: flex;
+    justify-content: center;
+}
+
+.fp-d-flex {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    flex: 1;
 }
 
 .fp-navbar-content {
@@ -423,7 +444,7 @@
 .restaurant-card {
     flex: 0 1 calc(33.333% - 16px); /* 3 cards per row with spacing */
     box-sizing: border-box;
-    margin-bottom: 16px; /* Space between rows */
+    margin-bottom: 16px;
     border: 1px solid #ccc;
     padding: 16px;
     border-radius: 8px;

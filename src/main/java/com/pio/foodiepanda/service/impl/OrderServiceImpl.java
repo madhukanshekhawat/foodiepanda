@@ -8,6 +8,7 @@ import com.pio.foodiepanda.model.*;
 import com.pio.foodiepanda.repository.*;
 import com.pio.foodiepanda.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -200,10 +201,47 @@ public class OrderServiceImpl implements OrderService {
                     firstDetail.getOrders().getRestaurant().getRestaurantId(),
                     firstDetail.getOrders().getRestaurant().getName(),
                     details,
-                    firstDetail.getQuantity()
+                    firstDetail.getQuantity(),
+                    firstDetail.getOrders().getCreatedAt()
             );
         }).collect(Collectors.toList());
     }
+
+    @Override
+    public void cancelOrder(Long orderId) {
+        Orders orders = ordersRepository.findById(orderId)
+                .orElseThrow(()-> new ResourceNotFoundException(MessageConstant.ORDER_NOT_FOUND_MESSAGE));
+        if(orders.getStatus() != OrderStatus.CANCELLED);
+        {
+            orders.setStatus(OrderStatus.CANCELLED);
+        }
+        ordersRepository.save(orders);
+    }
+
+    @Override
+    public void autoOrderCancel(Long orderId, OrderStatus orderStatus) {
+       Orders orders = ordersRepository.findById(orderId)
+               .orElseThrow(()-> new ResourceNotFoundException(MessageConstant.ORDER_NOT_FOUND_MESSAGE));
+       if(!orders.getStatus().equals(OrderStatus.CONFIRMED)){
+           orders.setStatus(OrderStatus.CANCELLED);
+           ordersRepository.save(orders);
+       }
+
+    }
+
+//    @Async
+//    public void scheduleOrderCancellation(Long orderId){
+//        try{
+//            Thread.sleep(1*60*1000);
+//            Orders orders = ordersRepository.findById(orderId).orElseThrow(null);
+//            if(orders != null && orders.getStatus() == OrderStatus.PENDING){
+//                orders.setStatus(OrderStatus.CANCELLED);
+//                ordersRepository.save(orders);
+//            }
+//        } catch (InterruptedException e) {
+//            Thread.currentThread().interrupt();
+//        }
+//    }
 
     @Override
     public Long createOrder(OrderRequest orderRequest, String username) {
@@ -256,6 +294,7 @@ public class OrderServiceImpl implements OrderService {
     private double calculateTotal(List<OrderItemRequest> itemreq) {
         return itemreq.stream().mapToDouble(itemRequests -> itemRequests.getPrice() * itemRequests.getQuantity()).sum();
     }
+
 
 }
 

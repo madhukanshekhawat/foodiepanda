@@ -20,6 +20,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.security.Principal;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/order")
@@ -99,5 +100,17 @@ public class OrderController {
     @GetMapping("/get")
     public ResponseEntity<List<OrderDetailDTO>> getOrderByOrderId(@RequestParam("orderId") Long orderId){
         return ResponseEntity.ok((List<OrderDetailDTO>) orderService.getOrderWithDetail(orderId));
+    }
+
+    @PutMapping("/cancel/{orderId}")
+    public ResponseEntity<String> cancelOrder(@PathVariable Long orderId){
+        orderService.cancelOrder(orderId);
+        return ResponseEntity.ok(MessageConstant.SUCCESSFUL_MESSAGE);
+    }
+
+    @PutMapping("/auto-cancel/{orderId}")
+    public ResponseEntity<String> autoCancelOrder(@PathVariable Long orderId, @RequestBody OrderStatusDTO orderStatusDTO){
+        orderService.autoOrderCancel(orderId, OrderStatus.valueOf(orderStatusDTO.getStatus()));
+        return ResponseEntity.ok(MessageConstant.SUCCESSFUL_MESSAGE);
     }
 }
