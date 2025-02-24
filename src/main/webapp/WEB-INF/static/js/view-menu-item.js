@@ -1,4 +1,11 @@
 $(document).ready(function() {
+
+            $('#table-item').DataTable({
+                pageLength: 10,
+                lengthChange: false,
+                ordering: true,
+                autoWidth: false,
+                searching: false});
     // Fetch and populate the menu items
     loadMenuItems();
 
@@ -24,7 +31,7 @@ function loadMenuItems() {
 
             // Create table
             const table = `
-                <table>
+                <table id = "table-item">
                     <thead>
                         <tr>
                             <th>Name</th>

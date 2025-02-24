@@ -40,5 +40,6 @@
 </nav>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="/static/js/base.js"></script>
+<script src="/static/js/login.js"></script>
 </body>
 </html>

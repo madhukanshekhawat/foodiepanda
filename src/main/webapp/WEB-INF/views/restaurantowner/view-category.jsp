@@ -12,7 +12,7 @@
     <h2>All Categories</h2>
     <div class="search-container">
             <input type="text" id="searchCategory" placeholder="Search categories...">
-            <button onclick="window.location.href='/api/restaurant/add-category'" class="btn btn-primary">Create Category</button>
+            <button onclick="window.location.href='/restaurant/add-category'" class="btn btn-primary">Create Category</button>
     </div>
     <div id="categoriesContainer">
         <!-- Dynamic table will be injected here -->

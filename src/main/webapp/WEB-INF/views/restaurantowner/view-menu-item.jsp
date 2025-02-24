@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Menu Items</title>
     <link rel="stylesheet" href="/static/css/view-menu-item.css">
+    <link rel="stylesheet" href="//cdn.datatables.net/2.2.2/css/dataTables.dataTables.min.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
@@ -15,7 +16,7 @@
         <div class="search-container">
             <input type="text" id="searchMenuItem" placeholder="Search menu items...">
             <button id="searchButton">Search</button>
-            <button id="newDishButton" onclick="window.location.href='/api/restaurant/addMenu'" class="btn btn-primary">New Dish</button>
+            <button id="newDishButton" onclick="window.location.href='/restaurant/addMenu'" class="btn btn-primary">New Dish</button>
         </div>
         <div id="menuItemsContainer">
             <!-- Dynamic data will be injected here -->
@@ -55,5 +56,6 @@
            </div>
 <script src="/static/js/view-menu-item.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="//cdn.datatables.net/2.2.2/js/dataTables.min.js"></script>
 </body>
 </html>

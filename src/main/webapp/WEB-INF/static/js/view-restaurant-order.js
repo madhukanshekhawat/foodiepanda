@@ -4,7 +4,7 @@ const autoDeliveryTime = 1*60*1000; // 5 minutes in milliseconds
 // Function to load all orders
 function loadOrders(statusFilter = "") {
     $.ajax({
-        url: "/order/all", // API endpoint to fetch orders
+        url: "/api/restaurant/order/all",
         method: "GET",
         success: function (data) {
             const container = $("#ordersContainer");

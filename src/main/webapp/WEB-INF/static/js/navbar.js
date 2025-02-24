@@ -207,7 +207,7 @@ function getRestaurantIdFromLocalStorage() {
            location.reload();
         } else {
             $.ajax({
-                url: '/api/restaurant/search-restaurants',
+                url: '/api/customer/search-restaurants',
                 method: 'GET',
                 data: { query: query },
                 success: function(response) {

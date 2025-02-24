@@ -5,7 +5,7 @@ $(document).ready(function() {
 
 function loadRestaurants() {
     $.ajax({
-        url: "/api/restaurant",
+        url: "/api/admin",
         method: "GET",
         success: function(response) {
             let html = "";

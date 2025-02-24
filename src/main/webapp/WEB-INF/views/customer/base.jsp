@@ -23,21 +23,6 @@
                 <button id="nextPage" class="btn btn-primary">Next</button>
             </div>
         </div>
-
-        <!-- Menu Items Section -->
-        <div class="menu-container">
-            <h3>Quick Picks To Explore</h3>
-            <div id="menuItemsContainer" class="menu-container"></div>
-
-            <!-- Pagination -->
-            <div class="text-center">
-                <button id="prev" class="btn btn-primary">Previous</button>
-                <span id="currentPage">Page 1</span>
-                <button id="nex" class="btn btn-primary">Next</button>
-            </div>
-        </div>
-    </div>
-
     <!-- Search Results -->
     <div id="searchResults" style="display: none;">
         <div class="container">
@@ -54,5 +39,6 @@
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="/static/js/customer-dashboard.js"></script>
+    <script src="/static/js/login.js"></script>
 </body>
 </html>

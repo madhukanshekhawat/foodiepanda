@@ -12,11 +12,11 @@
     <nav class="navbar">
         <div class="logo" id="restaurant-logo">My Restaurant</div>
         <ul class="nav-links">
-            <li><a href="/api/restaurant/view-menu">Menu Overview</a></li>
-            <li><a href="/api/restaurant/view-coupon">Discounts</a></li>
-            <li><a href="/api/restaurant/view-category">Category List</a></li>
-            <li><a href="/api/restaurant/manage-order">Order Summary</a></li>
-            <li><a href="/api/restaurant/change-availability">Timing</a></li>
+            <li><a href="/restaurant/view-menu">Menu Overview</a></li>
+            <li><a href="/restaurant/view-coupon">Discounts</a></li>
+            <li><a href="/restaurant/view-category">Category List</a></li>
+            <li><a href="/restaurant/manage-order">Order Summary</a></li>
+            <li><a href="/restaurant/change-availability">Timing</a></li>
             <div class="form-group">
                 <label for="availabilityToggle">Available</label>
                 <label class="switch">
@@ -70,9 +70,10 @@
 
                        // Make the logo clickable to navigate to the dashboard
                        $("#restaurant-logo").click(function() {
-                           window.location.href = "/api/restaurant/dashboard";
+                           window.location.href = "/restaurant/dashboard";
                        });
                    });
     </script>
+
 </body>
 </html>
