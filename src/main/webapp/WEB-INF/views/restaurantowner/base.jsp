@@ -17,7 +17,7 @@
             <li><a href="/restaurant/view-category">Category List</a></li>
             <li><a href="/restaurant/manage-order">Order Summary</a></li>
             <li><a href="/restaurant/change-availability">Timing</a></li>
-            <div class="form-group">
+            <div class="formm-group">
                 <label for="availabilityToggle">Available</label>
                 <label class="switch">
                     <input type="checkbox" id="availabilityToggle">

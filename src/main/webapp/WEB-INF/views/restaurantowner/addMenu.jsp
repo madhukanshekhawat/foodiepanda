@@ -9,6 +9,7 @@
 </head>
 <body>
 <div class="form-container">
+     <button id="proceedButton" onclick="goBack()">Back</button>
     <h2>Add Menu Item</h2>
     <form id="menuItemForm">
         <div id="menuItemError" class="error"></div>
@@ -47,5 +48,10 @@
     </form>
 </div>
     <script src="/static/js/add-menu.js"></script>
+    <script>
+        function goBack() {
+            window.history.back();
+        }
+    </script>
 </body>
 </html>

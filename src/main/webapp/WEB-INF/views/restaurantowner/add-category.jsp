@@ -9,6 +9,7 @@
 </head>
 <body>
 <div class="main-content">
+<button id="proceedButton" onclick="goBack()">Back</button>
     <h2>Add Category</h2>
     <form id="addCategoryForm">
         <div id="nameError" class="error"></div>
@@ -79,6 +80,9 @@
                     $('#responseMessage').css('color', 'red');
                 }
             });
+        }
+        function goBack() {
+            window.history.back();
         }
     </script>
 </body>

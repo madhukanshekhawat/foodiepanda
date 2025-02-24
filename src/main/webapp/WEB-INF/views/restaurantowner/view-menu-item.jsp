@@ -42,7 +42,7 @@
                                    <label for="menuItemDescription">Description</label>
                                    <textarea class="form-control" id="menuItemDescription" name="menuItemDescription" required></textarea>
                                </div>
-                               <div class="form-group">
+                               <div class="form-group ">
                                    <label for="menuItemPrice">Price</label>
                                    <input type="number" class="form-control" id="menuItemPrice" name="menuItemPrice" required>
                                </div>

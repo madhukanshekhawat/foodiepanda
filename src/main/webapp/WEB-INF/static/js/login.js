@@ -7,6 +7,7 @@ $(document).ready(function() {
       type: 'GET',
       success: function(user) {
         userRole = user.role;
+        $('#errorMessage').hide(); // Hide the error message before redirection
         redirectToDashboard(user);
       },
       error: function(xhr) {
@@ -69,8 +70,6 @@ $(document).ready(function() {
     });
   });
 
-  checkUserRole();
-
   window.addEventListener('popstate', function(event) {
     if (userRole) {
       redirectToDashboard({ role: userRole });
@@ -78,6 +77,7 @@ $(document).ready(function() {
       checkUserRole();
     }
   });
+
   setTimeout(function() {
     var message = document.getElementById("logoutMessage");
     if (message) {

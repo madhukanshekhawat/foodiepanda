@@ -8,7 +8,6 @@
 
         /* Navbar styling */
         .navbar {
-
             font-weight: bold;
             display: flex;
             justify-content: space-between;
@@ -113,7 +112,7 @@
         }
 
         input:checked + .slider {
-            background-color: #CDC1FF;
+            background-color: #98be98;
         }
 
         input:checked + .slider:before {
@@ -121,14 +120,14 @@
         }
 
         /* Label and toggle alignment */
-        .form-group {
+        .formm-group {
             display: flex;
             align-items: center;
             gap: 10px; /* Space between label and toggle */
             margin: 8px 15px; /* Consistent margin with other items */
         }
 
-        .form-group label {
+        .formm-group label {
             font-size: 1rem;
             color:white ;
         }
