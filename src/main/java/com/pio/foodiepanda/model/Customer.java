@@ -1,6 +1,9 @@
 package com.pio.foodiepanda.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+
+import java.util.List;
 
 @Entity
 @Table(name = "customers")
@@ -18,6 +21,14 @@ public class Customer extends BaseEntity {
 
     @Column(name = "phone_number")
     private String phoneNumber;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "customer")
+    @JsonManagedReference
+    private List<Orders> ordersList;
+
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
+    private List<Cart> carts;
 
     @OneToOne
     @JoinColumn(name = "user_id")
@@ -62,4 +73,22 @@ public class Customer extends BaseEntity {
     public void setUser(User user) {
         this.user = user;
     }
+
+    public List<Orders> getOrdersList() {
+        return ordersList;
+    }
+
+    public void setOrdersList(List<Orders> ordersList) {
+        this.ordersList = ordersList;
+    }
+
+    public List<Cart> getCarts() {
+        return carts;
+    }
+
+    public void setCarts(List<Cart> carts) {
+        this.carts = carts;
+    }
 }
+
+

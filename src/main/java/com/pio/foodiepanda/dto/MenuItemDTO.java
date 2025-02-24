@@ -4,21 +4,22 @@ import java.math.BigDecimal;
 
 public class MenuItemDTO extends BaseDTO {
 
-    private Long menuItemId;
+    private Long id;
     private Long restaurantId;
-    private Long categoryId;
     private String name;
     private String description;
     private BigDecimal price;
     private boolean isAvailable;
     private boolean isVeg;
+    private Long category;
+    private String image;
+    private String categoryName;
 
-    public Long getMenuItemId() {
-        return menuItemId;
+    public MenuItemDTO(String name, double quantity, double price) {
+        super();
     }
 
-    public void setMenuItemId(Long menuItemId) {
-        this.menuItemId = menuItemId;
+    public MenuItemDTO() {
     }
 
     public Long getRestaurantId() {
@@ -27,14 +28,6 @@ public class MenuItemDTO extends BaseDTO {
 
     public void setRestaurantId(Long restaurantId) {
         this.restaurantId = restaurantId;
-    }
-
-    public Long getCategoryId() {
-        return categoryId;
-    }
-
-    public void setCategoryId(Long categoryId) {
-        this.categoryId = categoryId;
     }
 
     public String getName() {
@@ -75,5 +68,37 @@ public class MenuItemDTO extends BaseDTO {
 
     public void setVeg(boolean veg) {
         isVeg = veg;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public Long getCategory() {
+        return category;
+    }
+
+    public void setCategory(Long category) {
+        this.category = category;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getCategoryName() {
+        return categoryName;
+    }
+
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
     }
 }

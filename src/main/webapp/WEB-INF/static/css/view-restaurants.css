@@ -1,0 +1,79 @@
+/* General Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #F5EFFF;
+}
+
+/* Restaurant Table Styles */
+.restaurant-heading {
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 30px;
+    color: #333;
+}
+
+.restaurant-table-container {
+    padding: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.restaurant-table {
+    width: 80%;
+    border-collapse: collapse;
+    background: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+}
+
+.restaurant-table th,
+.restaurant-table td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: left;
+    font-size: 16px;
+}
+
+.restaurant-table th {
+    background-color: #A294F9;
+    color: white;
+    font-weight: bold;
+}
+
+.restaurant-table tr:nth-child(even) {
+    background-color: #F5EFFF;
+}
+
+.restaurant-table tr:hover {
+    background-color: #D3C4F2;
+}
+
+/* Error Message Style */
+.error {
+    color: red;
+    font-size: 18px;
+    margin-top: 20px;
+    text-align: center;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .restaurant-table {
+        width: 100%;
+    }
+
+    .restaurant-table th,
+    .restaurant-table td {
+        padding: 10px;
+    }
+}
+has context menu

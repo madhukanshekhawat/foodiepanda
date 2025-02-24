@@ -1,5 +1,6 @@
 package com.pio.foodiepanda.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
@@ -14,13 +15,17 @@ public class Cart extends BaseEntity {
     private int quantity;
     private BigDecimal price;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     @JoinColumn(name = "customer_id", nullable = false)
+    @JsonBackReference
     private Customer customer;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "menu_item_id", nullable = false)
-    private MenuItem menuItem;
+    private Long menuItemId;
+
+    @ManyToOne
+    @JoinColumn(name = "restaurant_id", nullable = false)
+    @JsonBackReference
+    private Restaurant restaurant;
 
     public Long getCartId() {
         return cartId;
@@ -54,11 +59,21 @@ public class Cart extends BaseEntity {
         this.customer = customer;
     }
 
-    public MenuItem getMenuItem() {
-        return menuItem;
+    public Long getMenuItemId() {
+        return menuItemId;
     }
 
-    public void setMenuItem(MenuItem menuItem) {
-        this.menuItem = menuItem;
+    public void setMenuItemId(Long menuItemId) {
+        this.menuItemId = menuItemId;
     }
+
+    public Restaurant getRestaurant() {
+        return restaurant;
+    }
+
+    public void setRestaurant(Restaurant restaurant) {
+        this.restaurant = restaurant;
+    }
+
 }
+

@@ -6,6 +6,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface OrdersRepository extends JpaRepository<Orders, Long> {
-    List<Orders> findByUserId(Long userId);
-    List<Orders> findByRestaurantId(Long restaurantId);
+
+    List<Orders> findByRestaurant_RestaurantId(Long restaurantId);
+
+    List<Orders> findByCustomer_CustomerID(Long customerID);
 }

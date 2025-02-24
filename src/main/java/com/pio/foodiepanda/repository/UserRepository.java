@@ -1,9 +1,14 @@
 package com.pio.foodiepanda.repository;
 
-import org.apache.catalina.User;
+import com.pio.foodiepanda.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-public interface UserRepository extends JpaRepository<User,Long> {
+import java.util.Optional;
+
+@Repository
+public interface UserRepository extends JpaRepository<User, Long> {
 
     User findByEmail(String email);
+
 }

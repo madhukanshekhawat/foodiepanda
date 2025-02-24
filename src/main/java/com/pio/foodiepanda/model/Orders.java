@@ -1,34 +1,37 @@
 package com.pio.foodiepanda.model;
 
-import com.pio.foodiepanda.utility.OrderStatus;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.pio.foodiepanda.enums.OrderStatus;
 import jakarta.persistence.*;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
-public class Orders extends BaseEntity{
+public class Orders extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long orderId;
 
     private LocalDateTime scheduledTime;
-    private BigDecimal totalAmount;
+    private double totalAmount;
 
     @Enumerated(EnumType.STRING)
     private OrderStatus status;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    @JoinColumn(name = "customer_id", nullable = false)
+    @JsonBackReference
+    private Customer customer;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "restaurant_id", nullable = false)
+    @JsonBackReference
     private Restaurant restaurant;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "delivery_address_id", nullable = false)
+    @JoinColumn(name = "addressId")
+    @JsonBackReference
     private Address deliveryAddress;
 
     public Long getOrderId() {
@@ -37,14 +40,6 @@ public class Orders extends BaseEntity{
 
     public void setOrderId(Long orderId) {
         this.orderId = orderId;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
     }
 
     public Restaurant getRestaurant() {
@@ -63,11 +58,11 @@ public class Orders extends BaseEntity{
         this.scheduledTime = scheduledTime;
     }
 
-    public BigDecimal getTotalAmount() {
+    public double getTotalAmount() {
         return totalAmount;
     }
 
-    public void setTotalAmount(BigDecimal totalAmount) {
+    public void setTotalAmount(double totalAmount) {
         this.totalAmount = totalAmount;
     }
 
@@ -86,4 +81,13 @@ public class Orders extends BaseEntity{
     public void setDeliveryAddress(Address deliveryAddress) {
         this.deliveryAddress = deliveryAddress;
     }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
 }
+
