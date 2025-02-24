@@ -2,12 +2,15 @@ package com.pio.foodiepanda.controller;
 
 import com.pio.foodiepanda.constants.MessageConstant;
 import com.pio.foodiepanda.dto.AvailabilityRequest;
+import com.pio.foodiepanda.dto.OrdersDTO;
 import com.pio.foodiepanda.dto.RestaurantDTO;
 import com.pio.foodiepanda.model.Restaurant;
+import com.pio.foodiepanda.service.OrderService;
 import com.pio.foodiepanda.service.RestaurantService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -20,11 +23,8 @@ public class RestaurantController {
     @Autowired
     private RestaurantService restaurantService;
 
-    @GetMapping
-    public ResponseEntity<List<RestaurantDTO>> getAll() {
-        List<RestaurantDTO> restaurants = restaurantService.getAll();
-        return new ResponseEntity<>(restaurants, HttpStatus.OK);
-    }
+    @Autowired
+    private OrderService orderService;
 
     @GetMapping("/profile")
     public ResponseEntity<RestaurantDTO> getRestaurantProfile(Principal principal) {
@@ -44,14 +44,11 @@ public class RestaurantController {
         return ResponseEntity.ok(MessageConstant.SUCCESSFUL_MESSAGE);
     }
 
-    @GetMapping("/detail/{restaurantId}")
-    public ResponseEntity<RestaurantDTO> getRestaurantDetails(@PathVariable Long restaurantId) {
-        RestaurantDTO restaurant = restaurantService.getRestaurantById(restaurantId);
-        return ResponseEntity.ok(restaurant);
+    @GetMapping("/order/all")
+    public ResponseEntity<List<OrdersDTO>> getOrder(Principal principal) {
+        String email = principal.getName();
+        List<OrdersDTO> orders = orderService.getOrdersForRestaurant(email);
+        return ResponseEntity.ok(orders);
     }
 
-    @GetMapping("/search-restaurants")
-    public List<Restaurant> searchRestaurants(@RequestParam String query) {
-        return restaurantService.searchRestaurants(query);
-    }
 }

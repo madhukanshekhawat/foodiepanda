@@ -1,7 +1,7 @@
 $(document).ready(function() {
     // Fetch and populate the restaurant dropdown
     $.ajax({
-        url: "/api/restaurant",
+        url: "/api/admin",
         method: "GET",
         success: function(data) {
             let restaurantDropdown = $("#restaurantId");

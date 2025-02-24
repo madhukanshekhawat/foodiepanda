@@ -3,39 +3,9 @@ const pageSize = 6;
 let searchQuery = "";
 let restaurantData = null;
 
-function loadMenuItems(page) {
-    $.ajax({
-        url: "/menu/available/" + page + "/size/" + pageSize,
-        type: "GET",
-        data: { name: searchQuery },
-        success: function (data) {
-            $("#menuItemsContainer").empty();
-
-            data.forEach(item => {
-                let cardClass = item.restaurantAvailable ? 'menu-cardss' : 'menu-cardss gray';
-                const card = `
-                    <div class="${cardClass}" data-id="${item.id}" data-restaurant-id="${item.restaurantId}">
-                        <img src="data:image/jpeg;base64,${item.itemImage}" alt="${item.name}" style="width: 100%; height: 250px;"/>
-                        <h5>${item.name}</h5>
-                        <p>Price: ₹${item.price}</p>
-                        <p>${item.category}</p>
-                        <p class="restro-name">${item.restaurantName}</p>
-                    </div>
-                `;
-                $("#menuItemsContainer").append(card);
-            });
-
-            // Update pagination buttons
-            $("#currentPage").text(page + 1);
-            $("#prev").prop("disabled", page === 0);
-            $("#nex").prop("disabled", data.last);
-        }
-    });
-}
-
 function fetchRestaurantDetails(restaurantId) {
     $.ajax({
-        url: "/api/restaurant/detail/" + restaurantId,
+        url: "/api/customer/detail/" + restaurantId,
         method: "GET",
         success: function(data) {
             // Store restaurant data in local storage
@@ -75,18 +45,18 @@ function fetchRestaurants(page) {
     });
 }
 
-// Pagination for menu items
-$("#prev").click(function () {
-    if (currentPage > 0) {
-        currentPage--;
-        loadMenuItems(currentPage);
-    }
-});
-
-$("#nex").click(function () {
-    currentPage++;
-    loadMenuItems(currentPage);
-});
+//// Pagination for menu items
+//$("#prev").click(function () {
+//    if (currentPage > 0) {
+//        currentPage--;
+//        loadMenuItems(currentPage);
+//    }
+//});
+//
+//$("#nex").click(function () {
+//    currentPage++;
+//    loadMenuItems(currentPage);
+//});
 
 // Pagination for restaurants
 $("#prevPage").click(function () {
@@ -103,13 +73,13 @@ $("#nextPage").click(function () {
 
 // Initialize on document ready
 $(document).ready(function () {
-    loadMenuItems(currentPage);
+//    loadMenuItems(currentPage);
     fetchRestaurants(currentPage);
 
-    $(document).on("input", "#searchInput", function(){
-        searchQuery = $(this).val().trim();
-        loadMenuItems(0);
-    });
+//    $(document).on("input", "#searchInput", function(){
+//        searchQuery = $(this).val().trim();
+//        loadMenuItems(0);
+//    });
 
     $(document).on("click", ".restaurant-card", function() {
         const restaurantId = $(this).data("id");
@@ -224,3 +194,4 @@ $(document).ready(function () {
 
     });
 });
+

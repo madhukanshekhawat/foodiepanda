@@ -12,6 +12,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.File;
@@ -55,13 +56,6 @@ public class OrderController {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
-    }
-
-    @GetMapping("/all")
-    public ResponseEntity<List<OrdersDTO>> getOrder(Principal principal) {
-        String email = principal.getName();
-        List<OrdersDTO> orders = orderService.getOrdersForRestaurant(email);
-        return ResponseEntity.ok(orders);
     }
 
     @GetMapping("/customer/all")

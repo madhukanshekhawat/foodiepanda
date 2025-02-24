@@ -2,11 +2,14 @@ package com.pio.foodiepanda.controller;
 
 import com.pio.foodiepanda.constants.MessageConstant;
 import com.pio.foodiepanda.dto.CouponDTO;
+import com.pio.foodiepanda.dto.RestaurantDTO;
 import com.pio.foodiepanda.dto.RestaurantOwnerDTO;
 import com.pio.foodiepanda.model.Coupon;
 import com.pio.foodiepanda.service.AdminService;
 import com.pio.foodiepanda.service.CouponService;
+import com.pio.foodiepanda.service.RestaurantService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,6 +24,9 @@ public class AdminController {
 
     @Autowired
     private AdminService adminService;
+
+    @Autowired
+    private RestaurantService restaurantService;
 
     @PostMapping("/create-coupon")
     public ResponseEntity<String> createCoupon(@RequestBody CouponDTO couponDTO) {
@@ -50,5 +56,11 @@ public class AdminController {
     public ResponseEntity<?> rejectOwner(@PathVariable Long restaurantOwnerId) {
         adminService.rejectOwner(restaurantOwnerId);
         return ResponseEntity.ok(MessageConstant.SUCCESSFUL_MESSAGE);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<RestaurantDTO>> getAll() {
+        List<RestaurantDTO> restaurants = restaurantService.getAll();
+        return new ResponseEntity<>(restaurants, HttpStatus.OK);
     }
 }
