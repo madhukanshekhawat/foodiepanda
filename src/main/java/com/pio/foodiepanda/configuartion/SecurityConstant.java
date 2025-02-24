@@ -25,5 +25,5 @@ public interface SecurityConstant {
     String MENU = "/menu/**";
     String CATEGORY = "/categories/**";
     String COUPON = "/coupon/**";
-
+    String CART_CLEAR_API =  "/api/cart/clear";
 }

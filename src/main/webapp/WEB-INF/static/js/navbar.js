@@ -29,6 +29,12 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function fetchCartItems() {
+        // Check if the cart has already been checked after login
+        if (localStorage.getItem("cartCheckedAfterLogin")) {
+            console.log('Cart has already been checked after login.');
+            return;
+        }
+
         $.ajax({
             url: '/api/cart/items',
             method: 'GET',
@@ -41,38 +47,46 @@ document.addEventListener('DOMContentLoaded', function() {
                     newCartRestaurantId = item.restaurantId;
                 });
 
-                let existingCart = JSON.parse(localStorage.getItem("cart"));
-                let existingCartRestaurantId = localStorage.getItem("cartRestaurantId");
+                // Check if newCart contains items
+                if (Object.keys(newCart).length > 0) {
+                    let existingCart = JSON.parse(localStorage.getItem("cart"));
+                    let existingCartRestaurantId = localStorage.getItem("cartRestaurantId");
 
-                if (existingCart && existingCartRestaurantId) {
-                    if (existingCartRestaurantId === newCartRestaurantId) {
-                        // Add quantities if menu item ID matches
-                        for (let menuItemId in newCart) {
-                            if (existingCart[menuItemId]) {
-                                existingCart[menuItemId] += newCart[menuItemId];
-                            } else {
-                                existingCart[menuItemId] = newCart[menuItemId];
+                    if (existingCart && existingCartRestaurantId) {
+                        if (existingCartRestaurantId === newCartRestaurantId) {
+                            // Add quantities if menu item ID matches
+                            for (let menuItemId in newCart) {
+                                if (existingCart[menuItemId]) {
+                                    existingCart[menuItemId] += newCart[menuItemId];
+                                } else {
+                                    existingCart[menuItemId] = newCart[menuItemId];
+                                }
                             }
+                            localStorage.setItem("cart", JSON.stringify(existingCart));
+                        } else {
+                            // Different restaurant ID, delete incoming data from DB
+                            $.ajax({
+                                url: '/api/cart/clear',
+                                method: 'DELETE',
+                                success: function() {
+                                    console.log('Cart items from different restaurant deleted.');
+                                },
+                                error: function(xhr, status, error) {
+                                    console.error('Error deleting cart items:', error);
+                                }
+                            });
                         }
-                        localStorage.setItem("cart", JSON.stringify(existingCart));
                     } else {
-                        // Different restaurant ID, delete incoming data from DB
-                        $.ajax({
-                            url: '/api/cart/delete',
-                            method: 'POST',
-                            success: function() {
-                                console.log('Cart items from different restaurant deleted.');
-                            },
-                            error: function(xhr, status, error) {
-                                console.error('Error deleting cart items:', error);
-                            }
-                        });
+                        // No existing cart, store new data
+                        localStorage.setItem("cart", JSON.stringify(newCart));
+                        localStorage.setItem("cartRestaurantId", newCartRestaurantId);
                     }
                 } else {
-                    // No existing cart, store new data
-                    localStorage.setItem("cart", JSON.stringify(newCart));
-                    localStorage.setItem("cartRestaurantId", newCartRestaurantId);
+                    console.log('No items in the new cart.');
                 }
+
+                // Set the flag to indicate the cart has been checked
+                localStorage.setItem("cartCheckedAfterLogin", "true");
             },
             error: function(xhr, status, error) {
                 console.error('Error fetching cart items:', error);

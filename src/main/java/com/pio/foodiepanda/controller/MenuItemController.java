@@ -44,12 +44,6 @@ public class MenuItemController {
         return ResponseEntity.ok(MessageConstant.SUCCESSFUL_MESSAGE);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<MenuItemDTO> getMenuItemById(@PathVariable Long id) {
-        MenuItemDTO menuItemDTO = menuItemService.getMenuItemById(id);
-        return ResponseEntity.ok(menuItemDTO);
-    }
-
     @PutMapping("/update/{id}")
     public ResponseEntity<String> updateMenuItem(@PathVariable Long id, @RequestBody MenuItemDTO menuItemDTO) {
         String message = menuItemService.updateMenuItem(id, menuItemDTO);

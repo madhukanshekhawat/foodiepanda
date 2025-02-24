@@ -52,7 +52,7 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable);
         http.authorizeHttpRequests(request -> request
-                .requestMatchers(SecurityConstant.INDEX, SecurityConstant.RESTAURANT_DETAILS, SecurityConstant.DASHBOARD).permitAll()
+                .requestMatchers(SecurityConstant.INDEX, SecurityConstant.RESTAURANT_DETAILS, SecurityConstant.DASHBOARD, SecurityConstant.CART_CLEAR_API).permitAll()
                 .requestMatchers("/static/**", "/WEB-INF/views/**").permitAll()
                 .requestMatchers(SecurityConstant.AUTHENTICATION_REST_APIS, SecurityConstant.REGISTRATION, SecurityConstant.LOGIN_REST_API).permitAll()
                 .requestMatchers(SecurityConstant.CUSTOMER_REST_APIS, SecurityConstant.CUSTOMER_ORDER_API, SecurityConstant.CUSTOMER_ADDRESS_API, SecurityConstant.CUSTOMER_CART_API).hasAuthority(UserRole.CUSTOMER.name())

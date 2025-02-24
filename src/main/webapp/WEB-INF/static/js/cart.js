@@ -73,7 +73,7 @@ $(document).ready(function() {
         let itemDetails = null;
 
         $.ajax({
-            url: "/menu/" + menuItemId,
+            url: "/api/customer/" + menuItemId,
             method: "GET",
             async: false, // Make the request synchronous
             success: function(response) {
@@ -112,7 +112,7 @@ $(document).ready(function() {
         let restaurantDetails = null;
 
         $.ajax({
-            url: "/api/restaurant/detail/" + restaurantId,
+            url: "/api/customer/detail/" + restaurantId,
             method: "GET",
             async: false, // Make the request synchronous
             success: function(response) {

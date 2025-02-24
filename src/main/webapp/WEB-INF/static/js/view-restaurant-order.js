@@ -102,7 +102,7 @@ function generateActionButtons(orderId, currentStatus) {
 // Function to update the order status
 function updateOrderStatus(orderId, newStatus) {
     $.ajax({
-        url: "/order/" +orderId+ "/status", // API endpoint for updating status
+        url: "/api/restaurant/" +orderId+ "/status", // API endpoint for updating status
         method: "PUT",
         contentType: "application/json",
         data: JSON.stringify({ status: newStatus }),

@@ -65,12 +65,6 @@ public class OrderController {
         return ResponseEntity.ok(ordersDTOS);
     }
 
-    @PutMapping("/{orderId}/status")
-    public ResponseEntity<String> updateOrderStatus(@PathVariable Long orderId, @RequestBody OrderStatusDTO orderStatusDTO) {
-        orderService.updateOrderStatus(orderId, OrderStatus.valueOf(orderStatusDTO.getStatus()));
-        return ResponseEntity.ok(MessageConstant.SUCCESSFUL_MESSAGE);
-    }
-
     @GetMapping("/order-status/{orderId}")
     public ResponseEntity<?> getOrderStatus(@PathVariable Long orderId) {
         try {

@@ -1,9 +1,11 @@
 package com.pio.foodiepanda.controller;
 
 import com.pio.foodiepanda.dto.CustomerDTO;
+import com.pio.foodiepanda.dto.MenuItemDTO;
 import com.pio.foodiepanda.dto.RestaurantDTO;
 import com.pio.foodiepanda.model.Restaurant;
 import com.pio.foodiepanda.service.CustomerService;
+import com.pio.foodiepanda.service.MenuItemService;
 import com.pio.foodiepanda.service.RestaurantService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -24,6 +26,9 @@ public class CustomerController {
 
     @Autowired
     private RestaurantService restaurantService;
+
+    @Autowired
+    private MenuItemService menuItemService;
 
     @GetMapping
     public ResponseEntity<List<CustomerDTO>> getAllUsers() {
@@ -47,4 +52,11 @@ public class CustomerController {
         RestaurantDTO restaurant = restaurantService.getRestaurantById(restaurantId);
         return ResponseEntity.ok(restaurant);
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<MenuItemDTO> getMenuItemById(@PathVariable Long id) {
+        MenuItemDTO menuItemDTO = menuItemService.getMenuItemById(id);
+        return ResponseEntity.ok(menuItemDTO);
+    }
+
 }

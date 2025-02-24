@@ -1,7 +1,5 @@
 package com.pio.foodiepanda.dto;
 
-import com.pio.foodiepanda.model.Restaurant;
-
 import java.math.BigDecimal;
 
 public class CartItemDTO {
