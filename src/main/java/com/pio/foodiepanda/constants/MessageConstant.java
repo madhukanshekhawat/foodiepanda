@@ -143,6 +143,8 @@ public class MessageConstant {
 
     public static final String ORDER_SAVED = "Order detail saved for menu item ID: ";
 
+    public static final String BRANDING_NAME ="FOODIE PANDA" ;
+
     public static String APPROVE = "approve";
 
     public static String OWNER_NOT_FOUND = "Owner Not found with ID: ";

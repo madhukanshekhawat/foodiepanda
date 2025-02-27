@@ -52,7 +52,7 @@ $(document).ready(function () {
                                     <td>${order.restaurantName}</td>
                                     <td>${order.orderStatus}</td>
                                     <td>${order.deliveryAddress}</td>
-                                    <td>${order.orderStatus !== 'DELIVERED' ? `<button class="check-status-btn" data-order-id="${order.orderId}">Check Status</button>` : `<button class="generate-invoice-btn" data-order-id="${order.orderId}">Generate Invoice</button>`}</td>
+                                    <td><button class="check-status-btn" data-order-id="${order.orderId}">Check Status</button></td>
                                 </tr>`;
                 });
 
@@ -79,33 +79,6 @@ $(document).ready(function () {
                     },
                     error: function () {
                         alert("Failed to fetch order status.");
-                    }
-                });
-            });
-
-            // Add event listener for generate invoice buttons
-            $(".generate-invoice-btn").on("click", function () {
-                const orderId = $(this).data("order-id");
-                localStorage.setItem("orderId", orderId);
-                $.ajax({
-                    url: "/order/generate-invoice/" + orderId,
-                    type: "GET",
-                    xhrFields: {
-                        responseType: 'blob'
-                    },
-                    success: function (data) {
-                        const url = window.URL.createObjectURL(new Blob([data]));
-                        const a = document.createElement('a');
-                        a.href = url;
-                        a.download = `invoice_${orderId}.pdf`;
-                        document.body.append(a);
-                        a.click();
-                        a.remove();
-                        window.URL.revokeObjectURL(url);
-                        alert("Invoice generated successfully!");
-                    },
-                    error: function () {
-                        alert("Failed to generate invoice.");
                     }
                 });
             });

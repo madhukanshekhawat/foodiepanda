@@ -125,5 +125,38 @@ $(document).ready(function() {
             <h4>Menu Items:</h4>
             ${menuItemsHtml}
         `);
+
+        // Show the button only if the status is "accepted"
+            if (data.status != 'PENDING' && data.status != 'CANCELLED') {
+                $(".generate-invoice-btn").show();
+            } else {
+                $(".generate-invoice-btn").hide();
+            }
+
     }
+
+    // Add event listener for generate invoice buttons
+        $(".generate-invoice-btn").on("click", function () {
+            $.ajax({
+                url: "/order/generate-invoice/" + orderId,
+                type: "GET",
+                xhrFields: {
+                    responseType: 'blob'
+                },
+                success: function (data) {
+                    const url = window.URL.createObjectURL(new Blob([data]));
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = `invoice_${orderId}.pdf`;
+                    document.body.append(a);
+                    a.click();
+                    a.remove();
+                    window.URL.revokeObjectURL(url);
+                    alert("Invoice generated successfully!");
+                },
+                error: function () {
+                    alert("Failed to generate invoice.");
+                }
+            });
+        });
 });

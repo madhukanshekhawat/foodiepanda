@@ -46,7 +46,7 @@
          <div id="order-data" class="order-status">
            <p>Loading your data...</p>
          </div>
-
+         <button class="generate-invoice-btn" style="display: none;">Generate Invoice</button>
          <button id="proceedButton" onclick="goBack()">Back</button>
     </div>
     <script src="/static/js/orderStatus.js"></script>
