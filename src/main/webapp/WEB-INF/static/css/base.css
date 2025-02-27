@@ -7,13 +7,20 @@ body {
 
 .navbar {
     background-color: #A294F9;
-    padding: 5px;
+    padding: 10px;
 }
 
 .container-fluid {
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+    color: white;
+    text-decoration: none;
 }
 
 .logo img {
@@ -30,7 +37,7 @@ body {
 
 .navbar-nav {
     list-style-type: none;
-    margin: 0;
+    margin: 10px;
     padding: 0;
     display: flex;
 }
@@ -44,14 +51,17 @@ body {
     text-decoration: none;
     padding: 10px 15px;
     border-radius: 5px;
+    transition: background-color 0.3s, color 0.3s;
 }
 
 .nav-link:hover {
-    color: #007bff;
+    background-color: #007bff;
+    color: white;
 }
 
 .nav-link.active {
-    color: #22177A;
+    background-color: #22177A;
+    color: white;
 }
 
 .logout-btn {

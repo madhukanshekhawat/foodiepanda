@@ -22,4 +22,25 @@ $(document).ready(function() {
     $("#navbarToggle").click(function() {
             $("#navbarNav").toggleClass("show");
         });
+
+            let token = getCookie("jwt-token");
+
+            if (token) {
+                $.ajax({
+                    url: "/auth/authenticate-user",
+                    method: "GET",
+                    headers: { "Authorization": "Bearer " + token },
+                    success: function (response) {
+                        if (response.role !== "ADMIN") {
+                            alert("Unauthorized Access! Redirecting...");
+                            window.location.href = "/api/user-login";
+                        }
+                    },
+                    error: function () {
+                        window.location.href = "/api/user-login";
+                    }
+                });
+            } else {
+                window.location.href = "/api/user-login";
+            }
 });

@@ -3,7 +3,6 @@ package com.pio.foodiepanda.controller;
 import com.pio.foodiepanda.constants.JwtConstant;
 import com.pio.foodiepanda.dto.LoginRequest;
 import com.pio.foodiepanda.dto.LoginResponse;
-import com.pio.foodiepanda.model.User;
 import com.pio.foodiepanda.service.JwtService;
 import com.pio.foodiepanda.service.LoginInfoService;
 import jakarta.servlet.http.HttpServletResponse;
@@ -14,20 +13,20 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.HashMap;
-import java.util.Map;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/auth")
 public class AuthenticationController {
+
     private final AuthenticationManager authenticationManager;
     private final JwtService jwtService;
 
-    @Autowired
+    @Autowired 
     public AuthenticationController(AuthenticationManager authenticationManager, JwtService jwtService, LoginInfoService loginInfoService) {
         this.authenticationManager = authenticationManager;
         this.jwtService = jwtService;

@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.util.List;
-import java.util.logging.LogManager;
 
 @RestController
 @RequestMapping("/api/user")
@@ -33,10 +32,10 @@ public class AddressController {
     }
 
     @PutMapping("/customer/address/{addressId}")
-    public ResponseEntity<String> updateAddress(@PathVariable Long addressId, @RequestBody AddressDTO addressDTO, Principal principal){
+    public ResponseEntity<String> updateAddress(@PathVariable Long addressId, @RequestBody AddressDTO addressDTO, Principal principal) {
         String email = principal.getName();
-      addressService.updateAddress(addressId, addressDTO,email);
-      return ResponseEntity.ok(MessageConstant.SUCCESSFUL_MESSAGE);
+        addressService.updateAddress(addressId, addressDTO, email);
+        return ResponseEntity.ok(MessageConstant.SUCCESSFUL_MESSAGE);
     }
 
 

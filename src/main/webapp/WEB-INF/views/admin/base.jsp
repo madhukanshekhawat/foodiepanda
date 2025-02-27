@@ -32,14 +32,11 @@
       </li>
        <form id="logoutForm" action="/logout" method="POST" style="display:inline;">
       <button type="submit" class="logout-btn">Logout</button>
-      <% if(request.getParameter("logout")!=null){%> alert: You have been logged out successfully
-      <%} %>
       </form>
     </ul>
   </div>
 </nav>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="/static/js/base.js"></script>
-<script src="/static/js/login.js"></script>
 </body>
 </html>

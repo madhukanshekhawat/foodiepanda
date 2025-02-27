@@ -69,12 +69,12 @@ public class CartItemDTO {
         return name;
     }
 
-    public void setCustomerId(Long customerId) {
-        this.customerId = customerId;
-    }
-
     public Long getCustomerId() {
         return customerId;
+    }
+
+    public void setCustomerId(Long customerId) {
+        this.customerId = customerId;
     }
 
     public Long getRestaurantId() {

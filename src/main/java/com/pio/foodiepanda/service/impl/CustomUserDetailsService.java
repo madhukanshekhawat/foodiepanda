@@ -1,5 +1,6 @@
 package com.pio.foodiepanda.service.impl;
 
+import com.pio.foodiepanda.constants.MessageConstant;
 import com.pio.foodiepanda.model.User;
 import com.pio.foodiepanda.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +29,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) {
         User user = userRepository.findByEmail(username);
         if (user == null) {
-            logger.info("User not found");
+            logger.info(MessageConstant.USER_NOT_FOUND);
         }
         return new CustomUserDetails(user);
     }

@@ -14,4 +14,8 @@ public interface CategoriesService {
     List<CategoriesDTO> getAllCategoriesByUser(String username);
 
     List<CategoriesDTO> getCategoriesForRestaurant(Principal principal);
+
+    String updateCategory(Long id, CategoriesDTO categoriesDTO);
+
+    CategoriesDTO getCategoryById(Long id);
 }

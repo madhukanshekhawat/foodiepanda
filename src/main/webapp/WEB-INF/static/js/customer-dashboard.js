@@ -76,10 +76,6 @@ $(document).ready(function () {
 //    loadMenuItems(currentPage);
     fetchRestaurants(currentPage);
 
-//    $(document).on("input", "#searchInput", function(){
-//        searchQuery = $(this).val().trim();
-//        loadMenuItems(0);
-//    });
 
     $(document).on("click", ".restaurant-card", function() {
         const restaurantId = $(this).data("id");
@@ -87,57 +83,67 @@ $(document).ready(function () {
     });
 
     // On the restaurant detail page
-    const storedRestaurantData = localStorage.getItem("restaurantData");
-    if (storedRestaurantData) {
-        restaurantData = JSON.parse(storedRestaurantData);
+     const storedRestaurantData = localStorage.getItem("restaurantData");
+        if (storedRestaurantData) {
+            restaurantData = JSON.parse(storedRestaurantData);
 
-        $("#restaurantName").text(restaurantData.name);
-        $("#restaurantAddress").text(restaurantData.address);
-        $("#availability").text(restaurantData.available ? "Open" : "Closed");
-        $("#startTime").text(restaurantData.availabilityStartTime);
-        $("#endTime").text(restaurantData.availabilityEndTime);
+            $("#restaurantName").text(restaurantData.name);
+            $("#restaurantAddress").text(restaurantData.address);
+            $("#availability").text(restaurantData.available ? "Open" : "Closed");
+            $("#startTime").text(restaurantData.availabilityStartTime);
+            $("#endTime").text(restaurantData.availabilityEndTime);
 
-        // Optionally, you can also display the menu items if they are part of the restaurant data
-        if (restaurantData.menuItems) {
-            restaurantData.menuItems.forEach(item => {
-                const card = `
-                    <div class="menu-card" data-id="${item.id}" data-restaurant-id="${restaurantData.restaurantId}">
-                        <img src="data:image/jpeg;base64,${item.image}" alt="${item.name}" style="width: 100%; height: 250px;"/>
-                        <h5>${item.name}</h5>
-                        <p>Price: ₹${item.price}</p>
-                        <p>${item.categoryName}</p>
-                    </div>
-                `;
-                $("#menuItems").append(card);
-            });
+            // Optionally, you can also display the menu items if they are part of the restaurant data
+            if (restaurantData.menuItems) {
+                restaurantData.menuItems.forEach(item => {
+                    if (!item.deleted) { // Check if the item is not deleted
+                        const card = `
+                            <div class="menu-card" data-id="${item.id}" data-restaurant-id="${restaurantData.restaurantId}">
+                                <img src="data:image/jpeg;base64,${item.image}" alt="${item.name}" style="width: 100%; height: 250px;"/>
+                                <h5>${item.name}</h5>
+                                <p>Price: ₹${item.price}</p>
+                                <p class="availability-status">${item.available ? 'Available' : 'Not Available'}</p>
+                                <p>${item.categoryName}</p>
+                            </div>
+                        `;
+                        $("#menuItems").append(card);
+                    }
+                });
+            }
+        } else {
+            alert("No restaurant data found.");
         }
-    } else {
-        alert("No restaurant data found.");
-    }
 
     // Modal popup functionality
-    $(document).on("click", ".menu-card", function() {
-        const itemId = $(this).data("id");
-        const restaurantId = $(this).data("restaurant-id");
-        const item = restaurantData.menuItems.find(item => item.id === itemId);
+   $(document).on("click", ".menu-card", function() {
+           const itemId = $(this).data("id");
+           const restaurantId = $(this).data("restaurant-id");
+           const item = restaurantData.menuItems.find(item => item.id === itemId);
 
-        if (item) {
-            $("#modalImage").attr("src", "data:image/jpeg;base64," + item.image);
-            $("#modalName").text(item.name);
-            $("#modalDescription").text(item.description);
-            $("#modalPrice").text("Price: ₹" + item.price);
-            $("#quantity").val(1);
+           if (item) {
+               $("#modalImage").attr("src", "data:image/jpeg;base64," + item.image);
+               $("#modalName").text(item.name);
+               $("#modalDescription").text(item.description);
+               $("#modalPrice").text("Price: ₹" + item.price);
+               $("#quantity").val(1);
 
-            // Set data attributes for the Add to Cart button
-            $(".addToCart").data("id", item.id);
-            $(".addToCart").data("name", item.name);
-            $(".addToCart").data("price", item.price);
-            $(".addToCart").data("image", item.image);
-            $(".addToCart").data("restaurant-id",restaurantId);
+               // Set data attributes for the Add to Cart button
+               $(".addToCart").data("id", item.id);
+               $(".addToCart").data("name", item.name);
+               $(".addToCart").data("price", item.price);
+               $(".addToCart").data("image", item.image);
+               $(".addToCart").data("restaurant-id", restaurantId);
 
-            $("#menuItemModal").show();
-        }
-    });
+               // Check availability and add/remove disabled class
+               if (!item.available) {
+                   $(".addToCart").addClass("disabled").text("Not Available");
+               } else {
+                   $(".addToCart").removeClass("disabled").text("Add to Cart");
+               }
+
+               $("#menuItemModal").show();
+           }
+       });
 
     // Close the modal
     $(".close").click(function() {

@@ -6,12 +6,77 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Create Coupon</title>
-    <link rel="stylesheet" href="/static/css/create-coupon.css">
+    <style>
+            body {
+                background-color: #F5EFFF;
+                height:100vh;
+                font-family: Arial, sans-serif;
+            }
+            .main {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 100vh;
+                margin-top: 50px;
+            }
+            .couponDiv {
+                background-color: white;
+                padding: 20px 30px;
+                border-radius: 8px;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                width: 90%;
+                max-width: 500px;
+            }
+            h1 {
+                text-align: center;
+                color: #4A3F8C;
+            }
+            label {
+                display: block;
+                margin-top: 10px;
+                color: #4A3F8C;
+            }
+            input{
+                width: 98%;
+                padding: 10px;
+                margin-top: 5px;
+                border: 1px solid #CDC1FF;
+                border-radius: 4px;
+                background-color: #fff;
+            }
+
+            select {
+                width: 510px;
+                padding: 10px;
+                margin-top: 5px;
+                border: 1px solid #CDC1FF;
+                border-radius: 4px;
+                background-color: #fff;
+            }
+            .create {
+                width: 510px;
+                padding: 10px;
+                margin-top: 20px;
+                background-color: #A294F9;
+                color: white;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+                transition: background-color 0.3s ease;
+            }
+            .create:hover {
+                background-color: #6B5DFB;
+            }
+            .error {
+                color: red;
+                font-size: 12px;
+            }
+        </style>
 </head>
 <body>
 <div class="main">
-    <h1>Create Coupon</h1>
     <div class="couponDiv">
+        <h1>Create Coupon</h1>
         <form id="couponForm">
             <div id="restaurantIdError" class="error"></div>
             <label for="restaurantId">Restaurant</label>
@@ -44,7 +109,7 @@
                 <option value="EXISTING_USER">Existing Users</option>
             </select><br>
 
-            <button type="submit">Create Coupon</button>
+            <button type="submit" class="create">Create Coupon</button>
         </form>
     </div>
 </div>

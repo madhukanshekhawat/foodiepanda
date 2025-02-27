@@ -243,6 +243,18 @@ $(document).ready(function() {
             return;
         }
 
+        // Check if postal code contains only numbers
+        if (!/^\d+$/.test(newAddress.postalCode)) {
+            alert("Postal code must contain only numeric values.");
+            return;
+        }
+
+        // Check if city and state do not contain numeric values
+        if (/\d/.test(newAddress.city) || /\d/.test(newAddress.state)) {
+            alert("City and State should not contain numeric values.");
+            return;
+        }
+
         $.ajax({
             url: "/api/user/address/add",
             method: "POST",
@@ -362,6 +374,7 @@ function proceedToCheckout() {
                 });
             },
             error: function(xhr, status, error) {
+                localStorage.removeItem("cartSynced");
                 console.error("Error Fetching Cart Items:", status, error);
                 alert("Error fetching cart items. Please try again.");
             }

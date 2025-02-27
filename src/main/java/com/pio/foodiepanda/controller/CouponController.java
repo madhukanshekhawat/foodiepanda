@@ -30,5 +30,4 @@ public class CouponController {
         couponService.updateCouponStatus(id, ownerUsername, status);
         return ResponseEntity.ok(MessageConstant.SUCCESSFUL_MESSAGE);
     }
-
 }

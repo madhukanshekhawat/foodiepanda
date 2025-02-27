@@ -1,7 +1,5 @@
 package com.pio.foodiepanda.dto;
 
-import java.math.BigDecimal;
-
 public class CartDTO extends BaseDTO {
     private Long cartId;
     private Long customerId;

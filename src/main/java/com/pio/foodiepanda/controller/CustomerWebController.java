@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/api/customer")
-public class CustomerWebController {
+public class  CustomerWebController {
 
     @GetMapping("/dashboard")
     public String restaurantDashboard() {
@@ -16,27 +16,27 @@ public class CustomerWebController {
 
     @GetMapping("/restaurant-detail")
     public String restaurantViewController() {
-        return "customer/restaurant-detail";
+        return ViewConstant.CUSTOMER_RESTAURANT_DETAIL;
     }
 
     @GetMapping("/cart")
     public String cart() {
-        return "customer/cart-page";
+        return ViewConstant.CART;
     }
 
     @GetMapping("/order-status")
     public String checkout() {
-        return "customer/checkout";
+        return ViewConstant.CHECKOUT;
     }
 
     @GetMapping("/order-summary")
     public String orderSummary() {
-        return "customer/order-summary";
+        return ViewConstant.ORDER_SUMMARY;
     }
 
     @GetMapping("/show-address")
     public String showAddress() {
-        return "customer/show-address";
+        return ViewConstant.SHOW_ORDER;
     }
 
 }

@@ -40,7 +40,7 @@ public class CategoryController {
         if (isDeleted) {
             return ResponseEntity.ok(MessageConstant.SUCCESSFUL_MESSAGE);
         } else {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("You are not authorized to delete this category");
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(MessageConstant.UNAUTHORIZED);
         }
     }
 
@@ -50,4 +50,15 @@ public class CategoryController {
         return ResponseEntity.ok(categoriesDTOS);
     }
 
+    @PutMapping("/edit/{id}")
+    public ResponseEntity<String> updateMenuItem(@PathVariable Long id, @RequestBody CategoriesDTO categoriesDTO) {
+        String message = categoriesService.updateCategory(id, categoriesDTO);
+        return ResponseEntity.ok(message);
+    }
+
+    @GetMapping("/edit/{id}")
+    public ResponseEntity<CategoriesDTO> getCategoryById(@PathVariable Long id) {
+        CategoriesDTO categoryDTO = categoriesService.getCategoryById(id);
+        return ResponseEntity.ok(categoryDTO);
+    }
 }
