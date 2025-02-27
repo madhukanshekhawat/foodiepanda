@@ -30,4 +30,7 @@ public interface RestaurantRepository extends JpaRepository<Restaurant, Long> {
 
     @Query("SELECT r FROM Restaurant r WHERE LOWER(r.name) LIKE LOWER(CONCAT('%', :query, '%'))")
     List<Restaurant> findByNameContainingIgnoreCase(String query);
+
+    @Query("SELECT r FROM Restaurant r JOIN r.restaurantOwner ro JOIN ro.user u WHERE u.email = :email")
+    Restaurant getRestaurantByEmail(@Param("email") String email);
 }

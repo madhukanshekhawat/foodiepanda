@@ -23,4 +23,6 @@ public interface RestaurantService {
     RestaurantDTO getRestaurantById(Long restaurantId);
 
     List<Restaurant> searchRestaurants(String query);
+
+    RestaurantDTO getRestaurantAvailability(Principal principal);
 }

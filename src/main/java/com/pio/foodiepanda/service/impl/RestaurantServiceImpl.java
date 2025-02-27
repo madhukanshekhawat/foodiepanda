@@ -232,4 +232,19 @@ public class RestaurantServiceImpl implements RestaurantService {
         logger.info(MessageConstant.SEARCH_RESULT_FETCH_SUCCESSFULLY_FOR_QUERY + query);
         return distinctRestaurants;
     }
+
+    @Override
+    public RestaurantDTO getRestaurantAvailability(Principal principal) {
+        String email = principal.getName();
+
+        Restaurant restaurant = restaurantRepository.getRestaurantByEmail(email);
+
+        // Create a new RestaurantDTO object
+        RestaurantDTO restaurantDTO = new RestaurantDTO();
+
+        // Set the availability status
+        restaurantDTO.setAvailable(restaurant.isAvailable());
+
+        return restaurantDTO;
+    }
 }

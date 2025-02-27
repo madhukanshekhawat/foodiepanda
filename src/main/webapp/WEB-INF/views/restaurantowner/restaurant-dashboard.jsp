@@ -12,7 +12,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh; /* Full viewport height */
+            height: 85vh; /* Full viewport height */
             text-align: center;
         }
 
@@ -27,5 +27,10 @@
     <div class="content" id="main-content">
         <h1>Welcome to Restaurant Panel</h1>
     </div>
+
+        <!-- Footer -->
+        <div id="footer">
+            <%@ include file="/WEB-INF/views/footer.jsp" %>
+        </div>
 </body>
 </html>
