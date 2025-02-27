@@ -21,9 +21,13 @@ public interface SecurityConstant {
     String CUSTOMER_ORDER_API = "/order/**";
     String CUSTOMER_ADDRESS_API = "/api/user/**";
     String CUSTOMER_CART_API = "/api/cart/**";
-    String ORDER = "/order/**" ;
+    String ORDER = "/order/**";
     String MENU = "/menu/**";
     String CATEGORY = "/categories/**";
     String COUPON = "/coupon/**";
-    String CART_CLEAR_API =  "/api/cart/clear";
+    String CART_CLEAR_API = "/api/cart/clear";
+    String CHECK_STATUS = "/api/user/status";
+    String REGISTER_USER = "/register/**";
+    String APPROVAL_PENDING = "/api/approval-pending";
+    String CREATE_COUPON = "/api/admin/create-coupon";
 }

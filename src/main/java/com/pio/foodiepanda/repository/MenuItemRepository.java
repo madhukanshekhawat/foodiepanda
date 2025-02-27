@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 
 public interface MenuItemRepository extends JpaRepository<MenuItem, Long> {
@@ -34,4 +35,7 @@ public interface MenuItemRepository extends JpaRepository<MenuItem, Long> {
     List<MenuItem> findByNameContainingIgnoreCase(String query);
 
     List<MenuItem> findByRestaurant(Restaurant restaurant);
+
+    @Query("SELECT m FROM MenuItem m WHERE m.id = :id AND m.deleted = false")
+    Optional<MenuItem> findByMenuItemIdAndDeletedFalse(@Param("id") Long id);
 }

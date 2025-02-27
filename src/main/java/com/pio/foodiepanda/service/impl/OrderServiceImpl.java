@@ -8,7 +8,6 @@ import com.pio.foodiepanda.model.*;
 import com.pio.foodiepanda.repository.*;
 import com.pio.foodiepanda.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -52,7 +51,7 @@ public class OrderServiceImpl implements OrderService {
      */
     @Override
     public List<OrdersDTO> getOrdersForRestaurant(String email) {
-        logger.info("Fetching orders for restaurant with owner email:" + email);
+        logger.info(MessageConstant.FETCHING_ORDER_FOR_RESTAURANT + email);
         Restaurant restaurant = restaurantRepository.findByOwnerEmail(email)
                 .orElseThrow(() -> new ResourceNotFoundException(MessageConstant.RESTAURANT_NOT_FOUND_MESSAGE));
         List<Orders> orders = ordersRepository.findByRestaurant_RestaurantId(restaurant.getRestaurantId());
@@ -90,24 +89,39 @@ public class OrderServiceImpl implements OrderService {
      */
     @Override
     public void updateOrderStatus(Long orderId, OrderStatus orderStatus) {
-        logger.info("Updating order status for order ID:" + orderId);
+        logger.info(MessageConstant.UPADTING_ORDER_STATUS + orderId);
         Orders orders = ordersRepository.findById(orderId)
                 .orElseThrow(() -> new ResourceNotFoundException(MessageConstant.ORDER_NOT_FOUND_MESSAGE));
         orders.setStatus(orderStatus);
         ordersRepository.save(orders);
-        logger.info("Order status updated successfully for order ID:" + orderId);
+        logger.info(MessageConstant.SUCCESSFUL_MESSAGE + orderId);
     }
 
+    /**
+     * Retrieves the status of an order by its ID.
+     *
+     * @param orderId the ID of the order to retrieve the status for.
+     * @return the OrderStatusResponse object containing the order status.
+     * @throws ResourceNotFoundException if the order is not found.
+     */
     @Override
     public OrderStatusResponse getOrderStatus(Long orderId) {
+        logger.info(MessageConstant.FETCHING_ORDER_STATUS + orderId);
         Orders orders = ordersRepository.findById(orderId)
                 .orElseThrow(() -> new ResourceNotFoundException(MessageConstant.ORDER_NOT_FOUND_MESSAGE));
+        logger.info(MessageConstant.SUCCESSFUL_MESSAGE + orderId);
         return new OrderStatusResponse(orders.getStatus().toString());
     }
 
+    /**
+     * Retrieves a list of orders for a customer by their email.
+     *
+     * @param email the email of the customer.
+     * @return a list of OrdersDTO objects containing the order information.
+     */
     @Override
     public List<OrdersDTO> getOrdersForCustomer(String email) {
-        logger.info("Fetching orders for Customer with owner email:" + email);
+        logger.info(MessageConstant.FETCHING_ORDER_FOR_CUSTOMER + email);
         User user = userRepository.findByEmail(email);
         List<Orders> orders = ordersRepository.findByCustomer_CustomerID(user.getCustomer().getCustomerID());
         return orders.stream().map(order -> {
@@ -137,11 +151,20 @@ public class OrderServiceImpl implements OrderService {
         }).collect(Collectors.toList());
     }
 
+    /**
+     * Retrieves an order by its ID.
+     *
+     * @param orderId the ID of the order to retrieve.
+     * @return the OrdersDTO object containing the order information.
+     * @throws ResourceNotFoundException if the order is not found.
+     */
     @Override
     public OrdersDTO getOrderById(Long orderId) {
+        logger.info(MessageConstant.FETCHING_ORDER + orderId);
         Optional<Orders> optionalOrder = ordersRepository.findById(orderId);
         if (!optionalOrder.isPresent()) {
-            throw new ResourceNotFoundException("Order not found");
+            logger.severe(MessageConstant.ORDER_NOT_FOUND_MESSAGE + orderId);
+            throw new ResourceNotFoundException(MessageConstant.ORDER_NOT_FOUND_MESSAGE);
         }
 
         Orders order = optionalOrder.get();
@@ -157,7 +180,7 @@ public class OrderServiceImpl implements OrderService {
 
         String restaurantAddress = order.getRestaurant().getRestaurantAddress().getAddressLine() + order.getRestaurant().getRestaurantAddress().getCity() + order.getRestaurant().getRestaurantAddress().getState();
 
-        return new OrdersDTO(
+        OrdersDTO ordersDTO = new OrdersDTO(
                 order.getOrderId(),
                 order.getTotalAmount(),
                 order.getStatus().toString(),
@@ -168,15 +191,24 @@ public class OrderServiceImpl implements OrderService {
                 orderDetailDTOs,
                 order.getCustomer().getFirstName(),
                 order.getCustomer().getLastName(),
-                order.getRestaurant().getRestaurantAddress().getAddressLine() + "," + order.getRestaurant().getRestaurantAddress().getCity() + "," +order.getRestaurant().getRestaurantAddress().getState() + "," +order.getRestaurant().getRestaurantAddress().getPostalCode(),
+                order.getRestaurant().getRestaurantAddress().getAddressLine() + "," + order.getRestaurant().getRestaurantAddress().getCity() + "," + order.getRestaurant().getRestaurantAddress().getState() + "," + order.getRestaurant().getRestaurantAddress().getPostalCode(),
                 order.getRestaurant().getPhoneNumber(),
                 order.getCustomer().getPhoneNumber()
         );
 
+        logger.info(MessageConstant.SUCCESSFUL_MESSAGE + orderId);
+        return ordersDTO;
     }
 
+    /**
+     * Retrieves order details by order ID.
+     *
+     * @param orderId the ID of the order to retrieve details for.
+     * @return a list of OrderDetailDTO objects containing the order details.
+     */
     @Override
     public List<OrderDetailDTO> getOrderWithDetail(Long orderId) {
+        logger.info(MessageConstant.FETCHING_ORDER_DETAIL + orderId);
         List<OrderDetail> orderDetails = orderDetailRepository.findByOrders_OrderId(orderId);
 
         // Group order details by orderId
@@ -184,13 +216,13 @@ public class OrderServiceImpl implements OrderService {
                 .collect(Collectors.groupingBy(od -> od.getOrders().getOrderId()));
 
         // Create OrderDetailDTO for each orderId
-        return groupedOrderDetails.entrySet().stream().map(entry -> {
+        List<OrderDetailDTO> orderDetailDTOs = groupedOrderDetails.entrySet().stream().map(entry -> {
             List<OrderDetail> details = entry.getValue();
 
             // Get common order information from the first detail
             OrderDetail firstDetail = details.get(0);
 
-            return new OrderDetailDTO(
+            OrderDetailDTO dto = new OrderDetailDTO(
                     firstDetail.getOrders().getOrderId(),
                     firstDetail.getOrders().getStatus().toString(),
                     firstDetail.getOrders().getTotalAmount(),
@@ -204,65 +236,81 @@ public class OrderServiceImpl implements OrderService {
                     firstDetail.getQuantity(),
                     firstDetail.getOrders().getCreatedAt()
             );
+            logger.info(MessageConstant.ORDER_DETAIL_CREATED + firstDetail.getOrders().getOrderId());
+            return dto;
         }).collect(Collectors.toList());
+
+        logger.info(MessageConstant.SUCCESSFUL_MESSAGE + orderId);
+        return orderDetailDTOs;
     }
 
+    /**
+     * Cancels an order by its ID.
+     *
+     * @param orderId the ID of the order to cancel.
+     * @throws ResourceNotFoundException if the order is not found.
+     */
     @Override
     public void cancelOrder(Long orderId) {
+        logger.info(MessageConstant.CANCELLING_ORDER + orderId);
         Orders orders = ordersRepository.findById(orderId)
-                .orElseThrow(()-> new ResourceNotFoundException(MessageConstant.ORDER_NOT_FOUND_MESSAGE));
-        if(orders.getStatus() != OrderStatus.CANCELLED);
-        {
+                .orElseThrow(() -> new ResourceNotFoundException(MessageConstant.ORDER_NOT_FOUND_MESSAGE));
+        if (orders.getStatus() != OrderStatus.CANCELLED) {
             orders.setStatus(OrderStatus.CANCELLED);
+            ordersRepository.save(orders);
+            logger.info(MessageConstant.SUCCESSFUL_MESSAGE + orderId);
         }
-        ordersRepository.save(orders);
     }
 
+    /**
+     * Automatically cancels an order if it is not confirmed.
+     *
+     * @param orderId     the ID of the order to cancel.
+     * @param orderStatus the current status of the order.
+     * @throws ResourceNotFoundException if the order is not found.
+     */
     @Override
     public void autoOrderCancel(Long orderId, OrderStatus orderStatus) {
-       Orders orders = ordersRepository.findById(orderId)
-               .orElseThrow(()-> new ResourceNotFoundException(MessageConstant.ORDER_NOT_FOUND_MESSAGE));
-       if(!orders.getStatus().equals(OrderStatus.CONFIRMED)){
-           orders.setStatus(OrderStatus.CANCELLED);
-           ordersRepository.save(orders);
-       }
-
+        logger.info(MessageConstant.AUTO_CANCELLING_ORDER + orderId);
+        Orders orders = ordersRepository.findById(orderId)
+                .orElseThrow(() -> new ResourceNotFoundException(MessageConstant.ORDER_NOT_FOUND_MESSAGE));
+        if (!orders.getStatus().equals(OrderStatus.CONFIRMED)) {
+            orders.setStatus(OrderStatus.CANCELLED);
+            ordersRepository.save(orders);
+            logger.info(MessageConstant.SUCCESSFUL_MESSAGE + orderId);
+        }
     }
 
-//    @Async
-//    public void scheduleOrderCancellation(Long orderId){
-//        try{
-//            Thread.sleep(1*60*1000);
-//            Orders orders = ordersRepository.findById(orderId).orElseThrow(null);
-//            if(orders != null && orders.getStatus() == OrderStatus.PENDING){
-//                orders.setStatus(OrderStatus.CANCELLED);
-//                ordersRepository.save(orders);
-//            }
-//        } catch (InterruptedException e) {
-//            Thread.currentThread().interrupt();
-//        }
-//    }
-
+    /**
+     * Creates a new order based on the given request and username.
+     *
+     * @param orderRequest the request containing the order details.
+     * @param username     the username of the customer.
+     * @return the ID of the created order.
+     * @throws ResourceNotFoundException if the customer, address, or restaurant is not found.
+     */
     @Override
     public Long createOrder(OrderRequest orderRequest, String username) {
+        logger.info(MessageConstant.CREATING_ORDER + username);
         Customer customer = findCustomerByEmail(username);
 
         if (customer == null) {
+            logger.severe(MessageConstant.CUSTOMER_NOT_FOUND + username);
             throw new ResourceNotFoundException(MessageConstant.USER_NOT_FOUND);
         }
 
         // Fetch the address entity based on the provided address ID
         Address address = addressRepository.findById(orderRequest.getAddressId())
-                .orElseThrow(() -> new ResourceNotFoundException("Address not found"));
+                .orElseThrow(() -> new ResourceNotFoundException(MessageConstant.ADDRESS_NOT_FOUND));
 
         // Fetch the restaurant entity based on the provided restaurant ID
         Restaurant restaurant = restaurantRepository.findById(orderRequest.getRestaurantId())
-                .orElseThrow(() -> new ResourceNotFoundException("Restaurant not found"));
+                .orElseThrow(() -> new ResourceNotFoundException(MessageConstant.RESTAURANT_NOT_FOUND));
 
         Orders order = new Orders();
         order.setCustomer(customer);
-        order.setDeliveryAddress(address); // Set the address entity
-        order.setRestaurant(restaurant); // Set the restaurant entity
+        order.setDeliveryAddress(address);
+        order.setRestaurant(restaurant);
         order.setStatus(OrderStatus.PENDING);
         order.setTotalAmount(calculateTotal(orderRequest.getItems()));
         order.setCreatedAt(LocalDateTime.now());
@@ -270,31 +318,43 @@ public class OrderServiceImpl implements OrderService {
 
         // Save the order
         ordersRepository.save(order);
+        logger.info(MessageConstant.SUCCESSFUL_MESSAGE + username);
 
         // Save order details
         for (OrderItemRequest item : orderRequest.getItems()) {
             // Fetch the MenuItem entity based on the provided menu item ID
             MenuItem menuItem = menuItemRepository.findById(item.getMenuItemId())
-                    .orElseThrow(() -> new ResourceNotFoundException("Menu item not found"));
+                    .orElseThrow(() -> new ResourceNotFoundException(MessageConstant.NO_MENU_ITEM_FOUND));
 
             OrderDetail orderDetail = new OrderDetail();
-            orderDetail.setOrders(order); // Set the Orders entity
-            orderDetail.setMenuItems(menuItem); // Set the MenuItem entity
+            orderDetail.setOrders(order);
+            orderDetail.setMenuItems(menuItem);
             orderDetail.setQuantity(item.getQuantity());
             orderDetail.setPrice(item.getPrice());
             orderDetailRepository.save(orderDetail);
+            logger.info(MessageConstant.ORDER_SAVED + item.getMenuItemId());
         }
         return order.getOrderId();
     }
 
+    /**
+     * Finds a customer by their email.
+     *
+     * @param username the email of the customer.
+     * @return the Customer entity.
+     */
     private Customer findCustomerByEmail(String username) {
         return customerRepository.findByEmail(username);
     }
 
+    /**
+     * Calculates the total amount for the order.
+     *
+     * @param itemreq the list of order item requests.
+     * @return the total amount.
+     */
     private double calculateTotal(List<OrderItemRequest> itemreq) {
         return itemreq.stream().mapToDouble(itemRequests -> itemRequests.getPrice() * itemRequests.getQuantity()).sum();
     }
-
-
 }
 

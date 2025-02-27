@@ -67,7 +67,7 @@ public class RegistrationServiceImpl implements RegistrationService {
             throw new Exception(INVALID_ROLE);
         }
 
-        return user.getId(); // Return the user ID
+        return user.getId();
     }
 
     /*
@@ -83,7 +83,7 @@ public class RegistrationServiceImpl implements RegistrationService {
                 .orElseThrow(() -> new Exception(MessageConstant.RESTAURANT_NOT_FOUND));
         RestaurantAddress restaurantAddress = new RestaurantAddress();
         RestaurantOwner owner = new RestaurantOwner();
-        restaurantOwner.setOwnerID(restaurantRegisterDTO.getOwnerId()); // Assuming getOwnerId() returns the ID
+        restaurantOwner.setOwnerID(restaurantRegisterDTO.getOwnerId());
         restaurantAddress.setRestaurantOwner(restaurantOwner);
         restaurantAddress.setAddressLine(restaurantRegisterDTO.getAddressLine());
         restaurantAddress.setCity(restaurantRegisterDTO.getCity());

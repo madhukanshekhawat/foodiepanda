@@ -8,6 +8,7 @@ import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.element.Table;
 import com.itextpdf.layout.property.TextAlignment;
 import com.itextpdf.layout.property.UnitValue;
+import com.pio.foodiepanda.constants.MessageConstant;
 import com.pio.foodiepanda.dto.OrderDetailDTO;
 import com.pio.foodiepanda.dto.OrdersDTO;
 import org.springframework.stereotype.Component;
@@ -25,14 +26,14 @@ public class InvoiceGenerator {
         Document document = new Document(pdfDoc, PageSize.A4);
 
         // Add Invoice Title
-        Paragraph title = new Paragraph("Order Invoice")
+        Paragraph title = new Paragraph(MessageConstant.INVOICE_NAME)
                 .setFontSize(20)
                 .setBold()
                 .setTextAlignment(TextAlignment.CENTER);
         document.add(title);
 
         // Order ID (Placed Just Below Invoice Title)
-        Paragraph orderIdParagraph = new Paragraph("Order ID: " + order.getOrderId())
+        Paragraph orderIdParagraph = new Paragraph(MessageConstant.ORDER_NUMBER + order.getOrderId())
                 .setFontSize(14)
                 .setBold()
                 .setTextAlignment(TextAlignment.CENTER);
@@ -45,8 +46,8 @@ public class InvoiceGenerator {
         Table infoTable = new Table(infoColumnWidths);
         infoTable.setWidth(UnitValue.createPercentValue(100));
 
-        infoTable.addHeaderCell("Customer Name");
-        infoTable.addHeaderCell("Order Date");
+        infoTable.addHeaderCell(MessageConstant.CUSTOMER_NAME);
+        infoTable.addHeaderCell(MessageConstant.ORDER_DATE);
 
         infoTable.addCell(order.getCustomerFirstName() != null ? order.getCustomerFirstName() : "N/A");
         infoTable.addCell(order.getCreatedAt() != null ? order.getCreatedAt().toString() : "N/A");
@@ -59,9 +60,9 @@ public class InvoiceGenerator {
         Table restaurantTable = new Table(restColumnWidths);
         restaurantTable.setWidth(UnitValue.createPercentValue(100));
 
-        restaurantTable.addHeaderCell("Restaurant Name");
-        restaurantTable.addHeaderCell("Restaurant Address");
-        restaurantTable.addHeaderCell("Restaurant Contact");
+        restaurantTable.addHeaderCell(MessageConstant.RESTAURANT_NAME);
+        restaurantTable.addHeaderCell(MessageConstant.RESTAURANT_ADDRESS);
+        restaurantTable.addHeaderCell(MessageConstant.RESTAURANT_CONTACT);
 
         restaurantTable.addCell(order.getRestaurantName() != null ? order.getRestaurantName() : "N/A");
         restaurantTable.addCell(order.getRestaurantAddress() != null ? order.getRestaurantAddress() : "N/A");
@@ -75,8 +76,8 @@ public class InvoiceGenerator {
         Table addressTable = new Table(addressColumnWidths);
         addressTable.setWidth(UnitValue.createPercentValue(100));
 
-        addressTable.addHeaderCell("Delivery Address");
-        addressTable.addHeaderCell("Customer Contact");
+        addressTable.addHeaderCell(MessageConstant.DELIVERY_ADDRESS);
+        addressTable.addHeaderCell(MessageConstant.CUSTOMER_CONTACT);
 
         addressTable.addCell(order.getDeliveryAddress() != null ? order.getDeliveryAddress() : "N/A");
         addressTable.addCell(order.getCustomerContactNumber() != null ? order.getCustomerContactNumber() : "N/A");
@@ -90,11 +91,11 @@ public class InvoiceGenerator {
         table.setWidth(UnitValue.createPercentValue(100));
 
         // Add Table Headers
-        table.addHeaderCell("S.No");
-        table.addHeaderCell("Item");
-        table.addHeaderCell("Quantity");
-        table.addHeaderCell("Unit Price (RS.)");
-        table.addHeaderCell("Total Price (RS.)");
+        table.addHeaderCell(MessageConstant.SISSON_NUMBER);
+        table.addHeaderCell(MessageConstant.TABLE_HEADER);
+        table.addHeaderCell(MessageConstant.QUANTITY);
+        table.addHeaderCell(MessageConstant.UNIT_PRICE);
+        table.addHeaderCell(MessageConstant.TOTAL_PRICE);
 
         List<OrderDetailDTO> orderDetailsList = order.getOrderDetails();
         for (int i = 0; i < orderDetailsList.size(); i++) {
@@ -110,7 +111,7 @@ public class InvoiceGenerator {
         document.add(new Paragraph("\n")); // Space between total amount and order details table
 
         // Total Amount
-        Paragraph totalAmount = new Paragraph("Total Amount: ₹" + order.getTotalAmount())
+        Paragraph totalAmount = new Paragraph(MessageConstant.TOTAL_AMOUNT + order.getTotalAmount())
                 .setBold()
                 .setTextAlignment(TextAlignment.RIGHT);
         document.add(totalAmount);

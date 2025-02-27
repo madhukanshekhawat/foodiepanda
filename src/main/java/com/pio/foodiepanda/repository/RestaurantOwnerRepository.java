@@ -10,6 +10,7 @@ import java.util.List;
 
 
 public interface RestaurantOwnerRepository extends JpaRepository<RestaurantOwner, Long> {
+
     List<RestaurantOwner> findByIsApprovedFalseAndRejectedFalse();
 
     List<RestaurantOwner> findByIsApprovedTrue();
@@ -20,5 +21,4 @@ public interface RestaurantOwnerRepository extends JpaRepository<RestaurantOwner
 
     RestaurantOwner findByUserEmail(String email);
 
-//    RestaurantOwner findByEmail(String email);
 }

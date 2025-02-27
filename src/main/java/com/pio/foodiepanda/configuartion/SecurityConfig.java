@@ -5,7 +5,6 @@ import com.pio.foodiepanda.enums.UserRole;
 import com.pio.foodiepanda.filter.AuthEntryPointJwt;
 import com.pio.foodiepanda.filter.JwtAuthenticationFilter;
 import com.pio.foodiepanda.service.impl.CustomUserDetailsService;
-import jakarta.servlet.Filter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -52,12 +51,13 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable);
         http.authorizeHttpRequests(request -> request
-                .requestMatchers(SecurityConstant.INDEX, SecurityConstant.RESTAURANT_DETAILS, SecurityConstant.DASHBOARD, SecurityConstant.CART_CLEAR_API).permitAll()
+                .requestMatchers(SecurityConstant.INDEX, SecurityConstant.RESTAURANT_DETAILS, SecurityConstant.DASHBOARD, SecurityConstant.CART_CLEAR_API, SecurityConstant.CHECK_STATUS).permitAll()
                 .requestMatchers("/static/**", "/WEB-INF/views/**").permitAll()
-                .requestMatchers(SecurityConstant.AUTHENTICATION_REST_APIS, SecurityConstant.REGISTRATION, SecurityConstant.LOGIN_REST_API).permitAll()
+                .requestMatchers(SecurityConstant.REGISTRATION, SecurityConstant.REGISTER_USER, SecurityConstant.LOGIN_REST_API, SecurityConstant.APPROVAL_PENDING).permitAll()
+                .requestMatchers(SecurityConstant.AUTHENTICATION_REST_APIS).authenticated()
                 .requestMatchers(SecurityConstant.CUSTOMER_REST_APIS, SecurityConstant.CUSTOMER_ORDER_API, SecurityConstant.CUSTOMER_ADDRESS_API, SecurityConstant.CUSTOMER_CART_API).hasAuthority(UserRole.CUSTOMER.name())
                 .requestMatchers(SecurityConstant.RESTAURANT_APIS, SecurityConstant.RESTAURANT_REST_APIS, SecurityConstant.MENU, SecurityConstant.CATEGORY, SecurityConstant.COUPON).hasAuthority(UserRole.RESTAURANT_OWNER.name())
-                .requestMatchers(SecurityConstant.ADMIN_APIS, SecurityConstant.ADMIN_REST_APIS).hasAuthority(UserRole.ADMIN.name())
+                .requestMatchers(SecurityConstant.ADMIN_APIS, SecurityConstant.ADMIN_REST_APIS, SecurityConstant.CREATE_COUPON).hasAuthority(UserRole.ADMIN.name())
                 .requestMatchers(SecurityConstant.LOGOUT_REST_API).hasAnyRole(UserRole.ADMIN.toString(), UserRole.RESTAURANT_OWNER.toString(), UserRole.CUSTOMER.toString())
         );
         http.sessionManagement(session -> session

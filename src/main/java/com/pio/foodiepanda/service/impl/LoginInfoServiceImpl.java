@@ -1,5 +1,6 @@
 package com.pio.foodiepanda.service.impl;
 
+import com.pio.foodiepanda.constants.MessageConstant;
 import com.pio.foodiepanda.dto.UserDTO;
 import com.pio.foodiepanda.model.User;
 import com.pio.foodiepanda.repository.UserRepository;
@@ -24,7 +25,7 @@ public class LoginInfoServiceImpl implements LoginInfoService {
                 if (user.getAdmin() != null) {
                     userDto.setName(user.getAdmin().getFirstName() + " " + user.getAdmin().getLastName());
                 } else {
-                    userDto.setName("Admin not found");
+                    userDto.setName(MessageConstant.USER_NOT_FOUND);
                 }
                 userDto.setRole(user.getRole().toString());
                 break;
@@ -42,7 +43,7 @@ public class LoginInfoServiceImpl implements LoginInfoService {
                 break;
         }
         if (userDto == null) {
-            throw new UsernameNotFoundException("User not found");
+            throw new UsernameNotFoundException(MessageConstant.USER_NOT_FOUND);
         }
         return userDto;
     }

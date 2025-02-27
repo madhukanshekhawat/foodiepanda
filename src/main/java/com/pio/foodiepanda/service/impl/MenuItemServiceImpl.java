@@ -51,11 +51,11 @@ public class MenuItemServiceImpl implements MenuItemService {
     @Override
     public void addMenuItem(MenuItemDTO menuItemDTO, Principal principal) {
         String email = principal.getName();
-        logger.info("Adding menu item for restaurant owner with email:" + email);
+        logger.info(MessageConstant.ADDING_MENU_ITEM_FOR_RESTAURANT + email);
         Optional<Restaurant> restaurantOptional = restaurantRepository.findByOwnerEmail(email);
 
         if (restaurantOptional.isEmpty()) {
-            logger.info("Restaurant not found with the username:" + email);
+            logger.info(MessageConstant.RESTAURANT_NOT_FOUND_MESSAGE + email);
             throw new ResourceNotFoundException(MessageConstant.RESTAURANT_NOT_FOUND_WITH_USERNAME + email);
         }
 
@@ -73,7 +73,7 @@ public class MenuItemServiceImpl implements MenuItemService {
         menuItem.setImage(menuItemDTO.getImage()); // Save Base64 string directlyy
         menuItem.setRestaurant(restaurant);
         menuItemRepository.save(menuItem);
-        logger.info("Menu item added successfully for restaurant owner with email:" + email);
+        logger.info(MessageConstant.ADDING_MENU_ITEM_FOR_RESTAURANT + email);
     }
 
     /**
@@ -84,7 +84,7 @@ public class MenuItemServiceImpl implements MenuItemService {
      */
     @Override
     public List<MenuItemDTO> getMenuItemsForOwner(String ownerEmail) {
-        logger.info("Fetching menu items for restaurant owner with email:" + ownerEmail);
+        logger.info(MessageConstant.FETCHING_MENU_ITEM_FOR_RESTAURANT + ownerEmail);
         Restaurant restaurant = restaurantRepository.findByOwnerEmail(ownerEmail)
                 .orElseThrow(() -> new ResourceNotFoundException(MessageConstant.RESTAURANT_NOT_FOUND));
 
@@ -166,15 +166,49 @@ public class MenuItemServiceImpl implements MenuItemService {
         logger.info("Menu item ID:" + menuItemId + "marked as deleted for restaurant owner with email:" + email);
     }
 
+    /**
+     * Retrieves a menu item by its ID.
+     *
+     * @param id the ID of the menu item to retrieve.
+     * @return the MenuItemDTO object containing the menu item information.
+     * @throws ResourceNotFoundException if the menu item is not found.
+     */
     @Override
     public MenuItemDTO getMenuItemById(Long id) {
+        logger.info("Fetching menu item with ID: " + id);
         MenuItem menuItem = menuItemRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(MessageConstant.NO_MENU_ITEM_FOUND));
+        logger.info("Menu item fetched successfully with ID: " + id);
         return convertToDTO(menuItem);
     }
 
+    /**
+     * Retrieves an available menu item by its ID.
+     *
+     * @param id the ID of the menu item to retrieve.
+     * @return the MenuItemDTO object containing the menu item information.
+     * @throws ResourceNotFoundException if the menu item is not found.
+     */
+    @Override
+    public MenuItemDTO getMenuItemAvailable(Long id) {
+        logger.info("Fetching available menu item with ID: " + id);
+        MenuItem menuItem = menuItemRepository.findByMenuItemIdAndDeletedFalse(id)
+                .orElseThrow(() -> new ResourceNotFoundException(MessageConstant.NO_MENU_ITEM_FOUND));
+        logger.info("Available menu item fetched successfully with ID: " + id);
+        return convertToDTO(menuItem);
+    }
+
+    /**
+     * Updates a menu item based on the given ID and data.
+     *
+     * @param id          the ID of the menu item to update.
+     * @param menuItemDTO the DTO containing the updated menu item information.
+     * @return a success message if the update is successful.
+     * @throws ResourceNotFoundException if the menu item is not found.
+     */
     @Override
     public String updateMenuItem(Long id, MenuItemDTO menuItemDTO) {
+        logger.info("Updating menu item with ID: " + id);
         Optional<MenuItem> optionalMenuItem = menuItemRepository.findById(id);
         if (optionalMenuItem.isPresent()) {
             MenuItem menuItem = optionalMenuItem.get();
@@ -184,14 +218,24 @@ public class MenuItemServiceImpl implements MenuItemService {
             menuItem.setPrice(menuItemDTO.getPrice());
 
             menuItemRepository.save(menuItem);
+            logger.info(MessageConstant.SUCCESSFUL_MESSAGE + id);
             return MessageConstant.SUCCESSFUL_MESSAGE;
         } else {
+            logger.severe(MessageConstant.NO_MENU_ITEM_FOUND + id);
             throw new ResourceNotFoundException(MessageConstant.NO_MENU_ITEM_FOUND);
         }
     }
 
+    /**
+     * Retrieves a list of available menu items with pagination.
+     *
+     * @param page the page number to retrieve.
+     * @param size the number of items per page.
+     * @return a list of MenuItemResponse objects.
+     */
     @Override
     public List<MenuItemResponse> getAvailableMenuItems(int page, int size) {
+        logger.info(MessageConstant.FETCHING_AVAILABLE_MENU_ITEM + page + MessageConstant.SIZE_INDICATION + size);
         Pageable pageable = PageRequest.of(page, size);
 
         List<MenuItem> menuItems = menuItemRepository.findIsAvailableMenuItems(pageable);
@@ -210,15 +254,31 @@ public class MenuItemServiceImpl implements MenuItemService {
                 ));
             }
         }
+        logger.info(MessageConstant.AVAILABLE_MENUITEM_FETCH_SUCCESSFULLY + page);
         return responseList;
     }
 
+    /**
+     * Searches for available menu items by a query string.
+     *
+     * @param query the query string to search for.
+     * @return a list of menu item names that match the query.
+     */
     @Override
     public List<String> searchAvailablemenuItem(String query) {
+        logger.info(MessageConstant.SEARCHING_FOR_AVAILABLE_MENUITEM + query);
         List<MenuItem> menuItems = menuItemRepository.findByNameContainingIgnoreCaseTrueAndIsAvailableTrueAndRestaurantIsAvailableTrue(query);
-        return menuItems.stream().map(MenuItem::getName).collect(Collectors.toList());
+        List<String> menuItemNames = menuItems.stream().map(MenuItem::getName).collect(Collectors.toList());
+        logger.info(MessageConstant.SEARCH_RESULT_FETCH_SUCCESSFULLY_FOR_QUERY + query);
+        return menuItemNames;
     }
 
+    /**
+     * Converts a MenuItem entity to a MenuItemDTO.
+     *
+     * @param menuItem the MenuItem entity.
+     * @return the MenuItemDTO object.
+     */
     private MenuItemDTO convertToDTO(MenuItem menuItem) {
         MenuItemDTO dto = new MenuItemDTO();
         dto.setId(menuItem.getMenuItemId());

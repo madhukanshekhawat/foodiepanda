@@ -5,7 +5,6 @@ import com.pio.foodiepanda.dto.OrderRequest;
 import com.pio.foodiepanda.dto.OrderStatusResponse;
 import com.pio.foodiepanda.dto.OrdersDTO;
 import com.pio.foodiepanda.enums.OrderStatus;
-import com.pio.foodiepanda.model.OrderDetail;
 
 import java.util.List;
 

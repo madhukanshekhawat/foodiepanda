@@ -30,7 +30,7 @@ public class RestaurantOwnerServiceImpl implements RestaurantOwnerService {
      * @return true if authentication is successful, false otherwise
      */
     public boolean authenticate(String email, String password) {
-        logger.info("authenticating the user:" + email);
+        logger.info(MessageConstant.AUTHENTICATING_USER + email);
         RestaurantOwner owner = restaurantOwnerRepository.findByUserEmail(email);
         return owner != null && owner.getUser().getPassword().equals(password);
     }
@@ -44,7 +44,7 @@ public class RestaurantOwnerServiceImpl implements RestaurantOwnerService {
      */
     @Override
     public Long getRestaurantIdByEmail(String email) {
-        logger.info("Getting restaurant user by:" + email);
+        logger.info(MessageConstant.GETTING_USER + email);
         RestaurantOwner owner = restaurantOwnerRepository.findByUserEmail(email);
         if (owner != null) {
             Restaurant restaurant = restaurantRepository.findByRestaurantOwner(owner);

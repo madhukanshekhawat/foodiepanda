@@ -6,13 +6,10 @@ import com.pio.foodiepanda.dto.OrderStatusDTO;
 import com.pio.foodiepanda.dto.OrdersDTO;
 import com.pio.foodiepanda.dto.RestaurantDTO;
 import com.pio.foodiepanda.enums.OrderStatus;
-import com.pio.foodiepanda.model.Restaurant;
 import com.pio.foodiepanda.service.OrderService;
 import com.pio.foodiepanda.service.RestaurantService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;

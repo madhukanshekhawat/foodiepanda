@@ -34,6 +34,24 @@ public class RestaurantServiceImpl implements RestaurantService {
     @Autowired
     private MenuItemRepository menuItemRepository;
 
+    private static List<MenuItemDTO> getMenuItemDTOS(List<MenuItem> menuItems) {
+        List<MenuItemDTO> menuItemDTOs = new ArrayList<>();
+        for (MenuItem item : menuItems) {
+            MenuItemDTO menuItemDTO = new MenuItemDTO();
+            menuItemDTO.setId(item.getMenuItemId());
+            menuItemDTO.setImage(item.getImage());
+            menuItemDTO.setDescription(item.getDescription());
+            menuItemDTO.setVeg(item.isVeg());
+            menuItemDTO.setCategoryName(item.getCategories().getName());
+            menuItemDTO.setName(item.getName());
+            menuItemDTO.setPrice(item.getPrice());
+            menuItemDTO.setAvailable(item.isAvailable());
+            menuItemDTO.setDeleted(item.isDeleted());
+            menuItemDTOs.add(menuItemDTO);
+        }
+        return menuItemDTOs;
+    }
+
     /*
      * Retrieves a list of all restaurants from db
      * @return : A list of RestaurantDTO obj representing all restaurants
@@ -67,9 +85,9 @@ public class RestaurantServiceImpl implements RestaurantService {
     @Override
     public RestaurantDTO getRestaurantProfile(Principal principal) {
         String email = principal.getName();
-        logger.info("Fetching restaurant profile for email:" + email);
+        logger.info(MessageConstant.FETCHING_RESTAURANT_PROFILE + email);
         Restaurant restaurant = restaurantRepository.findByOwnerEmail(email)
-                .orElseThrow(() -> new ResourceNotFoundException("Restaurant not found"));
+                .orElseThrow(() -> new ResourceNotFoundException(MessageConstant.RESTAURANT_NOT_FOUND));
 
         RestaurantDTO dto = new RestaurantDTO();
         dto.setName(restaurant.getName());
@@ -92,7 +110,7 @@ public class RestaurantServiceImpl implements RestaurantService {
     @Override
     public void updateRestaurantTiming(RestaurantDTO restaurantDTO, Principal principal) {
         String email = principal.getName();
-        logger.info("Updating restaurant timing for email:" + email);
+        logger.info(MessageConstant.UPDATING_RESTAURANT_TIMING + email);
         Restaurant restaurant = restaurantRepository.findByOwnerEmail(email)
                 .orElseThrow(() -> new ResourceNotFoundException("Restaurant not found"));
 
@@ -100,7 +118,7 @@ public class RestaurantServiceImpl implements RestaurantService {
         restaurant.setEndTime(restaurantDTO.getAvailabilityEndTime());
 
         restaurantRepository.save(restaurant);
-        logger.info("Restaurant timing updated successfully for email:" + email);
+        logger.info(MessageConstant.SUCCESSFUL_MESSAGE + email);
     }
 
     /**
@@ -112,13 +130,13 @@ public class RestaurantServiceImpl implements RestaurantService {
     @Override
     public void updateRestaurantAvailability(AvailabilityRequest availabilityRequest, Principal principal) {
         String email = principal.getName();
-        logger.info("Updating restaurant availability for email: " + email);
+        logger.info(MessageConstant.UPDATING_RESTAURANT_AVAILABILITY + email);
         Restaurant restaurant = restaurantRepository.findByOwnerEmail(email)
-                .orElseThrow(() -> new ResourceNotFoundException("Restaurant not found"));
+                .orElseThrow(() -> new ResourceNotFoundException(MessageConstant.RESTAURANT_NOT_FOUND));
 
         restaurant.setAvailable(availabilityRequest.isAvailable());
         restaurantRepository.save(restaurant);
-        logger.info("Restaurant availability updated successfully for email:" + email);
+        logger.info(MessageConstant.SUCCESSFUL_MESSAGE + email);
     }
 
     /**
@@ -130,7 +148,7 @@ public class RestaurantServiceImpl implements RestaurantService {
      */
     @Override
     public Page<RestaurantDTO> getAllRestaurants(int page, int size) {
-        logger.info("Fetching all restaurants with pagination - page:" + page + ", size:" + size);
+        logger.info(MessageConstant.FETCHING_RESTAURANT + page + MessageConstant.SIZE_INDICATION + size);
         Pageable pageable = PageRequest.of(page, size);
 
         Page<Restaurant> restaurantPage = restaurantRepository.findAllRestaurantByOwnerApproved(pageable);
@@ -150,26 +168,22 @@ public class RestaurantServiceImpl implements RestaurantService {
         });
     }
 
+    /**
+     * Retrieves a restaurant by its ID.
+     *
+     * @param restaurantId the ID of the restaurant to retrieve.
+     * @return the RestaurantDTO object containing the restaurant information.
+     * @throws ResourceNotFoundException if the restaurant is not found.
+     */
     @Override
     public RestaurantDTO getRestaurantById(Long restaurantId) {
+        logger.info(MessageConstant.FETCHING_RESTAURANT + restaurantId);
         Restaurant restaurant = restaurantRepository.findById(restaurantId)
                 .orElseThrow(() -> new ResourceNotFoundException(MessageConstant.RESTAURANT_NOT_FOUND));
 
         List<MenuItem> menuItems = menuItemRepository.findByRestaurantId(restaurantId);
 
-        List<MenuItemDTO> menuItemDTOs = new ArrayList<>();
-        for (MenuItem item : menuItems) {
-            MenuItemDTO menuItemDTO = new MenuItemDTO();
-            menuItemDTO.setId(item.getMenuItemId());
-            menuItemDTO.setImage(item.getImage());
-            menuItemDTO.setDescription(item.getDescription());
-            menuItemDTO.setVeg(item.isVeg());
-            menuItemDTO.setCategoryName(item.getCategories().getName());
-            menuItemDTO.setName(item.getName());
-            menuItemDTO.setPrice(item.getPrice());
-            menuItemDTO.setAvailable(item.isAvailable());
-            menuItemDTOs.add(menuItemDTO);
-        }
+        List<MenuItemDTO> menuItemDTOs = getMenuItemDTOS(menuItems);
 
         // Create and populate RestaurantDTO
         RestaurantDTO restaurantDTO = new RestaurantDTO();
@@ -180,14 +194,22 @@ public class RestaurantServiceImpl implements RestaurantService {
         restaurantDTO.setAvailabilityStartTime(restaurant.getStartTime());
         restaurantDTO.setAvailabilityEndTime(restaurant.getEndTime());
         restaurantDTO.setAvailable(restaurant.isAvailable());
-        restaurantDTO.getPhoneNumber(restaurant.getRestaurantOwner().getPhoneNumber());
-        restaurantDTO.setMenuItems(menuItemDTOs); // Set menu items
+        restaurantDTO.setPhoneNumber(restaurant.getRestaurantOwner().getPhoneNumber());
+        restaurantDTO.setMenuItems(menuItemDTOs);
 
+        logger.info(MessageConstant.SUCCESSFUL_MESSAGE + restaurantId);
         return restaurantDTO;
     }
 
+    /**
+     * Searches for restaurants by a query string.
+     *
+     * @param query the query string to search for.
+     * @return a list of Restaurant objects that match the query.
+     */
     @Override
     public List<Restaurant> searchRestaurants(String query) {
+        logger.info(MessageConstant.SEARCH_FOR_RESTAURANT + query);
         List<Restaurant> restaurantsByName = restaurantRepository.findByNameContainingIgnoreCase(query);
         List<MenuItem> menuItemsByName = menuItemRepository.findByNameContainingIgnoreCase(query);
 
@@ -207,6 +229,7 @@ public class RestaurantServiceImpl implements RestaurantService {
             }
         });
 
+        logger.info(MessageConstant.SEARCH_RESULT_FETCH_SUCCESSFULLY_FOR_QUERY + query);
         return distinctRestaurants;
     }
 }

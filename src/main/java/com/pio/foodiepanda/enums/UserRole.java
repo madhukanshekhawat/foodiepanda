@@ -1,9 +1,9 @@
 package com.pio.foodiepanda.enums;
 
 public enum UserRole {
-    ADMIN("Admin"),
-    CUSTOMER("Customer"),
-    RESTAURANT_OWNER("Restaurant_owner");
+    ADMIN("ADMIN"),
+    CUSTOMER("CUSTOMER"),
+    RESTAURANT_OWNER("RESTAURANT_OWNER");
 
     private final String type;
 

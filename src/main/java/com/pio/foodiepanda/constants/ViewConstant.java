@@ -39,4 +39,14 @@ public class ViewConstant {
     public static final String CHANGE_AVAILABILITY = "restaurantowner/change-availability";
 
     public static final String CUSTOMER_DASHBOARD = "customer/base";
+
+    public static final String CUSTOMER_RESTAURANT_DETAIL = "customer/restaurant-detail";
+
+    public static final String CART = "customer/cart-page";
+
+    public static final String CHECKOUT = "customer/checkout";
+
+    public static final String ORDER_SUMMARY = "customer/order-summary";
+
+    public static final String SHOW_ORDER = "customer/show-address";
 }

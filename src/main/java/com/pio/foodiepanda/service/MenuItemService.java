@@ -23,4 +23,6 @@ public interface MenuItemService {
     List<MenuItemResponse> getAvailableMenuItems(int page, int size);
 
     List<String> searchAvailablemenuItem(String query);
+
+    MenuItemDTO getMenuItemAvailable(Long id);
 }

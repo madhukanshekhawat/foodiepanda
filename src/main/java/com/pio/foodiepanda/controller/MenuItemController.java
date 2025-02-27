@@ -57,7 +57,7 @@ public class MenuItemController {
 
     @GetMapping("/{id}")
     public ResponseEntity<MenuItemDTO> getMenuItemById(@PathVariable Long id) {
-        MenuItemDTO menuItemDTO = menuItemService.getMenuItemById(id);
+        MenuItemDTO menuItemDTO = menuItemService.getMenuItemAvailable(id);
         return ResponseEntity.ok(menuItemDTO);
     }
 

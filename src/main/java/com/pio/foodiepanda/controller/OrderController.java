@@ -3,8 +3,6 @@ package com.pio.foodiepanda.controller;
 import com.pio.foodiepanda.constants.MessageConstant;
 import com.pio.foodiepanda.dto.*;
 import com.pio.foodiepanda.enums.OrderStatus;
-import com.pio.foodiepanda.model.OrderDetail;
-import com.pio.foodiepanda.model.Orders;
 import com.pio.foodiepanda.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
@@ -12,7 +10,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.File;
@@ -21,7 +18,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.security.Principal;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/order")
@@ -78,7 +74,7 @@ public class OrderController {
     @PostMapping("/place-order")
     public ResponseEntity<OrdersDTO> placeOrder(@RequestBody OrderRequest orderRequest, Principal principal) {
         if (orderRequest.getRestaurantId() == null) {
-            return (ResponseEntity<OrdersDTO>) ResponseEntity.badRequest();
+            return ResponseEntity.badRequest().build();
         }
         String username = principal.getName();
         Long orders = orderService.createOrder(orderRequest, username);
@@ -86,18 +82,18 @@ public class OrderController {
     }
 
     @GetMapping("/get")
-    public ResponseEntity<List<OrderDetailDTO>> getOrderByOrderId(@RequestParam("orderId") Long orderId){
+    public ResponseEntity<List<OrderDetailDTO>> getOrderByOrderId(@RequestParam("orderId") Long orderId) {
         return ResponseEntity.ok((List<OrderDetailDTO>) orderService.getOrderWithDetail(orderId));
     }
 
     @PutMapping("/cancel/{orderId}")
-    public ResponseEntity<String> cancelOrder(@PathVariable Long orderId){
+    public ResponseEntity<String> cancelOrder(@PathVariable Long orderId) {
         orderService.cancelOrder(orderId);
         return ResponseEntity.ok(MessageConstant.SUCCESSFUL_MESSAGE);
     }
 
     @PutMapping("/auto-cancel/{orderId}")
-    public ResponseEntity<String> autoCancelOrder(@PathVariable Long orderId, @RequestBody OrderStatusDTO orderStatusDTO){
+    public ResponseEntity<String> autoCancelOrder(@PathVariable Long orderId, @RequestBody OrderStatusDTO orderStatusDTO) {
         orderService.autoOrderCancel(orderId, OrderStatus.valueOf(orderStatusDTO.getStatus()));
         return ResponseEntity.ok(MessageConstant.SUCCESSFUL_MESSAGE);
     }

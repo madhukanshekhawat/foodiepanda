@@ -14,6 +14,7 @@ public class MenuItemDTO extends BaseDTO {
     private Long category;
     private String image;
     private String categoryName;
+    private boolean deleted;
 
     public MenuItemDTO(String name, double quantity, double price) {
         super();
@@ -100,5 +101,13 @@ public class MenuItemDTO extends BaseDTO {
 
     public void setCategoryName(String categoryName) {
         this.categoryName = categoryName;
+    }
+
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
     }
 }

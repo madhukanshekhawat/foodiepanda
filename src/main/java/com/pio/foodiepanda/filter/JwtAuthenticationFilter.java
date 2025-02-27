@@ -1,6 +1,7 @@
 package com.pio.foodiepanda.filter;
 
 import com.pio.foodiepanda.constants.JwtConstant;
+import com.pio.foodiepanda.constants.MessageConstant;
 import com.pio.foodiepanda.service.JwtService;
 import com.pio.foodiepanda.service.impl.CustomUserDetails;
 import com.pio.foodiepanda.service.impl.CustomUserDetailsService;
@@ -61,7 +62,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 }
             }
         } catch (ExpiredJwtException e) {
-            CookieUtil.clear(response, JwtConstant.JWT_COOKIE_NAME, "localhost");
+            CookieUtil.clear(response, JwtConstant.JWT_COOKIE_NAME, MessageConstant.LOCALHOST);
         }
         filterChain.doFilter(request, response);
     }

@@ -42,7 +42,6 @@ public class OrderDetailDTO extends BaseDTO {
     }
 
 
-
     public OrderDetailDTO(Long menuItemId, String name, double quantity, double price) {
         super();
     }
