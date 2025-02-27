@@ -43,6 +43,11 @@ public class RestaurantController {
         return ResponseEntity.ok(MessageConstant.SUCCESSFUL_MESSAGE);
     }
 
+    @GetMapping("/availability")
+    public ResponseEntity<RestaurantDTO> getRestaurantAvailability(Principal principal){
+        RestaurantDTO restaurantAvailability = restaurantService.getRestaurantAvailability(principal);
+        return ResponseEntity.ok(restaurantAvailability);
+    }
     @GetMapping("/order/all")
     public ResponseEntity<List<OrdersDTO>> getOrder(Principal principal) {
         String email = principal.getName();
