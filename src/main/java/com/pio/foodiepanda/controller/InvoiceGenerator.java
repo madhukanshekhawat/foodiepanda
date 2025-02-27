@@ -25,6 +25,12 @@ public class InvoiceGenerator {
         PdfDocument pdfDoc = new PdfDocument(writer);
         Document document = new Document(pdfDoc, PageSize.A4);
 
+        Paragraph branding = new Paragraph(MessageConstant.BRANDING_NAME)
+                .setFontSize(12)
+                .setItalic()
+                .setTextAlignment(TextAlignment.LEFT);
+        document.add(branding);
+
         // Add Invoice Title
         Paragraph title = new Paragraph(MessageConstant.INVOICE_NAME)
                 .setFontSize(20)

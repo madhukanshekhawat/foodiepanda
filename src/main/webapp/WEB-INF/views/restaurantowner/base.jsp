@@ -34,45 +34,51 @@
         </div>
     <script>
            $(document).ready(function() {
-                       // Retrieve the state from local storage and set the toggle button
-                       const isAvailable = localStorage.getItem('restaurantAvailability') === 'true';
-                       $("#availabilityToggle").prop("checked", isAvailable);
+               $.ajax({
+                       url: "/api/restaurant/availability",
+                       method: "GET",
+                       success: function(response) {
+                           const isAvailable = response.available;
+                           $("#availabilityToggle").prop("checked", isAvailable);
+                       },
+                       error: function() {
+                           alert("Failed to retrieve availability status.");
+                       }
+                   });
 
-                       $("#availabilityToggle").change(function () {
-                           const isAvailable = $(this).prop("checked");
-                           localStorage.setItem('restaurantAvailability', isAvailable); // Save the state in local storage
-                           $.ajax({
-                               url: "/api/restaurant/availability",
-                               method: "PUT",
-                               contentType: "application/json",
-                               data: JSON.stringify({ available: isAvailable }),
-                               success: function () {
-                                   alert("Restaurant availability updated successfully.");
-                               },
-                               error: function () {
-                                   alert("Failed to update availability.");
-                                   $("#availabilityToggle").prop("checked", !isAvailable); // Revert toggle in case of failure
-                               }
-                           });
-                       });
-
-                       // Fetch the restaurant name from the API and set it
+                   $("#availabilityToggle").change(function() {
+                       const isAvailable = $(this).prop("checked");
                        $.ajax({
-                           url: "/api/restaurant/profile",
-                           method: "GET",
-                           success: function (data) {
-                               $("#restaurant-logo").text(data.name);
+                           url: "/api/restaurant/availability",
+                           method: "PUT",
+                           contentType: "application/json",
+                           data: JSON.stringify({ available: isAvailable }),
+                           success: function() {
+                               alert("Restaurant availability updated successfully.");
                            },
-                           error: function () {
-                               alert("Failed to fetch restaurant name.");
+                           error: function() {
+                               alert("Failed to update availability.");
+                               $("#availabilityToggle").prop("checked", !isAvailable); // Revert toggle in case of failure
                            }
                        });
-
-                       // Make the logo clickable to navigate to the dashboard
-                       $("#restaurant-logo").click(function() {
-                           window.location.href = "/restaurant/dashboard";
-                       });
                    });
+                    // Fetch the restaurant name from the API and set it
+                  $.ajax({
+                      url: "/api/restaurant/profile",
+                      method: "GET",
+                      success: function (data) {
+                          $("#restaurant-logo").text(data.name);
+                      },
+                      error: function () {
+                          alert("Failed to fetch restaurant name.");
+                      }
+                  });
+
+                  // Make the logo clickable to navigate to the dashboard
+                  $("#restaurant-logo").click(function() {
+                      window.location.href = "/restaurant/dashboard";
+                  });
+               });
     </script>
 
 </body>
