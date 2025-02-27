@@ -89,6 +89,39 @@ async function registerUserAndRestaurant() {
         postalCode: $("#postalCode").val()
     };
 
+    // Additional validation for restaurant details if role is RESTAURANT_OWNER
+    if (role === "RESTAURANT_OWNER") {
+        if (!restaurant.restaurantName) {
+            showError("restaurantNameError", "Restaurant Name is required.");
+            return;
+        }
+
+        if (!restaurant.restaurantContact) {
+            showError("restaurantContactError", "Restaurant Contact is required.");
+            return;
+        }
+
+        if (!restaurant.addressLine) {
+            showError("addressLineError", "Address Line is required.");
+            return;
+        }
+
+        if (!restaurant.city) {
+            showError("cityError", "City is required.");
+            return;
+        }
+
+        if (!restaurant.state) {
+            showError("stateError", "State is required.");
+            return;
+        }
+
+        if (!restaurant.postalCode) {
+            showError("postalCodeError", "Postal Code is required.");
+            return;
+        }
+    }
+
     try {
         // Register the user
         const userResponse = await fetch('/register/registerUser', {

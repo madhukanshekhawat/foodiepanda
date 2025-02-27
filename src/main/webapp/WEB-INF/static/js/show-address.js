@@ -17,9 +17,26 @@ $(document).ready(function () {
             return;
         }
 
+        if (!newAddress.label || !newAddress.addressLine || !newAddress.city || !newAddress.postalCode || !newAddress.state) {
+            alert("Please fill in all the required fields.");
+            return;
+        }
+
         // Check for duplicate address
         if (isDuplicateAddress(newAddress)) {
             alert("This address already exists.");
+            return;
+        }
+
+        // Check if postal code contains only numbers
+        if (!/^\d+$/.test(newAddress.postalCode)) {
+            alert("Postal code must contain only numeric values.");
+            return;
+        }
+
+        // Check if city and state do not contain numeric values
+        if (/\d/.test(newAddress.city) || /\d/.test(newAddress.state)) {
+            alert("City and State should not contain numeric values.");
             return;
         }
 
@@ -53,6 +70,24 @@ $(document).ready(function () {
 
         if (!updatedAddress.label) {
             alert("Please select an address type.");
+            return;
+        }
+
+         if (!updatedAddress.label || !updatedAddress.addressLine || !updatedAddress.city || !updatedAddress.postalCode || !updatedAddress.state) {
+            alert("Please fill in all the required fields.");
+            return;
+        }
+
+
+        // Check if postal code contains only numbers
+        if (!/^\d+$/.test(updatedAddress.postalCode)) {
+            alert("Postal code must contain only numeric values.");
+            return;
+        }
+
+        // Check if city and state do not contain numeric values
+        if (/\d/.test(updatedAddress.city) || /\d/.test(updatedAddress.state)) {
+            alert("City and State should not contain numeric values.");
             return;
         }
 

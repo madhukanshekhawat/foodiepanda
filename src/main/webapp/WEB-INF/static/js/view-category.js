@@ -50,6 +50,7 @@ function loadCategories(categoryFilter = "") {
                         <td>${category.name}</td>
                         <td>${category.description}</td>
                         <td>
+                            <button onclick="showEditModal(${category.categoryId})">Edit</button>
                             <button onclick="showDeleteModal(${category.categoryId})">Delete</button>
                         </td>
                     </tr>
@@ -79,7 +80,67 @@ function showDeleteModal(categoryId) {
     });
 }
 
-// Function to delete a category
+function showEditModal(id) {
+    $.ajax({
+        url: "/categories/edit/" + id,
+        method: 'GET',
+        success: function(category) {
+            $('#editCategoryName').val(category.name);
+            $('#editCategoryDescription').val(category.description);
+            $('#updateCategory').prop('disabled', true); // Disable update button initially
+
+            const originalData = {
+                name: category.name,
+                description: category.description
+            };
+
+            $('#editModal').show();
+
+            $('#editCategoryName, #editCategoryDescription').on('input', function() {
+                const currentData = {
+                    name: $('#editCategoryName').val(),
+                    description: $('#editCategoryDescription').val()
+                };
+
+                const isChanged = currentData.name !== originalData.name || currentData.description !== originalData.description;
+                $('#updateCategory').prop('disabled', !isChanged);
+            });
+
+            $('#updateCategory').off('click').on('click', function() {
+                updateCategory(id);
+                $('#editModal').hide();
+            });
+
+            $('#cancelEdit').off('click').on('click', function() {
+                $('#editModal').hide();
+            });
+        },
+        error: function() {
+            alert('Error loading category data');
+        }
+    });
+}
+
+  function updateCategory(id) {
+    const updatedCategory = {
+        name: $('#editCategoryName').val(),
+        description: $('#editCategoryDescription').val()
+    };
+
+    $.ajax({
+        url: "/categories/edit/" + id,
+        method: 'PUT',
+        contentType: 'application/json',
+        data: JSON.stringify(updatedCategory),
+        success: function(response) {
+            loadCategories(); // Reload the table to reflect changes
+        },
+        error: function() {
+            alert('Error updating category');
+        }
+    });
+}
+
 function deleteCategory(id) {
     $.ajax({
         url: "/categories/delete/" + id,
@@ -88,7 +149,7 @@ function deleteCategory(id) {
             loadCategories(); // Reload the table to reflect changes
         },
         error: function() {
-            alert('We can not delete category until it contain Item in it!');
+            alert('We cannot delete category until it contains items!');
         }
     });
 }

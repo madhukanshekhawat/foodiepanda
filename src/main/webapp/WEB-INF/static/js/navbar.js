@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
     let token = getCookie('JWT-TOKEN');
-    let isLoggedIn = token !== null;
+    let isLoggedIn = localStorage.getItem("role") == "CUSTOMER" ? true : false;
 
     function updateUI() {
         if (isLoggedIn) {
@@ -99,6 +99,8 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('logoutForm').addEventListener('submit', function(event) {
         document.cookie = 'JWT-TOKEN=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
         isLoggedIn = false;
+        localStorage.removeItem("role");
+        localStorage.removeItem("cartSynced");
         updateUI();
     });
 
@@ -165,7 +167,7 @@ $(document).on("click", ".restaurant-card", function () {
     localStorage.setItem("selectedRestaurantId", restaurantId);
 
     $.ajax({
-        url: "/api/restaurant/detail/" + restaurantId,
+        url: "/api/customer/detail/" + restaurantId,
         method: "GET",
         success: function (data) {
             if (data.available) {
@@ -176,9 +178,6 @@ $(document).on("click", ".restaurant-card", function () {
             } else {
                 alert("This restaurant is currently unavailable.");
             }
-        },
-        error: function (xhr, status, error) {
-            console.error("Error fetching restaurant details:", error);
         }
     });
 });
@@ -237,3 +236,5 @@ function getRestaurantIdFromLocalStorage() {
     loadMenuItems(currentPage);
     fetchRestaurants(currentPage);
 });
+
+

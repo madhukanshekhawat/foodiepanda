@@ -1,5 +1,5 @@
 const statuses = ["PENDING", "CONFIRMED", "PREPARING", "OUT_FOR_DELIVERY", "DELIVERED"];
-const autoDeliveryTime = 1*60*1000; // 5 minutes in milliseconds
+const autoDeliveryTime = 1*60*1000;
 
 // Function to load all orders
 function loadOrders(statusFilter = "") {
@@ -126,7 +126,7 @@ function updateOrderStatus(orderId, newStatus) {
 function startAutoDelivery(orderId) {
     setTimeout(() => {
         updateOrderStatus(orderId, "DELIVERED");
-    }, autoDeliveryTime);
+    }, 3000);
 }
 
 // Load orders on page load

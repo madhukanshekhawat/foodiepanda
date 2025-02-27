@@ -204,6 +204,11 @@
         margin: 0;
     }
 
+    .disabled {
+        pointer-events: none;
+        opacity: 0.5;
+    }
+
     /* Animation */
     @keyframes fadeIn {
         from {
@@ -251,7 +256,7 @@
                 <input class="quantity-input" type="number" id="quantity" value="1" min="1" readonly/>
                 <button id="increaseQuantity">+</button>
             </div>
-            <button class="addToCart">Add to Cart</button>
+            <button class="addToCart disabled">Add to Cart</button>
         </div>
     </div>
     <div id="categoryContainer"></div>

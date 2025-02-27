@@ -7,7 +7,6 @@ $(document).ready(function() {
       type: 'GET',
       success: function(user) {
         userRole = user.role;
-        $('#errorMessage').hide(); // Hide the error message before redirection
         redirectToDashboard(user);
       },
       error: function(xhr) {
@@ -35,6 +34,7 @@ $(document).ready(function() {
       }
     } else if (user.role === 'CUSTOMER') {
       if (window.location.pathname !== '/api/customer/dashboard') {
+        localStorage.setItem("role","CUSTOMER")
         window.location.href = '/api/customer/dashboard';
       }
     } else {
@@ -48,6 +48,16 @@ $(document).ready(function() {
     event.preventDefault();
     var username = $('#username').val();
     var password = $('#password').val();
+
+    if (!username || !password) {
+      $('#errorMessage').text("Bad Credentials").show();
+      setTimeout(function() {
+        $('#errorMessage').fadeOut('slow', function() {
+          $('#errorMessage').hide();
+        });
+      }, 7000);
+      return;
+    }
 
     $.ajax({
       url: '/auth/login',
