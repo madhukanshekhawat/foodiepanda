@@ -63,6 +63,21 @@
            background-color: #CDC1FF;
        }
 
+       .remove{
+          background-color: #A294F9;
+          color: #fff;
+          border: none;
+          padding: 5px 10px;
+          cursor: pointer;
+          border-radius: 4px;
+          margin-bottom: 10px;
+       }
+
+      .remove button:hover {
+          background-color: #CDC1FF;
+      }
+
+
        #addNewAddress, #saveNewAddress, #proceedButton {
            display: block;
            width: 100%;
@@ -140,9 +155,17 @@
                   <label for="label-other">OTHER</label>
               </div>
           </div>
+          <label for="Address Line">Address Line</label>
+          <div id="AddressLineError" class="error-message" style="color: red;"></div>
           <input type="text" id="newAddressLine" placeholder="Address Line">
+          <label for="Address Line">City</label>
+          <div id="CityError" class="error" style="color: red;"></div>
           <input type="text" id="newAddressCity" placeholder="City">
+          <label for="Postal Code">Postal Code</label>
+          <div id="PostalCodeError" class="error" style="color: red;"></div>
           <input type="text" id="newAddressPostalCode" placeholder="Postal Code">
+          <label for="State">State</label>
+          <div id="StateError" class="error" style="color: red;"></div>
           <input type="text" id="newAddressState" placeholder="State">
           <button id="saveNewAddress">Save Address</button>
       </div>

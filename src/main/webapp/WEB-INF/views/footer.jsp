@@ -11,7 +11,7 @@
   <body>
   <!-- footer.jsp -->
   <div class="footer">
-      <p>&copy; 2025 Your Foodie Panda. All rights reserved.</p>
+      <p>&copy; 2025 Foodie Panda. All rights reserved.</p>
   </div>
   </body>
   </html>

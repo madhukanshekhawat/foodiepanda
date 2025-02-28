@@ -10,8 +10,9 @@ public class CartItemDTO {
     private BigDecimal price;
     private Long customerId;
     private Long restaurantId;
+    private boolean isAvailable;
 
-    public CartItemDTO(Long cartId, Long menuItemId, int quantity, BigDecimal price, String name, Long customerId, Long restaurantId) {
+    public CartItemDTO(Long cartId, Long menuItemId, int quantity, BigDecimal price, String name, Long customerId, Long restaurantId, boolean isAvailable) {
         this.cartId = cartId;
         this.menuItemId = menuItemId;
         this.quantity = quantity;
@@ -19,6 +20,7 @@ public class CartItemDTO {
         this.name = name;
         this.customerId = customerId;
         this.restaurantId = restaurantId;
+        this.isAvailable = isAvailable;
     }
 
     public CartItemDTO(Long cartId, Long menuItemId, int quantity, BigDecimal price, String name) {
@@ -91,5 +93,13 @@ public class CartItemDTO {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public boolean isAvailable() {
+        return isAvailable;
+    }
+
+    public void setAvailable(boolean available) {
+        isAvailable = available;
     }
 }

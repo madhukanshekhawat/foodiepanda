@@ -1,4 +1,12 @@
 $(document).ready(function() {
+
+
+    // Clear error messages when user starts typing
+    $("input, select").on("input change", function() {
+        clearError($(this).attr("id") + "Error");
+    });
+
+
     // Check if the user is logged in
     $.ajax({
         url: "/api/user/status",
@@ -151,23 +159,36 @@ $(document).ready(function() {
                      restaurantName = restaurantDetails.name; // Set the restaurant name
                  }
 
-                 const cartItem = `
-                     <div class="cart-item" data-id="${menuItemId}">
-                         <div class="cart-item-details">
-                             <h5>${item.name}</h5>
-                             <div class="cart-item-controls">
-                                 <p>Price: ₹${item.price}</p>
-                                 <p>Quantity:
-                                     <button class="decrease">-</button>
-                                     <span>${quantity}</span>
-                                     <button class="increase">+</button>
-                                 </p>
+                 let cartItem;
+                 if (item.available) {
+                     cartItem = `
+                         <div class="cart-item" data-id="${menuItemId}">
+                             <div class="cart-item-details">
+                                 <h5>${item.name}</h5>
+                                 <div class="cart-item-controls">
+                                     <p>Price: ₹${item.price}</p>
+                                     <p>Quantity:
+                                         <button class="decrease">-</button>
+                                         <span>${quantity}</span>
+                                         <button class="increase">+</button>
+                                     </p>
+                                     <button class="remove">Remove</button>
+                                 </div>
+                             </div>
+                         </div>`;
+                     totalAmount += item.price * quantity;
+                 } else {
+                     cartItem = `
+                         <div class="cart-item" data-id="${menuItemId}">
+                             <div class="cart-item-details">
+                                 <h5>${item.name}</h5>
+                                 <p class="text-danger">Oops! Unfortunately, this item is now not available. Please remove it.</p>
                                  <button class="remove">Remove</button>
                              </div>
-                         </div>
-                     </div>`;
+                         </div>`;
+                 }
+
                  cartItemsContainer.append(cartItem);
-                 totalAmount += item.price * quantity;
              });
 
              // Display the restaurant name at the top
@@ -227,6 +248,8 @@ $(document).ready(function() {
             state: $("#newAddressState").val().trim()
         };
 
+        let isValid = true;
+
         if (!newAddress.label || !newAddress.addressLine || !newAddress.city || !newAddress.postalCode || !newAddress.state) {
             alert("Please fill in all the required fields.");
             return;
@@ -245,14 +268,26 @@ $(document).ready(function() {
 
         // Check if postal code contains only numbers
         if (!/^\d+$/.test(newAddress.postalCode)) {
-            alert("Postal code must contain only numeric values.");
+            showError("PostalCodeError", "Postal code can contains only numeric value.");
+            isValid = false;
             return;
         }
 
         // Check if city and state do not contain numeric values
-        if (/\d/.test(newAddress.city) || /\d/.test(newAddress.state)) {
-            alert("City and State should not contain numeric values.");
+         if  (/\d/.test(newAddress.city)) {
+            showError("CityError", "City should not contain numeric values.");
+            isValid = false;
             return;
+        }
+
+        if(/\d/.test(newAddress.state)){
+          showError("StateError", "City should not contain numeric values.");
+          isValid = false;
+          return;
+        }
+
+        if(!isValid){
+        return;
         }
 
         $.ajax({
@@ -337,6 +372,13 @@ function proceedToCheckout() {
         method: "GET",
         contentType: "application/json",
         success: function(cartItems) {
+            // Check for unavailable items
+            const unavailableItems = cartItems.filter(item => !item.available);
+            if (unavailableItems.length > 0) {
+                alert("You have an unavailable item in your cart. Please remove it before proceeding.");
+                return;
+            }
+
             $.ajax({
                 url: "/order/place-order",
                 method: "POST",
@@ -345,41 +387,42 @@ function proceedToCheckout() {
                     addressId: selectedAddressId,
                     restaurantId: cartItems.length > 0 ? cartItems[0].restaurantId : null,
                     items: cartItems
-                }), success: function(response) {
-                        console.log("Order Placed Successfully:", response);
-                        localStorage.setItem("orderId", response.orderId);
+                }),
+                success: function(response) {
+                    console.log("Order Placed Successfully:", response);
+                    localStorage.setItem("orderId", response.orderId);
 
-                        // Clear the cart
-                        $.ajax({
-                            url: "/api/cart/clear",
-                            method: "DELETE",
-                            contentType: "application/json",
-                            success: function() {
-                                console.log("Cart Cleared Successfully");
-                                localStorage.removeItem("cart");
-                                localStorage.removeItem("cartSynced");
-                                localStorage.removeItem("cartRestaurantId");
-                                window.location.href = "/api/customer/order-status";
-                            },
-                            error: function(xhr, status, error) {
-                                console.error("Error Clearing Cart:", status, error);
-                                alert("Error clearing cart. Please try again.");
-                            }
-                        });
-                    },
-                    error: function(xhr, status, error) {
-                        console.error("Error Placing Order:", status, error);
-                        alert("Error placing order. Please try again.");
-                    }
-                });
-            },
-            error: function(xhr, status, error) {
-                localStorage.removeItem("cartSynced");
-                console.error("Error Fetching Cart Items:", status, error);
-                alert("Error fetching cart items. Please try again.");
-            }
-        });
-    }
+                    // Clear the cart
+                    $.ajax({
+                        url: "/api/cart/clear",
+                        method: "DELETE",
+                        contentType: "application/json",
+                        success: function() {
+                            console.log("Cart Cleared Successfully");
+                            localStorage.removeItem("cart");
+                            localStorage.removeItem("cartSynced");
+                            localStorage.removeItem("cartRestaurantId");
+                            window.location.href = "/api/customer/order-status";
+                        },
+                        error: function(xhr, status, error) {
+                            console.error("Error Clearing Cart:", status, error);
+                            alert("Error clearing cart. Please try again.");
+                        }
+                    });
+                },
+                error: function(xhr, status, error) {
+                    console.error("Error Placing Order:", status, error);
+                    alert("Error placing order. Please try again.");
+                }
+            });
+        },
+        error: function(xhr, status, error) {
+            localStorage.removeItem("cartSynced");
+            console.error("Error Fetching Cart Items:", status, error);
+            alert("Error fetching cart items. Please try again.");
+        }
+    });
+}
 
     function transferLocalStorageToCart() {
         const localCart = JSON.parse(localStorage.getItem("cart")) || {};
@@ -389,6 +432,14 @@ function proceedToCheckout() {
             console.log("No items in local cart to transfer.");
             return;
         }
+
+         function showError(elementId, message) {
+                            $("#" + elementId).text(message);
+                        }
+
+                        function clearError(elementId) {
+                            $("#" + elementId).hide();
+                        }
 
         $.ajax({
             url: "/api/cart/sync",
@@ -413,3 +464,4 @@ $(document).ready(function() {
          $("#searchInput").hide();
          $("#nav-searchBtn").hide();
      });
+
