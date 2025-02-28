@@ -1,15 +1,20 @@
 $(document).ready(function () {
     loadAddresses();
 
+    // Attach the openAddModal function to the button click event
+    $('#addAddressButton').click(function() {
+        openAddModal();
+    });
+
     // Handle Add Address Form Submission
-    $("#addAddressForm").submit(function (event) {
+    $("#addAddressFormModal").submit(function (event) {
         event.preventDefault();
         let newAddress = {
-            addressLine: $("#street").val().trim(),
-            city: $("#city").val().trim(),
-            state: $("#state").val().trim(),
-            postalCode: $("#zipCode").val().trim(),
-            label: $("input[name='addressType']:checked").val()
+            addressLine: $("#modalStreet").val().trim(),
+            city: $("#modalCity").val().trim(),
+            state: $("#modalState").val().trim(),
+            postalCode: $("#modalZipCode").val().trim(),
+            label: $("input[name='modalAddressType']:checked").val()
         };
 
         if (!newAddress.label) {
@@ -47,7 +52,8 @@ $(document).ready(function () {
             data: JSON.stringify(newAddress),
             success: function () {
                 alert("Address added successfully");
-                $("#addAddressForm")[0].reset();
+                $("#addAddressFormModal")[0].reset();
+                $("#addAddressModal").modal('hide');
                 loadAddresses();
             },
             error: function () {
@@ -73,11 +79,10 @@ $(document).ready(function () {
             return;
         }
 
-         if (!updatedAddress.label || !updatedAddress.addressLine || !updatedAddress.city || !updatedAddress.postalCode || !updatedAddress.state) {
+        if (!updatedAddress.label || !updatedAddress.addressLine || !updatedAddress.city || !updatedAddress.postalCode || !updatedAddress.state) {
             alert("Please fill in all the required fields.");
             return;
         }
-
 
         // Check if postal code contains only numbers
         if (!/^\d+$/.test(updatedAddress.postalCode)) {
@@ -228,8 +233,11 @@ function isDuplicateAddress(address, excludeId) {
 function closeModal() {
     $("#editAddressModal").hide();
 }
-$(document).ready(function() {
-         // Hide the search input and button
-         $("#searchInput").hide();
-         $("#nav-searchBtn").hide();
-     });
+
+function openAddModal() {
+    $('#addAddressModal').modal('show');
+}
+
+function closeAddModal() {
+    $('#addAddressModal').modal('hide');
+}

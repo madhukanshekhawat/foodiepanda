@@ -233,6 +233,11 @@ public class RestaurantServiceImpl implements RestaurantService {
         return distinctRestaurants;
     }
 
+    /**
+     * Get the current Availability Status of Restaurant from db
+     * @param principal to get the current user email
+     * @return returning the restaurant dto that contains the information of Restaurant Availability
+     */
     @Override
     public RestaurantDTO getRestaurantAvailability(Principal principal) {
         String email = principal.getName();

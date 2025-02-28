@@ -15,30 +15,42 @@
             <p id="noAddressesMessage" class="text-center text-danger"></p>
         </div>
 
-        <!-- Add New Address Form -->
-        <h3 class="mt-4">Add New Address</h3>
-        <form id="addAddressForm">
-            <div class="mb-2">
-                <input type="text" class="form-control" id="street" placeholder="Street" required>
+       <button id="addAddressButton" class="btn btn-primary mt-4">Add New Address</button>
+
+        <!-- Add Address Modal -->
+        <div class="modal" id="addAddressModal" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Add New Address</h5>
+                        <button type="button" class="btn-close" onclick="closeAddModal()"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="addAddressFormModal">
+                            <div class="mb-2">
+                                <input type="text" class="form-control" id="modalStreet" placeholder="Street" required>
+                            </div>
+                            <div class="mb-2">
+                                <input type="text" class="form-control" id="modalCity" placeholder="City" required>
+                            </div>
+                            <div class="mb-2">
+                                <input type="text" class="form-control" id="modalState" placeholder="State" required>
+                            </div>
+                            <div class="mb-2">
+                                <input type="text" class="form-control" id="modalZipCode" placeholder="Zip Code" required>
+                            </div>
+                            <div class="mb-3">
+                                <label><b>Address Type:</b></label><br>
+                                <input type="radio" name="modalAddressType" value="HOME" checked> Home
+                                <input type="radio" name="modalAddressType" value="OFFICE"> Office
+                                <input type="radio" name="modalAddressType" value="OTHER"> Other
+                            </div>
+                            <button type="submit" class="btn btn-primary">Add Address</button>
+                        </form>
+                    </div>
+                </div>
             </div>
-            <div class="mb-2">
-                <input type="text" class="form-control" id="city" placeholder="City" required>
-            </div>
-            <div class="mb-2">
-                <input type="text" class="form-control" id="state" placeholder="State" required>
-            </div>
-            <div class="mb-2">
-                <input type="text" class="form-control" id="zipCode" placeholder="Zip Code" required>
-            </div>
-            <div class="mb-3">
-                <label><b>Address Type:</b></label><br>
-                <input type="radio" name="addressType" value="HOME" checked> Home
-                <input type="radio" name="addressType" value="OFFICE"> Office
-                <input type="radio" name="addressType" value="OTHER"> Other
-            </div>
-            <button type="submit" class="btn btn-primary">Add Address</button>
-        </form>
-    </div>
+        </div>
 
     <!-- Edit Address Modal -->
     <div class="modal" id="editAddressModal" tabindex="-1">
