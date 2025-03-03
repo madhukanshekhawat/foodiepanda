@@ -3,13 +3,16 @@ package com.pio.foodiepanda.service.impl;
 
 import com.pio.foodiepanda.constants.MessageConstant;
 import com.pio.foodiepanda.dto.AvailabilityRequest;
+import com.pio.foodiepanda.dto.CustomerDTO;
 import com.pio.foodiepanda.dto.MenuItemDTO;
 import com.pio.foodiepanda.dto.RestaurantDTO;
 import com.pio.foodiepanda.exception.ResourceNotFoundException;
+import com.pio.foodiepanda.model.Customer;
 import com.pio.foodiepanda.model.MenuItem;
 import com.pio.foodiepanda.model.Restaurant;
 import com.pio.foodiepanda.model.RestaurantOwner;
 import com.pio.foodiepanda.repository.MenuItemRepository;
+import com.pio.foodiepanda.repository.RestaurantOwnerRepository;
 import com.pio.foodiepanda.repository.RestaurantRepository;
 import com.pio.foodiepanda.service.RestaurantService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +24,7 @@ import org.springframework.stereotype.Service;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
@@ -33,6 +37,8 @@ public class RestaurantServiceImpl implements RestaurantService {
     private RestaurantRepository restaurantRepository;
     @Autowired
     private MenuItemRepository menuItemRepository;
+    @Autowired
+    private RestaurantOwnerRepository restaurantOwnerRepository;
 
     private static List<MenuItemDTO> getMenuItemDTOS(List<MenuItem> menuItems) {
         List<MenuItemDTO> menuItemDTOs = new ArrayList<>();
@@ -94,9 +100,12 @@ public class RestaurantServiceImpl implements RestaurantService {
         dto.setAvailabilityStartTime(restaurant.getStartTime());
         dto.setAvailabilityEndTime(restaurant.getEndTime());
         dto.setAvailable(restaurant.isAvailable());
+        dto.setPhoneNumber(restaurant.getRestaurantOwner().getPhoneNumber());
+        dto.setEmail(email);
 
         RestaurantDTO.OwnerDetails od = new RestaurantDTO.OwnerDetails();
         od.setFirstName(restaurant.getRestaurantOwner().getFirstName());
+        od.setLastName(restaurant.getRestaurantOwner().getLastName());
 
         dto.setOwnerDetails(od);
 
@@ -256,5 +265,29 @@ public class RestaurantServiceImpl implements RestaurantService {
         restaurantDTO.setAvailable(restaurant.isAvailable());
 
         return restaurantDTO;
+    }
+
+    @Override
+    public String updateProfile(Principal principal, RestaurantDTO restaurantDTO) {
+        String email = principal.getName();
+        Optional<Restaurant> optionalRestaurant = restaurantRepository.findByOwnerEmail(email);
+
+        if (optionalRestaurant.isPresent()) {
+            Restaurant restaurant = optionalRestaurant.get();
+
+            // Update the restaurant owner's details
+            restaurant.setPhoneNumber(restaurantDTO.getPhoneNumber());
+            RestaurantOwner restaurantOwner = restaurant.getRestaurantOwner();
+            restaurantOwner.setFirstName(restaurantDTO.getOwnerDetails().getFirstName());
+            restaurantOwner.setLastName(restaurantDTO.getOwnerDetails().getLastName());
+            restaurantOwner.setRestaurant(restaurant);
+            restaurantOwnerRepository.save(restaurantOwner);
+            // Save the updated restaurant owner back to the database
+//            restaurantRepository.save(restaurant);
+
+            return "Profile updated successfully";
+        } else {
+            return "Restaurant Owner not found";
+        }
     }
 }

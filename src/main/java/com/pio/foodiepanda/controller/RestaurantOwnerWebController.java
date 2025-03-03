@@ -49,5 +49,10 @@ public class RestaurantOwnerWebController {
     public String viewProfile() {
         return ViewConstant.CHANGE_AVAILABILITY;
     }
+
+    @GetMapping("/profile-page")
+    public String profilePage(){
+        return ViewConstant.PROFILE_PAGE;
+    }
 }
 

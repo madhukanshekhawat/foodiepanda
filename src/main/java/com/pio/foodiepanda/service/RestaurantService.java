@@ -1,6 +1,7 @@
 package com.pio.foodiepanda.service;
 
 import com.pio.foodiepanda.dto.AvailabilityRequest;
+import com.pio.foodiepanda.dto.CustomerDTO;
 import com.pio.foodiepanda.dto.RestaurantDTO;
 import com.pio.foodiepanda.model.Restaurant;
 import org.springframework.data.domain.Page;
@@ -25,4 +26,6 @@ public interface RestaurantService {
     List<Restaurant> searchRestaurants(String query);
 
     RestaurantDTO getRestaurantAvailability(Principal principal);
+
+    String updateProfile(Principal principal, RestaurantDTO restaurantDTO);
 }

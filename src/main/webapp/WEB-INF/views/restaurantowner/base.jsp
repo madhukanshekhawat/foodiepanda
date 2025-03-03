@@ -12,6 +12,7 @@
     <nav class="navbar">
         <div class="logo" id="restaurant-logo">My Restaurant</div>
         <ul class="nav-links">
+            <li><a href="/restaurant/profile-page">Profile</a><li>
             <li><a href="/restaurant/view-menu">Menu Overview</a></li>
             <li><a href="/restaurant/view-coupon">Discounts</a></li>
             <li><a href="/restaurant/view-category">Category List</a></li>

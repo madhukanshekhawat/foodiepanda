@@ -16,6 +16,7 @@ public class RestaurantDTO extends BaseDTO {
     private String image;
     private List<MenuItemDTO> menuItems;
     private OwnerDetails ownerDetails;
+    private String email;
 
     public RestaurantDTO() {
     }
@@ -110,6 +111,18 @@ public class RestaurantDTO extends BaseDTO {
 
     public void setMenuItems(List<MenuItemDTO> menuItems) {
         this.menuItems = menuItems;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public static class OwnerDetails {

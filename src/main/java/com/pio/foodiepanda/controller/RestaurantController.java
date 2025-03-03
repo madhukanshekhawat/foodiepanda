@@ -1,10 +1,7 @@
 package com.pio.foodiepanda.controller;
 
 import com.pio.foodiepanda.constants.MessageConstant;
-import com.pio.foodiepanda.dto.AvailabilityRequest;
-import com.pio.foodiepanda.dto.OrderStatusDTO;
-import com.pio.foodiepanda.dto.OrdersDTO;
-import com.pio.foodiepanda.dto.RestaurantDTO;
+import com.pio.foodiepanda.dto.*;
 import com.pio.foodiepanda.enums.OrderStatus;
 import com.pio.foodiepanda.service.OrderService;
 import com.pio.foodiepanda.service.RestaurantService;
@@ -61,4 +58,10 @@ public class RestaurantController {
         return ResponseEntity.ok(MessageConstant.SUCCESSFUL_MESSAGE);
     }
 
+
+    @PutMapping("/edit")
+    public ResponseEntity<String> updateProfile(Principal principal, @RequestBody RestaurantDTO restaurantDTO) {
+        String message = restaurantService.updateProfile(principal, restaurantDTO);
+        return ResponseEntity.ok(message);
+    }
 }
