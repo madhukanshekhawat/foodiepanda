@@ -24,6 +24,7 @@
                     <span class="slider"></span>
                 </label>
             </div>
+            <div class="nameContainer"> Hi, <span id="ownerName"> Owners name </span> </div>
             <form id="logoutForm" action="/logout" method="POST" style="display:inline;">
             <button type="submit" class="logout-btn">Logout</button>
             <% if(request.getParameter("logout")!=null){%> alert: You have been logged out successfully
@@ -68,6 +69,7 @@
                       method: "GET",
                       success: function (data) {
                           $("#restaurant-logo").text(data.name);
+                          $("#ownerName").text(data.ownerDetails.firstName);
                       },
                       error: function () {
                           alert("Failed to fetch restaurant name.");

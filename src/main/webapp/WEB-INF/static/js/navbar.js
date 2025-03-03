@@ -8,12 +8,16 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('logoutForm').style.display = 'block';
             document.getElementById('orderSummaryLink').style.display = 'block';
             document.getElementById('showAddressLink').style.display = 'block';
+            document.getElementById('nameContainer').style.display = 'block';
+            document.getElementById('profileLink').style.display = 'block';
             fetchCartItems();
         } else {
             document.getElementById('authButtons').style.display = 'flex';
             document.getElementById('logoutForm').style.display = 'none';
             document.getElementById('orderSummaryLink').style.display = 'none';
             document.getElementById('showAddressLink').style.display = 'none';
+            document.getElementById('nameContainer').style.display = 'none';
+            document.getElementById('profileLink').style.display = 'none';
         }
     }
 
@@ -232,6 +236,14 @@ function getRestaurantIdFromLocalStorage() {
             });
         }
     }, 300));
+
+    $.ajax({
+          url: "/api/customer/profile",
+          method: "GET",
+          success: function (data) {
+              $("#customerName").text(data.firstName);
+          }
+      });
 
     loadMenuItems(currentPage);
     fetchRestaurants(currentPage);

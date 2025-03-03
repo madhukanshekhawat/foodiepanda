@@ -6,6 +6,7 @@ public class CustomerDTO extends BaseDTO {
     private String firstName;
     private String lastName;
     private String phoneNumber;
+    private String email;
 
     public Long getId() {
         return id;
@@ -39,4 +40,11 @@ public class CustomerDTO extends BaseDTO {
         this.phoneNumber = phoneNumber;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
 }

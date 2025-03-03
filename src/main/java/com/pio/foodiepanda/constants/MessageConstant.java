@@ -145,6 +145,8 @@ public class MessageConstant {
 
     public static final String BRANDING_NAME ="FOODIE PANDA" ;
 
+    public static final Object FETCHING_CUSTOMER_PROFILE = "Fetching customer profile";
+
     public static String APPROVE = "approve";
 
     public static String OWNER_NOT_FOUND = "Owner Not found with ID: ";

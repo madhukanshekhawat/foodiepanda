@@ -95,6 +95,11 @@ public class RestaurantServiceImpl implements RestaurantService {
         dto.setAvailabilityEndTime(restaurant.getEndTime());
         dto.setAvailable(restaurant.isAvailable());
 
+        RestaurantDTO.OwnerDetails od = new RestaurantDTO.OwnerDetails();
+        od.setFirstName(restaurant.getRestaurantOwner().getFirstName());
+
+        dto.setOwnerDetails(od);
+
         if (restaurant.getRestaurantAddress() != null) {
             dto.setAddress(restaurant.getRestaurantAddress().getAddressLine() + " " + restaurant.getRestaurantAddress().getCity() + " " + restaurant.getRestaurantAddress().getState() + " " + restaurant.getRestaurantAddress().getPostalCode());
         }

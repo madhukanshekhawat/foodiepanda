@@ -1,0 +1,71 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #F5F5F5; /* Lightest color */
+    color: #333; /* Dark text for contrast */
+}
+
+h1, h2 {
+    color: #A294F9; /* Darkest color */
+}
+
+p{
+   color: black;
+}
+
+.email, #email{
+    color:grey;
+}
+
+.main-div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Centers horizontally */
+  align-items: center; /* Centers vertically */
+  height: 80vh; /* Full viewport height */
+}
+
+#profile {
+    background-color: #E5D9F2;
+    width:500px;
+    text-align:center;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+ input{
+ margin: 10px;
+ }
+
+#editProfileBtn, #updateProfileBtn, #closePopupBtn {
+    background-color: #CDC1FF; /* Third lightest color */
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#editProfileBtn:hover, #updateProfileBtn:hover, #closePopupBtn:hover {
+    background-color: #A294F9; /* Darkest color */
+}
+
+.popup {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #F5F5F5; /* Second lightest color */
+    padding: 20px;
+    border: 1px solid #CDC1FF; /* Third lightest color */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+}
+
+.popup-content {
+    text-align: center;
+}
+
+button {
+    margin-top: 10px;
+}

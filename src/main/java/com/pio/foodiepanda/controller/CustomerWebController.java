@@ -39,4 +39,9 @@ public class  CustomerWebController {
         return ViewConstant.SHOW_ORDER;
     }
 
+    @GetMapping("/profile-page")
+    public String profilePage() {
+        return ViewConstant.PROFILE;
+    }
+
 }

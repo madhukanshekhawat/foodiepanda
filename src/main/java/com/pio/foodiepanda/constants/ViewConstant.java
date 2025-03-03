@@ -49,4 +49,6 @@ public class ViewConstant {
     public static final String ORDER_SUMMARY = "customer/order-summary";
 
     public static final String SHOW_ORDER = "customer/show-address";
+
+    public static final String PROFILE = "customer/profile" ;
 }

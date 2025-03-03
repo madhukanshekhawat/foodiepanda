@@ -378,6 +378,13 @@
 .menu-card.gray img {
     filter: grayscale(100%); /* Apply grayscale filter to images */
 }
+
+#nameContainer{
+   display: flex;
+   flex-direction: column;
+   text-align: center;
+   color: #A294F9;
+ }
 /* Responsive Adjustments */
 @media (max-width: 768px) {
     .search-bar {

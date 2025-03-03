@@ -1,5 +1,6 @@
 package com.pio.foodiepanda.controller;
 
+import com.pio.foodiepanda.dto.CategoriesDTO;
 import com.pio.foodiepanda.dto.CustomerDTO;
 import com.pio.foodiepanda.dto.MenuItemDTO;
 import com.pio.foodiepanda.dto.RestaurantDTO;
@@ -13,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -55,6 +57,18 @@ public class CustomerController {
     public ResponseEntity<MenuItemDTO> getMenuItemById(@PathVariable Long id) {
         MenuItemDTO menuItemDTO = menuItemService.getMenuItemById(id);
         return ResponseEntity.ok(menuItemDTO);
+    }
+
+    @GetMapping("/profile")
+    public ResponseEntity<CustomerDTO> getCustomerProfile(Principal principal) {
+        CustomerDTO customerDTO = customerService.getCustomerProfile(principal);
+        return ResponseEntity.ok(customerDTO);
+    }
+
+    @PutMapping("/edit")
+    public ResponseEntity<String> updateProfile(Principal principal, @RequestBody CustomerDTO customerDTO) {
+        String message = customerService.updateProfile(principal, customerDTO);
+        return ResponseEntity.ok(message);
     }
 
 }
