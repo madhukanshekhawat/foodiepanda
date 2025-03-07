@@ -248,7 +248,6 @@ $(document).ready(function() {
             state: $("#newAddressState").val().trim()
         };
 
-        let isValid = true;
 
         if (!newAddress.label || !newAddress.addressLine || !newAddress.city || !newAddress.postalCode || !newAddress.state) {
             alert("Please fill in all the required fields.");
@@ -268,26 +267,19 @@ $(document).ready(function() {
 
         // Check if postal code contains only numbers
         if (!/^\d+$/.test(newAddress.postalCode)) {
-            showError("PostalCodeError", "Postal code can contains only numeric value.");
-            isValid = false;
+            alert("Postal code can contains only numeric value.");
             return;
         }
 
         // Check if city and state do not contain numeric values
          if  (/\d/.test(newAddress.city)) {
-            showError("CityError", "City should not contain numeric values.");
-            isValid = false;
+            alert("City should not contain numeric values.");
             return;
         }
 
         if(/\d/.test(newAddress.state)){
-          showError("StateError", "City should not contain numeric values.");
-          isValid = false;
+          alert("City should not contain numeric values.");
           return;
-        }
-
-        if(!isValid){
-        return;
         }
 
         $.ajax({

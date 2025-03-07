@@ -195,7 +195,7 @@ public class RestaurantServiceImpl implements RestaurantService {
         Restaurant restaurant = restaurantRepository.findById(restaurantId)
                 .orElseThrow(() -> new ResourceNotFoundException(MessageConstant.RESTAURANT_NOT_FOUND));
 
-        List<MenuItem> menuItems = menuItemRepository.findByRestaurantId(restaurantId);
+        List<MenuItem> menuItems = menuItemRepository.findByRestaurant_RestaurantId(restaurantId);
 
         List<MenuItemDTO> menuItemDTOs = getMenuItemDTOS(menuItems);
 
@@ -267,6 +267,13 @@ public class RestaurantServiceImpl implements RestaurantService {
         return restaurantDTO;
     }
 
+    /**
+     * Updates the profile of the currently authenticated restaurant owner.
+     *
+     * @param principal the security principal of the currently authenticated user
+     * @param restaurantDTO the data transfer object containing the updated restaurant details
+     * @return a success message if the profile is updated successfully, or a message indicating the restaurant owner was not found
+     */
     @Override
     public String updateProfile(Principal principal, RestaurantDTO restaurantDTO) {
         String email = principal.getName();
@@ -282,12 +289,10 @@ public class RestaurantServiceImpl implements RestaurantService {
             restaurantOwner.setLastName(restaurantDTO.getOwnerDetails().getLastName());
             restaurantOwner.setRestaurant(restaurant);
             restaurantOwnerRepository.save(restaurantOwner);
-            // Save the updated restaurant owner back to the database
-//            restaurantRepository.save(restaurant);
 
-            return "Profile updated successfully";
+            return MessageConstant.SUCCESSFUL_MESSAGE;
         } else {
-            return "Restaurant Owner not found";
+            return MessageConstant.RESTAURANT_OWNER_NOT_FOUND;
         }
     }
 }

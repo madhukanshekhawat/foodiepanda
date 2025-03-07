@@ -54,6 +54,12 @@
        function goBack() {
           window.history.back();
        }
+
+       $(document).ready(function() {
+           // Hide the search input and button
+           $("#searchInput").hide();
+           $("#nav-searchBtn").hide();
+       });
     </script>
 </body>
 </html>

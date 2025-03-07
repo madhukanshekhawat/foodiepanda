@@ -61,6 +61,13 @@ public class CustomerServiceImpl implements CustomerService {
         return dto;
     }
 
+    /**
+     * Updates the profile of the currently authenticated customer.
+     *
+     * @param principal the security principal of the currently authenticated user
+     * @param customerDTO the data transfer object containing the updated customer details
+     * @return a success message if the profile is updated successfully, or a message indicating the customer was not found
+     */
     @Override
     public String updateProfile(Principal principal, CustomerDTO customerDTO) {
 
@@ -78,9 +85,9 @@ public class CustomerServiceImpl implements CustomerService {
             // Save the updated customer back to the database
             customerRepository.save(customer);
 
-            return "Profile updated successfully";
+            return MessageConstant.SUCCESSFUL_MESSAGE;
         } else {
-            return "Customer not found";
+            return MessageConstant.CUSTOMER_NOT_FOUND;
         }
     }
 }

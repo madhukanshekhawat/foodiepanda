@@ -114,12 +114,12 @@ public class MenuItemServiceImpl implements MenuItemService {
      */
     @Override
     public MenuItemDTO updateMenuItemAvailability(Long id, boolean available, String ownerEmail) {
-        logger.info("Updating availability for menu item ID:" + id + "for owner email:" + ownerEmail);
+        logger.info(MessageConstant.UPDATING_AVAILABILITY + id + MessageConstant.OWNER_EMAIL  + ownerEmail);
         MenuItem menuItem = menuItemRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(MessageConstant.NO_MENU_ITEM_FOUND));
 
         if (!menuItem.getRestaurant().getRestaurantOwner().getUser().getEmail().equals(ownerEmail)) {
-            logger.info("Unauthorized attempt to update menu item availability by email:" + ownerEmail);
+            logger.info(MessageConstant.UNAUTHORIZED + ownerEmail);
             throw new RuntimeException(MessageConstant.UNAUTHORIZED);
         }
 
@@ -135,7 +135,7 @@ public class MenuItemServiceImpl implements MenuItemService {
         dto.setAvailable(updatedMenuItem.isAvailable());
         dto.setVeg(updatedMenuItem.isVeg());
         dto.setImage(updatedMenuItem.getImage());
-        logger.info("Menu item availability updated successfully for menu item ID:" + id);
+        logger.info(MessageConstant.SUCCESSFUL_MESSAGE + id);
         return dto;
     }
 
@@ -148,7 +148,7 @@ public class MenuItemServiceImpl implements MenuItemService {
     @Override
     public void deleteMenuItem(Long menuItemId, Principal principal) {
         String email = principal.getName();
-        logger.info("Deleting menu item ID:" + menuItemId + "for restaurant owner with email:" + email);
+        logger.info(MessageConstant.DELETING_MENU_ITEM + menuItemId + MessageConstant.FOR_RESTUARANT_OWNER_EMAIL + email);
 
         Restaurant restaurant = restaurantRepository.findByOwnerEmail(email)
                 .orElseThrow(() -> new ResourceNotFoundException(MessageConstant.NO_RESTAURANT_OWNER_FOUND));
@@ -157,13 +157,13 @@ public class MenuItemServiceImpl implements MenuItemService {
                 .orElseThrow(() -> new ResourceNotFoundException(MessageConstant.NO_MENU_ITEM_FOUND));
 
         if (!menuItem.getRestaurant().getRestaurantId().equals(restaurant.getRestaurantId())) {
-            logger.info("Unauthorized attempt to delete menu item by email:" + email);
+            logger.info(MessageConstant.UNAUTHORIZED + email);
             throw new RuntimeException(MessageConstant.UNAUTHORIZED);
         }
 
         menuItem.setDeleted(true);
         menuItemRepository.save(menuItem);
-        logger.info("Menu item ID:" + menuItemId + "marked as deleted for restaurant owner with email:" + email);
+        logger.info(MessageConstant.MENU_ITEM_ID + menuItemId + MessageConstant.MARKED_DELETED + email);
     }
 
     /**
@@ -175,10 +175,10 @@ public class MenuItemServiceImpl implements MenuItemService {
      */
     @Override
     public MenuItemDTO getMenuItemById(Long id) {
-        logger.info("Fetching menu item with ID: " + id);
+        logger.info(MessageConstant.FETCHING_MENU_ITEM + id);
         MenuItem menuItem = menuItemRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(MessageConstant.NO_MENU_ITEM_FOUND));
-        logger.info("Menu item fetched successfully with ID: " + id);
+        logger.info(MessageConstant.SUCCESSFUL_MESSAGE+ id);
         return convertToDTO(menuItem);
     }
 
@@ -191,10 +191,10 @@ public class MenuItemServiceImpl implements MenuItemService {
      */
     @Override
     public MenuItemDTO getMenuItemAvailable(Long id) {
-        logger.info("Fetching available menu item with ID: " + id);
+        logger.info(MessageConstant.FETCHING_AVAILABLE_MENU_ITEM+ id);
         MenuItem menuItem = menuItemRepository.findByMenuItemIdAndDeletedFalse(id)
                 .orElseThrow(() -> new ResourceNotFoundException(MessageConstant.NO_MENU_ITEM_FOUND));
-        logger.info("Available menu item fetched successfully with ID: " + id);
+        logger.info(MessageConstant.SUCCESSFUL_MESSAGE+ id);
         return convertToDTO(menuItem);
     }
 
@@ -208,7 +208,7 @@ public class MenuItemServiceImpl implements MenuItemService {
      */
     @Override
     public String updateMenuItem(Long id, MenuItemDTO menuItemDTO) {
-        logger.info("Updating menu item with ID: " + id);
+        logger.info(MessageConstant.UPDATING_MENU_ITEM + id);
         Optional<MenuItem> optionalMenuItem = menuItemRepository.findById(id);
         if (optionalMenuItem.isPresent()) {
             MenuItem menuItem = optionalMenuItem.get();

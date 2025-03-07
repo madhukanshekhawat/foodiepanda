@@ -147,6 +147,24 @@ public class MessageConstant {
 
     public static final Object FETCHING_CUSTOMER_PROFILE = "Fetching customer profile";
 
+    public static final String RESTAURANT_OWNER_NOT_FOUND = "Restaurant Owner not Found";
+
+    public static final String UPDATING_AVAILABILITY = "Updating availability for menu item ID:";
+
+    public static final String OWNER_EMAIL = "for owner email:";
+
+    public static final String DELETING_MENU_ITEM = "Deleting menu item ID:";
+
+    public static final String FOR_RESTUARANT_OWNER_EMAIL ="for restaurant owner with email:"  ;
+
+    public static final String UPDATING_MENU_ITEM = "Updating menu item with ID: " ;
+
+    public static final String FETCHING_MENU_ITEM = "Fetching menu item with ID: ";
+
+    public static final String MARKED_DELETED = "marked as deleted for restaurant owner with email:";
+
+    public static final String MENU_ITEM_ID = "Menu item ID:";
+
     public static String APPROVE = "approve";
 
     public static String OWNER_NOT_FOUND = "Owner Not found with ID: ";

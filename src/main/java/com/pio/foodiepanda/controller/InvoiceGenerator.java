@@ -14,6 +14,7 @@ import com.pio.foodiepanda.dto.OrdersDTO;
 import org.springframework.stereotype.Component;
 
 import java.io.FileNotFoundException;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Component
@@ -56,7 +57,9 @@ public class InvoiceGenerator {
         infoTable.addHeaderCell(MessageConstant.ORDER_DATE);
 
         infoTable.addCell(order.getCustomerFirstName() != null ? order.getCustomerFirstName() : "N/A");
-        infoTable.addCell(order.getCreatedAt() != null ? order.getCreatedAt().toString() : "N/A");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        String formattedDate = order.getCreatedAt() != null ? order.getCreatedAt().format(formatter) : "N/A";
+        infoTable.addCell(formattedDate);
 
         document.add(infoTable);
         document.add(new Paragraph("\n")); // Space between tables

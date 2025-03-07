@@ -58,6 +58,7 @@ public class RegistrationServiceImpl implements RegistrationService {
             return restaurantOwner.getOwnerID();
         } else if (userDTO.getRole().equals("CUSTOMER")) {
             Customer customer = new Customer();
+
             customer.setUser(user);
             customer.setFirstName(userDTO.getFirstName());
             customer.setLastName(userDTO.getLastName());

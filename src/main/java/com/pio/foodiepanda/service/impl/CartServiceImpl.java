@@ -62,7 +62,7 @@ public class CartServiceImpl implements CartService {
                     MenuItem menuItem = menuItemRepository.findById(cart.getMenuItemId())
                             .orElseThrow(() -> new RuntimeException(MessageConstant.NO_MENU_ITEM_FOUND));
                     boolean isAvailable = menuItemRepository.findById(cart.getMenuItemId()).get().isAvailable();
-                    return new CartItemDTO(cart.getCartId(), cart.getMenuItemId(), cart.getQuantity(), cart.getPrice(), menuItem.getName(), customer.getCustomerID(), cart.getRestaurant().getRestaurantId(), isAvailable );
+                    return new CartItemDTO(cart.getCartId(), cart.getMenuItemId(), cart.getQuantity(), cart.getPrice(), menuItem.getName(), customer.getCustomerID(), cart.getRestaurant().getRestaurantId(),isAvailable );
                 })
                 .collect(Collectors.toList());
     }

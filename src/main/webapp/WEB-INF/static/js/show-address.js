@@ -1,125 +1,89 @@
 $(document).ready(function () {
     loadAddresses();
 
-    // Attach the openAddModal function to the button click event
+    // Attach the openModal function to the button click event
     $('#addAddressButton').click(function() {
-        openAddModal();
+        openModal(false);
     });
 
-    // Handle Add Address Form Submission
-    $("#addAddressFormModal").submit(function (event) {
+    // Handle Address Form Submission
+    $("#addressForm").submit(function (event) {
         event.preventDefault();
-        let newAddress = {
-            addressLine: $("#modalStreet").val().trim(),
-            city: $("#modalCity").val().trim(),
-            state: $("#modalState").val().trim(),
-            postalCode: $("#modalZipCode").val().trim(),
-            label: $("input[name='modalAddressType']:checked").val()
+        let address = {
+            addressLine: $("#street").val().trim(),
+            city: $("#city").val().trim(),
+            state: $("#state").val().trim(),
+            postalCode: $("#zipCode").val().trim(),
+            label: $("input[name='addressType']:checked").val()
         };
+        let addressId = $("#addressId").val();
 
-        if (!newAddress.label) {
+        if (!address.label) {
             alert("Please select an address type.");
             return;
         }
 
-        if (!newAddress.label || !newAddress.addressLine || !newAddress.city || !newAddress.postalCode || !newAddress.state) {
-            alert("Please fill in all the required fields.");
-            return;
-        }
-
-        // Check for duplicate address
-        if (isDuplicateAddress(newAddress)) {
-            alert("This address already exists.");
-            return;
-        }
-
-        // Check if postal code contains only numbers
-        if (!/^\d+$/.test(newAddress.postalCode)) {
-            alert("Postal code must contain only numeric values.");
-            return;
-        }
-
-        // Check if city and state do not contain numeric values
-        if (/\d/.test(newAddress.city) || /\d/.test(newAddress.state)) {
-            alert("City and State should not contain numeric values.");
-            return;
-        }
-
-        $.ajax({
-            type: "POST",
-            url: "/api/user/address/add",
-            contentType: "application/json",
-            data: JSON.stringify(newAddress),
-            success: function () {
-                alert("Address added successfully");
-                $("#addAddressFormModal")[0].reset();
-                $("#addAddressModal").modal('hide');
-                loadAddresses();
-            },
-            error: function () {
-                alert("Error adding address");
-            }
-        });
-    });
-
-    // Handle Edit Address Form Submission
-    $("#editAddressForm").submit(function (event) {
-        event.preventDefault();
-        let updatedAddress = {
-            addressLine: $("#editStreet").val().trim(),
-            city: $("#editCity").val().trim(),
-            state: $("#editState").val().trim(),
-            postalCode: $("#editZipCode").val().trim(),
-            label: $("input[name='editAddressType']:checked").val()
-        };
-        let addressId = $("#editAddressId").val();
-
-        if (!updatedAddress.label) {
-            alert("Please select an address type.");
-            return;
-        }
-
-        if (!updatedAddress.label || !updatedAddress.addressLine || !updatedAddress.city || !updatedAddress.postalCode || !updatedAddress.state) {
+        if (!address.label || !address.addressLine || !address.city || !address.postalCode || !address.state) {
             alert("Please fill in all the required fields.");
             return;
         }
 
         // Check if postal code contains only numbers
-        if (!/^\d+$/.test(updatedAddress.postalCode)) {
+        if (!/^\d+$/.test(address.postalCode)) {
             alert("Postal code must contain only numeric values.");
             return;
         }
 
         // Check if city and state do not contain numeric values
-        if (/\d/.test(updatedAddress.city) || /\d/.test(updatedAddress.state)) {
+        if (/\d/.test(address.city) || /\d/.test(address.state)) {
             alert("City and State should not contain numeric values.");
             return;
         }
 
         // Check for duplicate address
-        if (isDuplicateAddress(updatedAddress, addressId)) {
+        if (isDuplicateAddress(address, addressId)) {
             alert("This address already exists.");
             return;
         }
 
-        $.ajax({
-            type: "PUT",
-            url: "/api/user/customer/address/" + addressId,
-            contentType: "application/json",
-            data: JSON.stringify(updatedAddress),
-            success: function () {
-                alert("Address updated successfully");
-                closeModal();
-                loadAddresses();
-            },
-            error: function () {
-                alert("Error updating address");
-            }
-        });
+        if (addressId) {
+            // Update existing address
+            $.ajax({
+                type: "PUT",
+                url: "/api/user/customer/address/" + addressId,
+                contentType: "application/json",
+                data: JSON.stringify(address),
+                success: function () {
+                    alert("Address updated successfully");
+                    closeModal();
+                    loadAddresses();
+                },
+                error: function () {
+                    alert("Error updating address");
+                }
+            });
+        } else {
+            // Add new address
+            $.ajax({
+                type: "POST",
+                url: "/api/user/address/add",
+                contentType: "application/json",
+                data: JSON.stringify(address),
+                success: function () {
+                    alert("Address added successfully");
+                    $("#addressForm")[0].reset();
+                    closeModal();
+                    loadAddresses();
+                },
+                error: function () {
+                    alert("Error adding address");
+                }
+            });
+        }
     });
 
     // Disable confirm button if no changes are made
-    $("#editAddressForm input").on("input change", function () {
+    $("#addressForm input").on("input change", function () {
         checkForChanges();
     });
 });
@@ -160,7 +124,7 @@ function loadAddresses() {
                     <td>${address.postalCode}</td>
                     <td>${address.label}</td>
                     <td>
-                        <button class="btn btn-warning btn-sm" onclick="editAddress(${address.addressId}, '${address.addressLine}', '${address.city}', '${address.state}', '${address.postalCode}', '${address.label}')">Edit</button>
+                        <button class="btn btn-warning btn-sm" onclick="openModal(true, ${address.addressId}, '${address.addressLine}', '${address.city}', '${address.state}', '${address.postalCode}', '${address.label}')">Edit</button>
                     </td>
                 `);
                 tbody.append(row);
@@ -178,35 +142,48 @@ function loadAddresses() {
     });
 }
 
-function editAddress(id, addressLine, city, state, postalCode, label) {
-    $("#editAddressId").val(id);
-    $("#editStreet").val(addressLine);
-    $("#editCity").val(city);
-    $("#editState").val(state);
-    $("#editZipCode").val(postalCode);
-    $("input[name='editAddressType'][value='" + label + "']").prop("checked", true);
+function openModal(isEdit, id = null, addressLine = '', city = '', state = '', postalCode = '', label = 'HOME') {
+    if (isEdit) {
+        $("#modalTitle").text("Edit Address");
+        $("#modalButton").text("Update Address");
+        $("#addressId").val(id);
+        $("#street").val(addressLine);
+        $("#city").val(city);
+        $("#state").val(state);
+        $("#zipCode").val(postalCode);
+        $("input[name='addressType'][value='" + label + "']").prop("checked", true);
 
-    // Store original values
-    $("#editAddressForm").data("original", {
-        addressLine: addressLine,
-        city: city,
-        state: state,
-        postalCode: postalCode,
-        label: label
-    });
+        // Store original values
+        $("#addressForm").data("original", {
+            addressLine: addressLine,
+            city: city,
+            state: state,
+            postalCode: postalCode,
+            label: label
+        });
 
-    checkForChanges();
-    $("#editAddressModal").show();
+        checkForChanges();
+    } else {
+        $("#modalTitle").text("Add New Address");
+        $("#modalButton").text("Add Address");
+        $("#addressForm")[0].reset();
+        $("#addressId").val('');
+    }
+    $('#addressModal').modal('show');
+}
+
+function closeModal() {
+    $('#addressModal').modal('hide');
 }
 
 function checkForChanges() {
-    let original = $("#editAddressForm").data("original");
+    let original = $("#addressForm").data("original");
     let current = {
-        addressLine: $("#editStreet").val().trim(),
-        city: $("#editCity").val().trim(),
-        state: $("#editState").val().trim(),
-        postalCode: $("#editZipCode").val().trim(),
-        label: $("input[name='editAddressType']:checked").val()
+        addressLine: $("#street").val().trim(),
+        city: $("#city").val().trim(),
+        state: $("#state").val().trim(),
+        postalCode: $("#zipCode").val().trim(),
+        label: $("input[name='addressType']:checked").val()
     };
 
     let isChanged = original.addressLine !== current.addressLine ||
@@ -215,7 +192,7 @@ function checkForChanges() {
                     original.postalCode !== current.postalCode ||
                     original.label !== current.label;
 
-    $("#editAddressForm button[type='submit']").prop("disabled", !isChanged);
+    $("#addressForm button[type='submit']").prop("disabled", !isChanged);
 }
 
 function isDuplicateAddress(address, excludeId) {
@@ -228,16 +205,4 @@ function isDuplicateAddress(address, excludeId) {
                existingAddress.label.toLowerCase() === address.label.toLowerCase() &&
                existingAddress.addressId !== excludeId;
     });
-}
-
-function closeModal() {
-    $("#editAddressModal").hide();
-}
-
-function openAddModal() {
-    $('#addAddressModal').modal('show');
-}
-
-function closeAddModal() {
-    $('#addAddressModal').modal('hide');
 }

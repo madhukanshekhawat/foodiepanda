@@ -13,7 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/coupon")
-public class CouponController {
+public class  CouponController {
 
     @Autowired
     private CouponService couponService;

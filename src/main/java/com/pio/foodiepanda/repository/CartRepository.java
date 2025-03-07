@@ -15,13 +15,6 @@ import java.util.Optional;
 
 public interface CartRepository extends JpaRepository<Cart, Long> {
 
-    List<Cart> findByCustomer(Customer customer);
-
-    Optional<Cart> findByMenuItemIdAndCustomer(Customer customer, MenuItem menuItem);
-
-    @Query("SELECT c FROM Cart c WHERE c.cartId = :cartId AND c.customer.id = :customerId")
-    Cart findByCartIdAndCustomerId(@Param("cartId") Long cartId, @Param("customerId") Long customerId);
-
     @Query("SELECT c FROM Cart c WHERE c.customer.id = :customerId")
     List<Cart> findByCustomerId(@Param("customerId") Long customerId);
 
